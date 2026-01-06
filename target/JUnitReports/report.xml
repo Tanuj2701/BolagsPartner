@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="17.431" tests="2" skipped="0" failures="2" errors="0" timestamp="2025-12-23T08:24:15.297842Z">
+<testcase classname="liquidation test" name="Verify Liquidation Flow" time="15.551">
+<failure type="java.lang.AssertionError" message="Request Received page is not displayed expected [true] but found [false]">
+<![CDATA[java.lang.AssertionError: Request Received page is not displayed expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:111)
+	at org.testng.Assert.failNotEquals(Assert.java:1578)
+	at org.testng.Assert.assertTrue(Assert.java:57)
+	at com.qa.bolags.stepdefs.liquidationStepDef.verifyRequestReceivedPage(liquidationStepDef.java:125)
+	at ✽.Verify Request Received Page(file:///Users/BolagsPartner_Automation/src/test/resources/features/liquidationflow.feature:17)
+]]>
+</failure>
+<system-out><![CDATA[
+Given User login with a valid credentials...................................passed
+Then User should land on offer page.........................................passed
+Then User Seacrh with random company name...................................passed
+Then User enters Fornamn....................................................passed
+Then User enters Efternamn..................................................passed
+Then User enters E-post as..................................................passed
+Then user checks the checkbox...............................................passed
+And User click on GoOn......................................................passed
+Then upload the file........................................................passed
+And User click on GoOn......................................................passed
+Then User enters address details............................................passed
+Then User click on Save.....................................................passed
+Then Verify Request Received Page...........................................failed
+And Close the browser.......................................................skipped
+]]></system-out>
+</testcase>
+<testcase classname="liquidation test" name="Verify Order on Admin Page" time="1.741">
+<failure/>
+<system-out><![CDATA[
+Given User login to admin page with valid credentials.......................undefined
+Then User should land on admin home page....................................skipped
+Then User search with company name..........................................skipped
+Then Verify the order details...............................................skipped
+]]></system-out>
+</testcase>
+</testsuite>

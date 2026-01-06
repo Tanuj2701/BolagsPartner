@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite_Automation]" guice-stage="DEVELOPMENT">
+  <listeners>
+    <listener class-name="com.qa.amazon.listeners.TestListener"/>
+  </listeners>
+  <test thread-count="5" name="AutomationTest(failed)">
+    <classes>
+      <class name="com.qa.amazon.tests.VerifyAmazonTest">
+        <methods>
+          <include name="before"/>
+          <include name="tearDown"/>
+          <include name="verifyPasswordErrorTest" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.qa.amazon.tests.VerifyAmazonTest -->
+    </classes>
+  </test> <!-- AutomationTest(failed) -->
+</suite> <!-- Failed suite [Suite_Automation] -->

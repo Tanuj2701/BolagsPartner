@@ -1,0 +1,1422 @@
+<html>
+<head>
+<title>TestNG:  Test</title>
+<link href="../testng.css" rel="stylesheet" type="text/css" />
+<link href="../my-testng.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.log { display: none;} 
+.stack-trace { display: none;} 
+</style>
+<script type="text/javascript">
+<!--
+function flip(e) {
+  current = e.style.display;
+  if (current == 'block') {
+    e.style.display = 'none';
+    return 0;
+  }
+  else {
+    e.style.display = 'block';
+    return 1;
+  }
+}
+
+function toggleBox(szDivId, elem, msg1, msg2)
+{
+  var res = -1;  if (document.getElementById) {
+    res = flip(document.getElementById(szDivId));
+  }
+  else if (document.all) {
+    // this is the way old msie versions work
+    res = flip(document.all[szDivId]);
+  }
+  if(elem) {
+    if(res == 0) elem.innerHTML = msg1; else elem.innerHTML = msg2;
+  }
+
+}
+
+function toggleAllBoxes() {
+  if (document.getElementsByTagName) {
+    d = document.getElementsByTagName('div');
+    for (i = 0; i < d.length; i++) {
+      if (d[i].className == 'log') {
+        flip(d[i]);
+      }
+    }
+  }
+}
+
+// -->
+</script>
+
+</head>
+<body>
+<h2 align='center'>Test</h2><table border='1' align="center">
+<tr>
+<td>Tests passed/Failed/Skipped:</td><td>73/12/0</td>
+</tr><tr>
+<td>Started on:</td><td>Mon Sep 30 13:25:46 IST 2024</td>
+</tr>
+<tr><td>Total time:</td><td>2085 seconds (2085304 ms)</td>
+</tr><tr>
+<td>Included groups:</td><td></td>
+</tr><tr>
+<td>Excluded groups:</td><td></td>
+</tr>
+</table><p/>
+<small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table width='100%' border='1' class='invocation-failed'>
+<tr><td colspan='4' align='center'><b>FAILED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td><b>Attribute(s)</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.disableAction()'><b>disableAction</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.disableAction(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;(//button[@icon=&apos;delete&apos;])[3]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=(//button[@icon=&apos;delete&apos;])[3]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:148)
+	at com.qa.clever.pages.RecoveryActionPage.verifyDisableAction_PU(RecoveryActionPage.java:174)
+	at com.qa.clever.tests.RecoveryActionTest.disableAction(RecoveryActionTest.java:93)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1036420486", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1036420486'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;(//button[@icon=&apos;delete&apos;])[3]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=(//button[@icon=&apos;delete&apos;])[3]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:148)
+	at com.qa.clever.pages.RecoveryActionPage.verifyDisableAction_PU(RecoveryActionPage.java:174)
+	at com.qa.clever.tests.RecoveryActionTest.disableAction(RecoveryActionTest.java:93)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>65</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.setAsExecuted()'><b>setAsExecuted</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.setAsExecuted(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.setAsExecuted(SMmemosTest.java:89)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1830305819", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1830305819'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.setAsExecuted(SMmemosTest.java:89)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>50</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.hideExecuteMemos()'><b>hideExecuteMemos</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.hideExecuteMemos(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.hideExecuteMemos(SMmemosTest.java:80)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace255248561", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace255248561'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.hideExecuteMemos(SMmemosTest.java:80)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>50</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.searchReceipt()'><b>searchReceipt</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.searchReceipt(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;(//td[contains(text(),&apos;Completed&apos;)]/parent::tr)[1]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=(//td[contains(text(),&apos;Completed&apos;)]/parent::tr)[1]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+	at com.qa.bolags.utility.TestUtil.isElementDisplayed(TestUtil.java:180)
+	at com.qa.clever.pages.ReceiptRegistrationPage.verify_searchResult(ReceiptRegistrationPage.java:101)
+	at com.qa.clever.tests.ReceiptRegistrationTest.searchReceipt(ReceiptRegistrationTest.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1195781551", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1195781551'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;(//td[contains(text(),&apos;Completed&apos;)]/parent::tr)[1]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=(//td[contains(text(),&apos;Completed&apos;)]/parent::tr)[1]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+	at com.qa.bolags.utility.TestUtil.isElementDisplayed(TestUtil.java:180)
+	at com.qa.clever.pages.ReceiptRegistrationPage.verify_searchResult(ReceiptRegistrationPage.java:101)
+	at com.qa.clever.tests.ReceiptRegistrationTest.searchReceipt(ReceiptRegistrationTest.java:116)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>67</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.rescheduleMemo()'><b>rescheduleMemo</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.rescheduleMemo(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.rescheduleMemo(SMmemosTest.java:101)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace790333296", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace790333296'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.rescheduleMemo(SMmemosTest.java:101)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>50</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.createMemo()'><b>createMemo</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.createMemo(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;div class=&quot;cds-sidebar-menu-item-text&quot;&gt;...&lt;/div&gt; is not clickable at point (153, 441). Other element would receive the click: &lt;div _ngcontent-rco-c92=&quot;&quot; bsmodal=&quot;&quot; class=&quot;modal fade in show&quot; aria-hidden=&quot;false&quot; aria-modal=&quot;true&quot; style=&quot;display: block;&quot;&gt;...&lt;/div&gt;
+  (Session info: chrome=129.0.6668.60)
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:308)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:83)
+	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:150)
+	at com.qa.clever.pages.SMmemosPage.goToMemoms(SMmemosPage.java:74)
+	at com.qa.clever.tests.SMmemosTest.createMemo(SMmemosTest.java:57)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1988148908", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1988148908'><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;div class=&quot;cds-sidebar-menu-item-text&quot;&gt;...&lt;/div&gt; is not clickable at point (153, 441). Other element would receive the click: &lt;div _ngcontent-rco-c92=&quot;&quot; bsmodal=&quot;&quot; class=&quot;modal fade in show&quot; aria-hidden=&quot;false&quot; aria-modal=&quot;true&quot; style=&quot;display: block;&quot;&gt;...&lt;/div&gt;
+  (Session info: chrome=129.0.6668.60)
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:308)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:83)
+	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:150)
+	at com.qa.clever.pages.SMmemosPage.goToMemoms(SMmemosPage.java:74)
+	at com.qa.clever.tests.SMmemosTest.createMemo(SMmemosTest.java:57)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>7</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.editMemo()'><b>editMemo</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.editMemo(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.editMemo(SMmemosTest.java:111)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1952021559", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1952021559'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.editMemo(SMmemosTest.java:111)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>50</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.excecutedMemo_Noneditable()'><b>excecutedMemo_Noneditable</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.excecutedMemo_Noneditable(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.excecutedMemo_Noneditable(SMmemosTest.java:124)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace85284187", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace85284187'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.excecutedMemo_Noneditable(SMmemosTest.java:124)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>50</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.verifyerrorMsg()'><b>verifyerrorMsg</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.verifyerrorMsg(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//span[contains(text(),&apos;Create new memo&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//span[contains(text(),&apos;Create new memo&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.scrollPageToViewElement(TestUtil.java:172)
+	at com.qa.clever.pages.SMmemosPage.verifyCreateMemo_PU(SMmemosPage.java:80)
+	at com.qa.clever.tests.SMmemosTest.verifyerrorMsg(SMmemosTest.java:69)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace743365178", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace743365178'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//span[contains(text(),&apos;Create new memo&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//span[contains(text(),&apos;Create new memo&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.scrollPageToViewElement(TestUtil.java:172)
+	at com.qa.clever.pages.SMmemosPage.verifyCreateMemo_PU(SMmemosPage.java:80)
+	at com.qa.clever.tests.SMmemosTest.verifyerrorMsg(SMmemosTest.java:69)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>66</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.deleteMemo()'><b>deleteMemo</b><br>Test class: com.qa.clever.tests.SMmemosTest<br>Parameters: public void com.qa.clever.tests.SMmemosTest.deleteMemo(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.deleteMemo(SMmemosTest.java:134)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1268303884", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1268303884'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//div[contains(text(),&apos;Dashboard&apos;)]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=//div[contains(text(),&apos;Dashboard&apos;)]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+	at com.qa.clever.pages.ImportCasePage.GotoDashboard(ImportCasePage.java:117)
+	at com.qa.clever.tests.SMmemosTest.deleteMemo(SMmemosTest.java:134)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>50</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.PaymentInExclusionTest.searchPaymentCriteria()'><b>searchPaymentCriteria</b><br>Test class: com.qa.clever.tests.PaymentInExclusionTest<br>Parameters: public void com.qa.clever.tests.PaymentInExclusionTest.searchPaymentCriteria(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;(//td[contains(text(),&apos;Personal Loan&apos;)]/parent::tr)[1]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=(//td[contains(text(),&apos;Personal Loan&apos;)]/parent::tr)[1]}
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+	at com.qa.bolags.utility.TestUtil.isElementDisplayed(TestUtil.java:180)
+	at com.qa.clever.pages.PaymentInExclusionPage.verify_searchResult(PaymentInExclusionPage.java:61)
+	at com.qa.clever.tests.PaymentInExclusionTest.searchPaymentCriteria(PaymentInExclusionTest.java:62)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1641169735", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace1641169735'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;(//td[contains(text(),&apos;Personal Loan&apos;)]/parent::tr)[1]&quot;}
+  (Session info: chrome=129.0.6668.60)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+*** Element info: {Using=xpath, value=(//td[contains(text(),&apos;Personal Loan&apos;)]/parent::tr)[1]}
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:445)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:396)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:319)
+	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+	at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+	at com.qa.bolags.utility.TestUtil.isElementDisplayed(TestUtil.java:180)
+	at com.qa.clever.pages.PaymentInExclusionPage.verify_searchResult(PaymentInExclusionPage.java:61)
+	at com.qa.clever.tests.PaymentInExclusionTest.searchPaymentCriteria(PaymentInExclusionTest.java:62)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>67</td>
+<td>com.qa.clever.tests.PaymentInExclusionTest@183ec003</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.addNewDocument()'><b>addNewDocument</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.addNewDocument(java.lang.reflect.Method)</td>
+<td><div><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;span class=&quot;btn-content&quot;&gt;...&lt;/span&gt; is not clickable at point (855, 466). Other element would receive the click: &lt;ccp-spinner-full-screen _ngcontent-wmy-c114=&quot;&quot; _nghost-wmy-c107=&quot;&quot; class=&quot;ccp-spinner-full-screen ng-star-inserted&quot;&gt;...&lt;/ccp-spinner-full-screen&gt;
+  (Session info: chrome=129.0.6668.60)
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:308)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:83)
+	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:150)
+	at com.qa.clever.pages.SMDocSharePage.uploadDocAndEnterDetails(SMDocSharePage.java:273)
+	at com.qa.clever.tests.SMDocShareTest.addNewDocument(SMDocShareTest.java:120)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+... Removed 28 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace744812115", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace744812115'><pre>org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;span class=&quot;btn-content&quot;&gt;...&lt;/span&gt; is not clickable at point (855, 466). Other element would receive the click: &lt;ccp-spinner-full-screen _ngcontent-wmy-c114=&quot;&quot; _nghost-wmy-c107=&quot;&quot; class=&quot;ccp-spinner-full-screen ng-star-inserted&quot;&gt;...&lt;/ccp-spinner-full-screen&gt;
+  (Session info: chrome=129.0.6668.60)
+Build info: version: &apos;4.0.0-alpha-3&apos;, revision: &apos;8c567de6dc&apos;
+System info: host: &apos;CSPLAPPUN1013&apos;, ip: &apos;10.0.223.21&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;20.0.2&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 129.0.6668.60, chrome: {chromedriverVersion: 129.0.6668.58 (81a06fb873a9..., userDataDir: C:\Users\INB603~1\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56154}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 78fc5be15adaaedf951d0b55df532e03
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:191)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:125)
+	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:161)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:576)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:308)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:83)
+	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:150)
+	at com.qa.clever.pages.SMDocSharePage.uploadDocAndEnterDetails(SMDocSharePage.java:273)
+	at com.qa.clever.tests.SMDocShareTest.addNewDocument(SMDocShareTest.java:120)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:848)
+	at org.testng.TestRunner.run(TestRunner.java:621)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1114)
+	at org.testng.TestNG.run(TestNG.java:1082)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+</pre></div></td>
+<td>5</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+</table><p>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td><b>Attribute(s)</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.verifyWarningMsgForSameCode()'><b>verifyWarningMsgForSameCode</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.verifyWarningMsgForSameCode(java.lang.reflect.Method)</td>
+<td></td>
+<td>29</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.downloadDocument()'><b>downloadDocument</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.downloadDocument(java.lang.reflect.Method)</td>
+<td></td>
+<td>8</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryPlanTest.check_cancelPlanBtn()'><b>check_cancelPlanBtn</b><br>Test class: com.qa.clever.tests.RecoveryPlanTest<br>Parameters: public void com.qa.clever.tests.RecoveryPlanTest.check_cancelPlanBtn(java.lang.reflect.Method)</td>
+<td></td>
+<td>76</td>
+<td>com.qa.clever.tests.RecoveryPlanTest@31ea9581</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.exportActionList()'><b>exportActionList</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.exportActionList(java.lang.reflect.Method)</td>
+<td></td>
+<td>13</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.PaymentInExclusionTest.CreatePaymentCriteria()'><b>CreatePaymentCriteria</b><br>Test class: com.qa.clever.tests.PaymentInExclusionTest<br>Parameters: public void com.qa.clever.tests.PaymentInExclusionTest.CreatePaymentCriteria(java.lang.reflect.Method)</td>
+<td></td>
+<td>12</td>
+<td>com.qa.clever.tests.PaymentInExclusionTest@183ec003</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.export_withprefernces()'><b>export_withprefernces</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.export_withprefernces(java.lang.reflect.Method)</td>
+<td></td>
+<td>16</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.searchActionBasedonActionType()'><b>searchActionBasedonActionType</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.searchActionBasedonActionType(java.lang.reflect.Method)</td>
+<td></td>
+<td>21</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.PaymentInExclusionTest.editPaymentCriteria()'><b>editPaymentCriteria</b><br>Test class: com.qa.clever.tests.PaymentInExclusionTest<br>Parameters: public void com.qa.clever.tests.PaymentInExclusionTest.editPaymentCriteria(java.lang.reflect.Method)</td>
+<td></td>
+<td>16</td>
+<td>com.qa.clever.tests.PaymentInExclusionTest@183ec003</td></tr>
+<tr>
+<td title='com.qa.clever.tests.PaymentInExclusionTest.DeleteCriteria()'><b>DeleteCriteria</b><br>Test class: com.qa.clever.tests.PaymentInExclusionTest<br>Parameters: public void com.qa.clever.tests.PaymentInExclusionTest.DeleteCriteria(java.lang.reflect.Method)</td>
+<td></td>
+<td>22</td>
+<td>com.qa.clever.tests.PaymentInExclusionTest@183ec003</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.RecoveryActionTest</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.editReceipt()'><b>editReceipt</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.editReceipt(java.lang.reflect.Method)</td>
+<td></td>
+<td>20</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CompensationPreviewTest.calculateNow_RecoveredandAssigned()'><b>calculateNow_RecoveredandAssigned</b><br>Test class: com.qa.clever.tests.CompensationPreviewTest<br>Parameters: public void com.qa.clever.tests.CompensationPreviewTest.calculateNow_RecoveredandAssigned(java.lang.reflect.Method)</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.CompensationPreviewTest@5890e879</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.selectAgencyBasedonOrganziationNode()'><b>selectAgencyBasedonOrganziationNode</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.selectAgencyBasedonOrganziationNode(java.lang.reflect.Method)</td>
+<td></td>
+<td>44</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.enableDisableAgency()'><b>enableDisableAgency</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.enableDisableAgency(java.lang.reflect.Method)</td>
+<td></td>
+<td>43</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryPlanTest.goRecoveryPlan()'><b>goRecoveryPlan</b><br>Test class: com.qa.clever.tests.RecoveryPlanTest<br>Parameters: public void com.qa.clever.tests.RecoveryPlanTest.goRecoveryPlan(java.lang.reflect.Method)</td>
+<td></td>
+<td>15</td>
+<td>com.qa.clever.tests.RecoveryPlanTest@31ea9581</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.deleteDocument()'><b>deleteDocument</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.deleteDocument(java.lang.reflect.Method)</td>
+<td></td>
+<td>8</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.exportexcel()'><b>exportexcel</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.exportexcel(java.lang.reflect.Method)</td>
+<td></td>
+<td>19</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.delete_Receipt()'><b>delete_Receipt</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.delete_Receipt(java.lang.reflect.Method)</td>
+<td></td>
+<td>18</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CompensationPreviewTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.CompensationPreviewTest</td>
+<td></td>
+<td>10</td>
+<td>com.qa.clever.tests.CompensationPreviewTest@5890e879</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.addTargetedUser()'><b>addTargetedUser</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.addTargetedUser(java.lang.reflect.Method)</td>
+<td></td>
+<td>23</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.deleteCategory()'><b>deleteCategory</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.deleteCategory(java.lang.reflect.Method)</td>
+<td></td>
+<td>31</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.DashboardTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.DashboardTest</td>
+<td></td>
+<td>6</td>
+<td>com.qa.clever.tests.DashboardTest@6c284af</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.enableAction()'><b>enableAction</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.enableAction(java.lang.reflect.Method)</td>
+<td></td>
+<td>43</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.deleteExternalAgency()'><b>deleteExternalAgency</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.deleteExternalAgency(java.lang.reflect.Method)</td>
+<td></td>
+<td>28</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.verifywarningmsg_NodeChange()'><b>verifywarningmsg_NodeChange</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.verifywarningmsg_NodeChange(java.lang.reflect.Method)</td>
+<td></td>
+<td>29</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CompensationPreviewTest.poolRegenerateExcel()'><b>poolRegenerateExcel</b><br>Test class: com.qa.clever.tests.CompensationPreviewTest<br>Parameters: public void com.qa.clever.tests.CompensationPreviewTest.poolRegenerateExcel(java.lang.reflect.Method)</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.CompensationPreviewTest@5890e879</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.viewActionDetails()'><b>viewActionDetails</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.viewActionDetails(java.lang.reflect.Method)</td>
+<td></td>
+<td>65</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.PaymentInExclusionTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.PaymentInExclusionTest</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.PaymentInExclusionTest@183ec003</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.SMDocShareTest</td>
+<td></td>
+<td>6</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.verifycrossiconforDisabled()'><b>verifycrossiconforDisabled</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.verifycrossiconforDisabled(java.lang.reflect.Method)</td>
+<td></td>
+<td>23</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CompensationPreviewTest.calculateNow_CompensationPreview()'><b>calculateNow_CompensationPreview</b><br>Test class: com.qa.clever.tests.CompensationPreviewTest<br>Parameters: public void com.qa.clever.tests.CompensationPreviewTest.calculateNow_CompensationPreview(java.lang.reflect.Method)</td>
+<td></td>
+<td>8</td>
+<td>com.qa.clever.tests.CompensationPreviewTest@5890e879</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CompensationPreviewTest.verifyrecoveredHistorypopUp()'><b>verifyrecoveredHistorypopUp</b><br>Test class: com.qa.clever.tests.CompensationPreviewTest<br>Parameters: public void com.qa.clever.tests.CompensationPreviewTest.verifyrecoveredHistorypopUp(java.lang.reflect.Method)</td>
+<td></td>
+<td>5</td>
+<td>com.qa.clever.tests.CompensationPreviewTest@5890e879</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.addReceiptDetails()'><b>addReceiptDetails</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.addReceiptDetails(java.lang.reflect.Method)</td>
+<td></td>
+<td>15</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.export_Allcolumns()'><b>export_Allcolumns</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.export_Allcolumns(java.lang.reflect.Method)</td>
+<td></td>
+<td>13</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.seachSubAction()'><b>seachSubAction</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.seachSubAction(java.lang.reflect.Method)</td>
+<td></td>
+<td>16</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.PaymentInExclusionTest.verifyErrMsg_MandatoryFields()'><b>verifyErrMsg_MandatoryFields</b><br>Test class: com.qa.clever.tests.PaymentInExclusionTest<br>Parameters: public void com.qa.clever.tests.PaymentInExclusionTest.verifyErrMsg_MandatoryFields(java.lang.reflect.Method)</td>
+<td></td>
+<td>18</td>
+<td>com.qa.clever.tests.PaymentInExclusionTest@183ec003</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.uploadMassiveFile()'><b>uploadMassiveFile</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.uploadMassiveFile(java.lang.reflect.Method)</td>
+<td></td>
+<td>8</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.exportDetailselected_warningmessage()'><b>exportDetailselected_warningmessage</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.exportDetailselected_warningmessage(java.lang.reflect.Method)</td>
+<td></td>
+<td>23</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.verifyprefilledDate()'><b>verifyprefilledDate</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.verifyprefilledDate(java.lang.reflect.Method)</td>
+<td></td>
+<td>2</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.createCategory()'><b>createCategory</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.createCategory(java.lang.reflect.Method)</td>
+<td></td>
+<td>24</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMmemosTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.SMmemosTest</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.SMmemosTest@221a3fa4</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.verifyToolTipandChangeStatus()'><b>verifyToolTipandChangeStatus</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.verifyToolTipandChangeStatus(java.lang.reflect.Method)</td>
+<td></td>
+<td>30</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.navigateAndVerifyTiltle()'><b>navigateAndVerifyTiltle</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.navigateAndVerifyTiltle(java.lang.reflect.Method)</td>
+<td></td>
+<td>11</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.drs.tests.LoginTest.Loginwith_validcredential()'><b>Loginwith_validcredential</b><br>Test class: com.qa.drs.tests.LoginTest<br>Parameters: public void com.qa.drs.tests.LoginTest.Loginwith_validcredential(java.lang.reflect.Method)</td>
+<td></td>
+<td>20</td>
+<td>com.qa.drs.tests.LoginTest@cecf639</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.editAction()'><b>editAction</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.editAction(java.lang.reflect.Method)</td>
+<td></td>
+<td>19</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.searchDocument()'><b>searchDocument</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.searchDocument(java.lang.reflect.Method)</td>
+<td></td>
+<td>12</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.viewReceipt()'><b>viewReceipt</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.viewReceipt(java.lang.reflect.Method)</td>
+<td></td>
+<td>19</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.DashboardTest.ExpandedView()'><b>ExpandedView</b><br>Test class: com.qa.clever.tests.DashboardTest<br>Parameters: public void com.qa.clever.tests.DashboardTest.ExpandedView(java.lang.reflect.Method) throws java.lang.InterruptedException</td>
+<td></td>
+<td>3</td>
+<td>com.qa.clever.tests.DashboardTest@6c284af</td></tr>
+<tr>
+<td title='com.qa.clever.tests.DashboardTest.Widget()'><b>Widget</b><br>Test class: com.qa.clever.tests.DashboardTest<br>Parameters: public void com.qa.clever.tests.DashboardTest.Widget(java.lang.reflect.Method) throws java.lang.InterruptedException</td>
+<td></td>
+<td>10</td>
+<td>com.qa.clever.tests.DashboardTest@6c284af</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.deleteTargetedUser()'><b>deleteTargetedUser</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.deleteTargetedUser(java.lang.reflect.Method)</td>
+<td></td>
+<td>9</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.verifyerrormsg_MandatoryFields()'><b>verifyerrormsg_MandatoryFields</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.verifyerrormsg_MandatoryFields(java.lang.reflect.Method)</td>
+<td></td>
+<td>19</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest</td>
+<td></td>
+<td>9</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.drs.tests.LoginTest.Loginwith_InvalidCredential()'><b>Loginwith_InvalidCredential</b><br>Test class: com.qa.drs.tests.LoginTest<br>Parameters: public void com.qa.drs.tests.LoginTest.Loginwith_InvalidCredential(java.lang.reflect.Method)</td>
+<td></td>
+<td>4</td>
+<td>com.qa.drs.tests.LoginTest@cecf639</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.viewDocDetails()'><b>viewDocDetails</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.viewDocDetails(java.lang.reflect.Method)</td>
+<td></td>
+<td>9</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.SMDocShareTest.editDocDetails()'><b>editDocDetails</b><br>Test class: com.qa.clever.tests.SMDocShareTest<br>Parameters: public void com.qa.clever.tests.SMDocShareTest.editDocDetails(java.lang.reflect.Method)</td>
+<td></td>
+<td>22</td>
+<td>com.qa.clever.tests.SMDocShareTest@451001e5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryActionTest.createnewAction()'><b>createnewAction</b><br>Test class: com.qa.clever.tests.RecoveryActionTest<br>Parameters: public void com.qa.clever.tests.RecoveryActionTest.createnewAction(java.lang.reflect.Method)</td>
+<td></td>
+<td>36</td>
+<td>com.qa.clever.tests.RecoveryActionTest@6440112d</td></tr>
+<tr>
+<td title='com.qa.drs.tests.LoginTest.RememberUsername()'><b>RememberUsername</b><br>Test class: com.qa.drs.tests.LoginTest<br>Parameters: public void com.qa.drs.tests.LoginTest.RememberUsername(java.lang.reflect.Method)</td>
+<td></td>
+<td>13</td>
+<td>com.qa.drs.tests.LoginTest@cecf639</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.CodeBookTest</td>
+<td></td>
+<td>8</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.restoreCategory()'><b>restoreCategory</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.restoreCategory(java.lang.reflect.Method)</td>
+<td></td>
+<td>18</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.editAgencyDetails()'><b>editAgencyDetails</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.editAgencyDetails(java.lang.reflect.Method)</td>
+<td></td>
+<td>36</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.viewAgencyDetails()'><b>viewAgencyDetails</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.viewAgencyDetails(java.lang.reflect.Method)</td>
+<td></td>
+<td>25</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryPlanTest.cancelPlan()'><b>cancelPlan</b><br>Test class: com.qa.clever.tests.RecoveryPlanTest<br>Parameters: public void com.qa.clever.tests.RecoveryPlanTest.cancelPlan(java.lang.reflect.Method)</td>
+<td></td>
+<td>31</td>
+<td>com.qa.clever.tests.RecoveryPlanTest@31ea9581</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.viewdeletedCategoryAndVerifybutton()'><b>viewdeletedCategoryAndVerifybutton</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.viewdeletedCategoryAndVerifybutton(java.lang.reflect.Method)</td>
+<td></td>
+<td>73</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryPlanTest.exportDetailselected()'><b>exportDetailselected</b><br>Test class: com.qa.clever.tests.RecoveryPlanTest<br>Parameters: public void com.qa.clever.tests.RecoveryPlanTest.exportDetailselected(java.lang.reflect.Method)</td>
+<td></td>
+<td>18</td>
+<td>com.qa.clever.tests.RecoveryPlanTest@31ea9581</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryPlanTest.before()'><b>before</b><br>Test class: com.qa.clever.tests.RecoveryPlanTest</td>
+<td></td>
+<td>7</td>
+<td>com.qa.clever.tests.RecoveryPlanTest@31ea9581</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.exportTotalList()'><b>exportTotalList</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.exportTotalList(java.lang.reflect.Method)</td>
+<td></td>
+<td>23</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.DashboardTest.Show_Value_Percentage()'><b>Show_Value_Percentage</b><br>Test class: com.qa.clever.tests.DashboardTest<br>Parameters: public void com.qa.clever.tests.DashboardTest.Show_Value_Percentage(java.lang.reflect.Method) throws java.lang.InterruptedException</td>
+<td></td>
+<td>10</td>
+<td>com.qa.clever.tests.DashboardTest@6c284af</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CodeBookTest.editSubAction()'><b>editSubAction</b><br>Test class: com.qa.clever.tests.CodeBookTest<br>Parameters: public void com.qa.clever.tests.CodeBookTest.editSubAction(java.lang.reflect.Method)</td>
+<td></td>
+<td>28</td>
+<td>com.qa.clever.tests.CodeBookTest@231f98ef</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ExternalAgencyTest.export_DetailSelected()'><b>export_DetailSelected</b><br>Test class: com.qa.clever.tests.ExternalAgencyTest<br>Parameters: public void com.qa.clever.tests.ExternalAgencyTest.export_DetailSelected(java.lang.reflect.Method)</td>
+<td></td>
+<td>29</td>
+<td>com.qa.clever.tests.ExternalAgencyTest@7c137fd5</td></tr>
+<tr>
+<td title='com.qa.clever.tests.RecoveryPlanTest.exportTotalList()'><b>exportTotalList</b><br>Test class: com.qa.clever.tests.RecoveryPlanTest<br>Parameters: public void com.qa.clever.tests.RecoveryPlanTest.exportTotalList(java.lang.reflect.Method)</td>
+<td></td>
+<td>18</td>
+<td>com.qa.clever.tests.RecoveryPlanTest@31ea9581</td></tr>
+<tr>
+<td title='com.qa.clever.tests.ReceiptRegistrationTest.createReceipt_VerifySection()'><b>createReceipt_VerifySection</b><br>Test class: com.qa.clever.tests.ReceiptRegistrationTest<br>Parameters: public void com.qa.clever.tests.ReceiptRegistrationTest.createReceipt_VerifySection(java.lang.reflect.Method)</td>
+<td></td>
+<td>13</td>
+<td>com.qa.clever.tests.ReceiptRegistrationTest@7d9d0818</td></tr>
+<tr>
+<td title='com.qa.clever.tests.CompensationPreviewTest.calculatenow_contentsection()'><b>calculatenow_contentsection</b><br>Test class: com.qa.clever.tests.CompensationPreviewTest<br>Parameters: public void com.qa.clever.tests.CompensationPreviewTest.calculatenow_contentsection(java.lang.reflect.Method)</td>
+<td></td>
+<td>38</td>
+<td>com.qa.clever.tests.CompensationPreviewTest@5890e879</td></tr>
+</table><p>
+</body>
+</html>

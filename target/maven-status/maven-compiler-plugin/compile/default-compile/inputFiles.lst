@@ -1,0 +1,11 @@
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/baseTest/BaseTest.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/listeners/ExtentManager.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/logger/Log4j.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/constants/Constants.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/utility/DatabaseUtil.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/utility/ExcelUtility.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/listeners/ExtentTestManager.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/utility/TestUtil.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/pages/liquidationpage.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/baseTest/BrowserNotInitializedException.java
+/Users/BolagsPartner_Automation/src/main/java/com/qa/bolags/listeners/TestListener.java

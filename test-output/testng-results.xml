@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="4" passed="0" failed="4" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-11-14T16:18:32 IST" name="Default suite" finished-at="2024-11-14T16:18:36 IST" duration-ms="4260">
+    <groups>
+      <group name="">
+        <method signature="DashboardTest.before()[pri:0, instance:com.qa.clever.tests.DashboardTest@d21a74c]" name="before" class="com.qa.clever.tests.DashboardTest"/>
+        <method signature="DashboardTest.Widget(java.lang.reflect.Method)[pri:1, instance:com.qa.clever.tests.DashboardTest@d21a74c]" name="Widget" class="com.qa.clever.tests.DashboardTest"/>
+        <method signature="DashboardTest.Show_Value_Percentage(java.lang.reflect.Method)[pri:2, instance:com.qa.clever.tests.DashboardTest@d21a74c]" name="Show_Value_Percentage" class="com.qa.clever.tests.DashboardTest"/>
+        <method signature="DashboardTest.ExpandedView(java.lang.reflect.Method)[pri:3, instance:com.qa.clever.tests.DashboardTest@d21a74c]" name="ExpandedView" class="com.qa.clever.tests.DashboardTest"/>
+      </group> <!--  -->
+    </groups>
+    <test started-at="2024-11-14T16:18:32 IST" name="Default test" finished-at="2024-11-14T16:18:36 IST" duration-ms="4260">
+      <class name="com.qa.clever.tests.DashboardTest">
+        <test-method signature="before()[pri:0, instance:com.qa.clever.tests.DashboardTest@d21a74c]" started-at="2024-11-14T16:18:32 IST" name="before" finished-at="2024-11-14T16:18:32 IST" duration-ms="60" status="FAIL">
+          <exception class="java.lang.NullPointerException">
+            <message>
+                <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null]]>
+            </message>
+            <full-stacktrace>
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null
+at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+at com.qa.bolags.utility.TestUtil.enterStringValueInInputField(TestUtil.java:244)
+at com.qa.drs.pages.LoginPage.enterEmail(LoginPage.java:33)
+at com.qa.clever.tests.DashboardTest.before(DashboardTest.java:35)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method signature="Widget(java.lang.reflect.Method)[pri:1, instance:com.qa.clever.tests.DashboardTest@d21a74c]" started-at="2024-11-14T16:18:32 IST" name="Widget" finished-at="2024-11-14T16:18:34 IST" duration-ms="2148" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.qa.clever.tests.DashboardTest.Widget(java.lang.reflect.Method) throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.NullPointerException">
+            <message>
+                <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null]]>
+            </message>
+            <full-stacktrace>
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null
+at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+at com.qa.bolags.utility.TestUtil.isElementDisplayed(TestUtil.java:180)
+at com.qa.clever.pages.DashboardPage.verify_HideButton_Pressence(DashboardPage.java:27)
+at com.qa.clever.tests.DashboardTest.Widget(DashboardTest.java:45)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Widget -->
+        <test-method signature="Show_Value_Percentage(java.lang.reflect.Method)[pri:2, instance:com.qa.clever.tests.DashboardTest@d21a74c]" started-at="2024-11-14T16:18:34 IST" name="Show_Value_Percentage" finished-at="2024-11-14T16:18:36 IST" duration-ms="2010" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.qa.clever.tests.DashboardTest.Show_Value_Percentage(java.lang.reflect.Method) throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.NullPointerException">
+            <message>
+                <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null]]>
+            </message>
+            <full-stacktrace>
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null
+at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+at com.qa.bolags.utility.TestUtil.highlight(TestUtil.java:161)
+at com.qa.bolags.utility.TestUtil.isElementDisplayed(TestUtil.java:180)
+at com.qa.clever.pages.DashboardPage.verify_ShowPercent_Pressence(DashboardPage.java:48)
+at com.qa.clever.tests.DashboardTest.Show_Value_Percentage(DashboardTest.java:62)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Show_Value_Percentage -->
+        <test-method signature="ExpandedView(java.lang.reflect.Method)[pri:3, instance:com.qa.clever.tests.DashboardTest@d21a74c]" started-at="2024-11-14T16:18:36 IST" name="ExpandedView" finished-at="2024-11-14T16:18:36 IST" duration-ms="2" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.qa.clever.tests.DashboardTest.ExpandedView(java.lang.reflect.Method) throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.NullPointerException">
+            <message>
+                <![CDATA[Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null]]>
+            </message>
+            <full-stacktrace>
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "com.qa.bolags.utility.TestUtil.driver" is null
+at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
+at com.qa.bolags.utility.TestUtil.clickByJS(TestUtil.java:154)
+at com.qa.clever.pages.DashboardPage.ClickonView(DashboardPage.java:69)
+at com.qa.clever.tests.DashboardTest.ExpandedView(DashboardTest.java:78)
+at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:664)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:227)
+at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:957)
+at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:200)
+at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+at org.testng.TestRunner.privateRun(TestRunner.java:848)
+at org.testng.TestRunner.run(TestRunner.java:621)
+at org.testng.SuiteRunner.runTest(SuiteRunner.java:443)
+at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:437)
+at org.testng.SuiteRunner.privateRun(SuiteRunner.java:397)
+at org.testng.SuiteRunner.run(SuiteRunner.java:336)
+at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+at org.testng.TestNG.runSuitesSequentially(TestNG.java:1280)
+at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+at org.testng.TestNG.runSuites(TestNG.java:1114)
+at org.testng.TestNG.run(TestNG.java:1082)
+at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
+at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- ExpandedView -->
+      </class> <!-- com.qa.clever.tests.DashboardTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
