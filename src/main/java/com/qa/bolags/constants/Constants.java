@@ -15,7 +15,7 @@ public class Constants {
 	public static final int LONG_WAIT = 10000;
 	public static final int EXPLICIT_WAIT_TIMEOUT = 100;
 	public static final int IMPLICIT_WAIT_TIMEOUT = 100;
-	public static final int PAGE_LOAD_WAIT_TIMEOUT = 6000;
+	public static final int PAGE_LOAD_WAIT_TIMEOUT = 120;
 	public static final int FLUENT_WAIT_TIMEOUT = 20;
 	public static final int POLLING_WAIT_TIMEOUT = 5;
 	public final static String CONFIGPROP = "./src/main/resources/config/config.properties";

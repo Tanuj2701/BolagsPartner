@@ -57,9 +57,9 @@ function toggleAllBoxes() {
 <tr>
 <td>Tests passed/Failed/Skipped:</td><td>0/1/0</td>
 </tr><tr>
-<td>Started on:</td><td>Tue Nov 25 16:07:42 IST 2025</td>
+<td>Started on:</td><td>Thu Aug 20 15:21:13 IST 2026</td>
 </tr>
-<tr><td>Total time:</td><td>17 seconds (17531 ms)</td>
+<tr><td>Total time:</td><td>147 seconds (147082 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -76,66 +76,43 @@ function toggleAllBoxes() {
 <td><b>Instance</b></td>
 </tr>
 <tr>
-<td title='com.qa.bolags.testrunner.CucumberTestRunner.runScenario()'><b>runScenario</b><br>Test class: com.qa.bolags.testrunner.CucumberTestRunner<br>Test method: Runs Cucumber Scenarios<br>Parameters: "Verify Home Page Title", "liquidation test"</td>
-<td><div><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//button[contains(text(),&apos;FORTSÃTT&apos;)]&quot;}
-  (Session info: chrome=142.0.7444.176)
-For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+<td title='com.qa.bolags.testrunner.E2ELiquidationToAdminOrderRunner.runScenario()'><b>runScenario</b><br>Test class: com.qa.bolags.testrunner.E2ELiquidationToAdminOrderRunner<br>Test method: Runs Cucumber Scenarios<br>Parameters: "Verify Liquidation Flow and Verify the order detail page", "E2E — liquidation creates order (saveInitial), admin opens that order and sends quote"</td>
+<td><div><pre>org.openqa.selenium.TimeoutException: Assertion failed for By.name: totalAssets: expected ~198750.25 but field currently shows: [0,00]
+	at com.qa.bolags.pages.AdminPage.assertNumericInputWithDiagnostics(AdminPage.java:794)
+	at com.qa.bolags.pages.AdminPage.assertOfferSentAccountingDataEnteredSuccessfully(AdminPage.java:758)
+	at com.qa.bolags.pages.AdminPage.enterOfferSentAccountingData(AdminPage.java:332)
+	at com.qa.bolags.stepdefs.adminStepDefe.userEnterTheDataForOfferSent(adminStepDefe.java:72)
+	at ✽.user enter the data for offer sent(file:///Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java%2029%20May/src/test/resources/features/e2eLiquidationToAdminOrder.feature:31)
+Caused by: org.openqa.selenium.TimeoutException: Expected condition failed: waiting for com.qa.bolags.pages.AdminPage$$Lambda$821/0x0000009801461f40@25e95af1 (tried for 35 second(s) with 500 milliseconds interval)
 Build info: version: &apos;4.11.0&apos;, revision: &apos;040bc5406b&apos;
 System info: os.name: &apos;Mac OS X&apos;, os.arch: &apos;aarch64&apos;, os.version: &apos;15.6&apos;, java.version: &apos;17.0.12&apos;
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [10d9721d5a26f0f5f5b2fd6c940188ad, findElement {using=xpath, value=//button[contains(text(),&apos;FORTSÃTT&apos;)]}]
-Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 142.0.7444.176, chrome: {chromedriverVersion: 142.0.7444.175 (302067f14a4..., userDataDir: /var/folders/c4/y8c28s6d1pz...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:49586}, goog:processID: 2663, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:49586/devtoo..., se:cdpVersion: 142.0.7444.176, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 10d9721d5a26f0f5f5b2fd6c940188ad
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:200)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:133)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:191)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:196)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:171)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
-	at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
-	at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:355)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:349)
-	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
-	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:140)
-	at com.qa.bolags.pages.liquidationpage.clickonGoOn(liquidationpage.java:110)
-	at com.qa.bolags.stepdefs.liquidationStepDef.userClickOnGoOn(liquidationStepDef.java:108)
-	at ✽.User click on GoOn(file:///Users/BolagsPartner_Automation/src/test/resources/features/liquidationflow.feature:12)
-... Removed 5 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1714317354", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1714317354'><pre>org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//button[contains(text(),&apos;FORTSÃTT&apos;)]&quot;}
-  (Session info: chrome=142.0.7444.176)
-For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 151.0.7922.140, chrome: {chromedriverVersion: 151.0.7922.138 (41fa8244239..., userDataDir: /var/folders/c4/y8c28s6d1pz...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63297}, goog:processID: 3404, networkConnectionEnabled: false, pageLoadStrategy: eager, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:63297/devtoo..., se:cdpVersion: 151.0.7922.140, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: a46d53d8645cdd6f2126f42dc5f5966c
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:230)
+	at com.qa.bolags.pages.AdminPage.assertNumericInputWithDiagnostics(AdminPage.java:790)
+	... 4 more
+</pre></div><a href='#' onClick='toggleBox("stack-trace651023535", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace651023535'><pre>org.openqa.selenium.TimeoutException: Assertion failed for By.name: totalAssets: expected ~198750.25 but field currently shows: [0,00]
+	at com.qa.bolags.pages.AdminPage.assertNumericInputWithDiagnostics(AdminPage.java:794)
+	at com.qa.bolags.pages.AdminPage.assertOfferSentAccountingDataEnteredSuccessfully(AdminPage.java:758)
+	at com.qa.bolags.pages.AdminPage.enterOfferSentAccountingData(AdminPage.java:332)
+	at com.qa.bolags.stepdefs.adminStepDefe.userEnterTheDataForOfferSent(adminStepDefe.java:72)
+	at ✽.user enter the data for offer sent(file:///Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java%2029%20May/src/test/resources/features/e2eLiquidationToAdminOrder.feature:31)
+Caused by: org.openqa.selenium.TimeoutException: Expected condition failed: waiting for com.qa.bolags.pages.AdminPage$$Lambda$821/0x0000009801461f40@25e95af1 (tried for 35 second(s) with 500 milliseconds interval)
 Build info: version: &apos;4.11.0&apos;, revision: &apos;040bc5406b&apos;
 System info: os.name: &apos;Mac OS X&apos;, os.arch: &apos;aarch64&apos;, os.version: &apos;15.6&apos;, java.version: &apos;17.0.12&apos;
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [10d9721d5a26f0f5f5b2fd6c940188ad, findElement {using=xpath, value=//button[contains(text(),&apos;FORTSÃTT&apos;)]}]
-Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 142.0.7444.176, chrome: {chromedriverVersion: 142.0.7444.175 (302067f14a4..., userDataDir: /var/folders/c4/y8c28s6d1pz...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:49586}, goog:processID: 2663, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:49586/devtoo..., se:cdpVersion: 142.0.7444.176, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 10d9721d5a26f0f5f5b2fd6c940188ad
-	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:200)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:133)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:191)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:196)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:171)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
-	at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
-	at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:355)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:349)
-	at com.qa.bolags.utility.TestUtil.getWebElement(TestUtil.java:167)
-	at com.qa.bolags.utility.TestUtil.click(TestUtil.java:140)
-	at com.qa.bolags.pages.liquidationpage.clickonGoOn(liquidationpage.java:110)
-	at com.qa.bolags.stepdefs.liquidationStepDef.userClickOnGoOn(liquidationStepDef.java:108)
-	at ✽.User click on GoOn(file:///Users/BolagsPartner_Automation/src/test/resources/features/liquidationflow.feature:12)
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 151.0.7922.140, chrome: {chromedriverVersion: 151.0.7922.138 (41fa8244239..., userDataDir: /var/folders/c4/y8c28s6d1pz...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63297}, goog:processID: 3404, networkConnectionEnabled: false, pageLoadStrategy: eager, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:63297/devtoo..., se:cdpVersion: 151.0.7922.140, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: a46d53d8645cdd6f2126f42dc5f5966c
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:230)
+	at com.qa.bolags.pages.AdminPage.assertNumericInputWithDiagnostics(AdminPage.java:790)
+	... 4 more
 </pre></div></td>
-<td>17</td>
-<td>com.qa.bolags.testrunner.CucumberTestRunner@353d0772</td></tr>
+<td>146</td>
+<td>com.qa.bolags.testrunner.E2ELiquidationToAdminOrderRunner@353d0772</td></tr>
 </table><p>
 </body>
 </html>

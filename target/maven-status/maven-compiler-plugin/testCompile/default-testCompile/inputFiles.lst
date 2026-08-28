@@ -1,2 +1,7 @@
-/Users/BolagsPartner_Automation/src/test/java/com/qa/bolags/testrunner/CucumberTestRunner.java
-/Users/BolagsPartner_Automation/src/test/java/com/qa/bolags/stepdefs/liquidationStepDef.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/stepdefs/Hooks.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/testrunner/E2ELiquidationToAdminOrderRunner.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/stepdefs/OrderIdBridgeStepDef.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/testrunner/CucumberTestRunner.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/stepdefs/GenericOrderUsersStepDef.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/stepdefs/adminStepDefe.java
+/Users/tanujrasane/Desktop/Bolags/BolagsPartner_Automation_Java 29 May/src/test/java/com/qa/bolags/stepdefs/liquidationStepDef.java

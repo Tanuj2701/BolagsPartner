@@ -1,2 +1,7 @@
 com/qa/bolags/testrunner/CucumberTestRunner.class
+com/qa/bolags/stepdefs/Hooks.class
+com/qa/bolags/stepdefs/GenericOrderUsersStepDef.class
+com/qa/bolags/testrunner/E2ELiquidationToAdminOrderRunner.class
+com/qa/bolags/stepdefs/adminStepDefe.class
 com/qa/bolags/stepdefs/liquidationStepDef.class
+com/qa/bolags/stepdefs/OrderIdBridgeStepDef.class

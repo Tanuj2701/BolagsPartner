@@ -4,13 +4,17 @@
 <!--    <listeners>-->
 <!--        <listener class-name="com.qa.bolags.listeners.TestListener"/>-->
 <!--    </listeners>-->
+
+    <!-- End-to-end: liquidation (POST saveInitial orderId) + admin generic order detail in one Cucumber scenario -->
+    <test name="E2E_Liquidation_To_Admin_Order">
+        <classes>
+            <class name="com.qa.bolags.testrunner.E2ELiquidationToAdminOrderRunner"/>
+        </classes>
+    </test>
+
     <test name="AutomationTest">
         <classes>
-            <class name="com.qa.bolags.testrunner.CucumberTestRunner" />
+            <class name="com.qa.bolags.testrunner.CucumberTestRunner"/>
         </classes>
     </test>
 </suite>
-
-
-
-

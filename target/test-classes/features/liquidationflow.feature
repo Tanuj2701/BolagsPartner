@@ -1,7 +1,10 @@
+@liquidation @e2e @captures-order-id
 Feature: liquidation test
 
-  Scenario: Verify Liquidation Flow
+  Standalone liquidation (not part of default `mvn test` suite). For full chain with admin, see
+  e2eLiquidationToAdminOrder.feature. Run this file only: mvn test -Dcucumber.features=src/test/resources/features/liquidationflow.feature
 
+  Scenario: Verify Liquidation Flow
     Given User login with a valid credentials
     Then  User should land on offer page
     Then User Seacrh with random company name
@@ -13,22 +16,8 @@ Feature: liquidation test
     Then upload the file
     And User click on GoOn
     Then User enters address details
+   # Then user enter details
     Then User click on Save
     Then Verify Request Received Page
+    Then the order id from saveInitial response is stored in test context
     #And Close the browser
-
-  Scenario: Verify Admin Liquidation Flow
-
-    Given Admin login with a valid credentials
-    Then Admin should land on Dashboard page
-    Then Admin click on Requests
-    Then Admin click on Liquidation Requests
-    Then Admin search with company name
-    Then Admin click on View Details
-    Then Admin verify the details and Approve the request
-  #  Then Close the browser
-
-
-
-
-

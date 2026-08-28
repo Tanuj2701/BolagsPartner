@@ -4,7 +4,8 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-    features = "src/test/resources/features/liquidationflow.feature",
+        // Default suite (after E2E test in testng.xml): shiro and other non–liquidation-admin E2E features.
+        features = {"src/test/resources/features/shiroResellerUsers.feature"},
     glue = {"com.qa.bolags.stepdefs"},
     plugin = {"pretty", "html:target/HtmlReports/report.html",
             "json:target/JSONReports/report.json",
