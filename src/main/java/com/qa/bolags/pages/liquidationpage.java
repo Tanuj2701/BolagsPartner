@@ -217,4 +217,28 @@ public class liquidationpage extends TestUtil {
         }
         return path.toAbsolutePath().toString();
     }
+
+    /** Clicks Fortsätt/GoOn without selecting a company (negative validation). */
+    public void clickContinueWithoutCompanySelection() {
+        clickonGoOn();
+        waitForSpecifiedTime(2);
+    }
+
+    /** Clicks Fortsätt without filling contact fields after company selection. */
+    public void clickContinueWithoutContactDetails() {
+        clickonGoOn();
+        waitForSpecifiedTime(2);
+    }
+
+    /** Asserts user is still on the liquidation offer step (not advanced to upload/address). */
+    public void assertStillOnOfferPage() {
+        boolean offerHeader = isOfferPageDisplayed();
+        boolean uploadVisible = super.isElementDisplayed(upload);
+        boolean requestReceived = super.isElementDisplayed(REQUEST_RECEIVED_HEADING);
+        org.testng.Assert.assertTrue(offerHeader && !requestReceived,
+                "Expected to remain on offer page. offerHeader=" + offerHeader
+                        + ", uploadVisible=" + uploadVisible + ", requestReceived=" + requestReceived);
+        org.testng.Assert.assertFalse(uploadVisible || requestReceived,
+                "Should not advance to upload or confirmation without required data");
+    }
 }

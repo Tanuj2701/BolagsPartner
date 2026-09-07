@@ -18,14 +18,21 @@ public class Hooks extends BaseTest {
     @Before(order = 0)
     public void startBrowserForScenario(Scenario scenario) {
         String uri = scenario.getUri().toString();
-        if (uri.contains("liquidationflow") || uri.contains("e2eLiquidationToAdminOrder")) {
+        if (uri.contains("liquidationflow") || uri.contains("e2eLiquidationToAdminOrder")
+                || uri.contains("declineOfferFlow") || uri.contains("clientDocumentChecklistFlow")
+                || uri.contains("adminDocumentReviewWizard") || uri.contains("adminPaymentWorkflow")
+                || uri.contains("adminBoardChangeFusionFlow") || uri.contains("adminBolagsverketSubmissionFlow")
+                || uri.contains("adminFinalReportCompletionFlow")) {
             LiquidationOrderIdContext.clear();
             AcceptOfferContext.clear();
             OfferSentDataContext.clear();
+            com.qa.bolags.constants.ClientDocumentTokenContext.clear();
             SaveInitialOrderCapture.resetForNewBrowserSession();
             SendOfferResponseCapture.resetForNewBrowserSession();
+            com.qa.bolags.utility.OrderDetailsCapture.resetForNewBrowserSession();
             initializeDriverForLiquidationWithSaveInitialCapture();
-        } else if (uri.contains("adminflow") || uri.contains("shiroResellerUsers")) {
+        } else if (uri.contains("adminflow") || uri.contains("shiroResellerUsers")
+                || uri.contains("adminLoginValidation") || uri.contains("adminOrderListSmoke")) {
             OfferSentDataContext.clear();
             initializeChromeWithoutDefaultNavigation();
         } else {

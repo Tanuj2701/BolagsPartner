@@ -24,10 +24,15 @@ public class adminStepDefe extends BaseTest {
     @Before(order = 1)
     public void initAdminPage(Scenario scenario) {
         String uri = scenario.getUri().toString();
-        if (uri.contains("adminflow") || uri.contains("e2eLiquidationToAdminOrder")) {
+        if (uri.contains("adminflow") || uri.contains("e2eLiquidationToAdminOrder")
+                || uri.contains("adminLoginValidation") || uri.contains("adminOrderListSmoke")
+                || uri.contains("declineOfferFlow") || uri.contains("clientDocumentChecklistFlow")
+                || uri.contains("adminDocumentReviewWizard") || uri.contains("adminPaymentWorkflow")
+                || uri.contains("adminBoardChangeFusionFlow") || uri.contains("adminBolagsverketSubmissionFlow")
+                || uri.contains("adminFinalReportCompletionFlow")) {
             adminPage = new AdminPage(BaseTest.driver);
         }
-        if (uri.contains("e2eLiquidationToAdminOrder")) {
+        if (uri.contains("e2eLiquidationToAdminOrder") || uri.contains("clientDocumentChecklistFlow")) {
             acceptOfferPage = new AcceptOfferPage(BaseTest.driver);
         }
     }

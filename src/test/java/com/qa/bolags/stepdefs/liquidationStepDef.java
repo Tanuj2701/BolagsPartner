@@ -24,10 +24,12 @@ public class liquidationStepDef extends BaseTest {
     @Before(order = 1)
     public void initLiquidationPage(Scenario scenario) {
         String uri = scenario.getUri().toString();
-        if (!uri.contains("adminflow") && !uri.contains("shiroResellerUsers")) {
+        if (!uri.contains("adminflow") && !uri.contains("shiroResellerUsers")
+                && !uri.contains("adminLoginValidation") && !uri.contains("adminOrderListSmoke")) {
             liquidationpage = new liquidationpage(BaseTest.driver);
         }
-        if (uri.contains("liquidationflow") || uri.contains("e2eLiquidationToAdminOrder")) {
+        if (uri.contains("liquidationflow") || uri.contains("e2eLiquidationToAdminOrder")
+                || uri.contains("declineOfferFlow")) {
             goOnClickCount = 0;
         }
     }

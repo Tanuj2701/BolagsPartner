@@ -864,4 +864,60 @@ public class AdminPage extends TestUtil {
                 ExpectedConditions.attributeContains(By.name("offerPriceSek"), "class", "border-red-600")));
         wait.until(d -> driver.findElements(OFFER_PRICE_INLINE_ERROR).stream().noneMatch(WebElement::isDisplayed));
     }
+
+    private static final String GENERIC_ORDER_LIST_URL = "https://qa.bolagspartner.se/app/genericOrder/list";
+    private final By loginErrorMessage = By.xpath(
+            "//*[contains(@class,'error') or contains(@class,'alert') or @role='alert']"
+                    + "[contains(.,'fel') or contains(.,'Fel') or contains(.,'invalid')"
+                    + " or contains(.,'Invalid') or contains(.,'incorrect') or contains(.,'Incorrect')]"
+                    + " | //p[contains(@class,'text-red')]");
+    private final By genericOrderListTable = By.xpath(
+            "//table[.//th or .//tbody/tr] | //*[contains(@class,'order-list') or @data-testid='order-list']");
+
+    /** Enters admin credentials with explicit email and password (for negative login tests). */
+    public void enterAdminCredentials(String email, String password) {
+        waitForLoad();
+        waitForSpecifiedTime(1);
+        waitForElementToBeClickable(epost);
+        typeIntoFirstDisplayedInput(epost, email != null ? email : "");
+        waitForElementToBeClickable(passwordInput);
+        typeIntoFirstDisplayedInput(passwordInput, password != null ? password : "");
+    }
+
+    public void enterConfiguredAdminEmail() {
+        enterAdminCredentials(adminEmail, "");
+    }
+
+    public void enterConfiguredAdminPasswordOnly() {
+        waitForElementToBeClickable(passwordInput);
+        typeIntoFirstDisplayedInput(passwordInput, adminPassword);
+    }
+
+    public void assertLoginFailedOrStillOnLoginPage() {
+        waitForSpecifiedTime(2);
+        String url = driver.getCurrentUrl();
+        boolean onLogin = url != null && url.contains("/auth/login");
+        boolean errorVisible = anyDisplayedIgnoringHighlight(loginErrorMessage);
+        boolean dashboard = isDashboardVisible();
+        Assert.assertTrue(onLogin || errorVisible || !dashboard,
+                "Expected login failure. URL=" + url + ", errorVisible=" + errorVisible + ", dashboard=" + dashboard);
+    }
+
+    public void openGenericOrderListPage() {
+        driver.get(QaServerCredentials.urlWithHttpBasicAuth(GENERIC_ORDER_LIST_URL));
+        waitForLoad();
+        waitForSpecifiedTime(2);
+    }
+
+    public void assertGenericOrderListPageDisplayed() {
+        String url = driver.getCurrentUrl();
+        Assert.assertTrue(url != null && url.contains("/genericOrder/list"),
+                "Expected generic order list URL, got: " + url);
+        new WebDriverWait(driver, Duration.ofSeconds(30))
+                .until(d -> anyDisplayedIgnoringHighlight(genericOrderListTable)
+                        || (d.getCurrentUrl() != null && d.getCurrentUrl().contains("/genericOrder/list")));
+        Assert.assertTrue(anyDisplayedIgnoringHighlight(genericOrderListTable)
+                        || (url.contains("/genericOrder/list")),
+                "Generic order list table or list container should be visible");
+    }
 }

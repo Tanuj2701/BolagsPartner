@@ -17,4 +17,22 @@
             <class name="com.qa.bolags.testrunner.CucumberTestRunner"/>
         </classes>
     </test>
+
+    <test name="Admin_Smoke_Tests">
+        <classes>
+            <class name="com.qa.bolags.testrunner.AdminSmokeTestRunner"/>
+        </classes>
+    </test>
+
+    <test name="Liquidation_Validation_Tests">
+        <classes>
+            <class name="com.qa.bolags.testrunner.LiquidationValidationRunner"/>
+        </classes>
+    </test>
+
+    <test name="Liquidation_Lifecycle_Extension">
+        <classes>
+            <class name="com.qa.bolags.testrunner.LiquidationLifecycleExtensionRunner"/>
+        </classes>
+    </test>
 </suite>

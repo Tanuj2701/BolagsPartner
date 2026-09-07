@@ -1,5 +1,6 @@
 com/qa/bolags/utility/SendOfferResponseCapture.class
 com/qa/bolags/utility/TestUtil$1.class
+com/qa/bolags/pages/ClientDocumentChecklistPage.class
 com/qa/bolags/utility/SendOfferResponseCapture$OfferAcceptanceData.class
 com/qa/bolags/constants/OfferSentAccountingData.class
 com/qa/bolags/pages/AcceptOfferPage.class
@@ -8,6 +9,8 @@ com/qa/bolags/utility/ExcelUtility.class
 com/qa/bolags/listeners/ExtentTestManager.class
 com/qa/bolags/utility/DatabaseUtil.class
 com/qa/bolags/utility/SaveInitialOrderCapture.class
+com/qa/bolags/utility/OrderDetailsCapture.class
+com/qa/bolags/pages/AdminOrderWorkflowPage.class
 com/qa/bolags/listeners/ExtentManager.class
 com/qa/bolags/constants/OfferSentDataContext.class
 com/qa/bolags/constants/LiquidationOrderIdContext.class
@@ -19,6 +22,8 @@ com/qa/bolags/pages/AdminPage.class
 com/qa/bolags/listeners/TestListener.class
 com/qa/bolags/pages/GenericOrderUsersPage.class
 com/qa/bolags/constants/OfferSentDataProvider.class
+com/qa/bolags/pages/DeclineOfferPage.class
+com/qa/bolags/constants/ClientDocumentTokenContext.class
 com/qa/bolags/baseTest/BrowserNotInitializedException.class
 com/qa/bolags/pages/liquidationpage.class
 com/qa/bolags/logger/Log4j.class

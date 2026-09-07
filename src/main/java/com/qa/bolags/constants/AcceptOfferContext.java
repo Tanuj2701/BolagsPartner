@@ -56,6 +56,15 @@ public final class AcceptOfferContext {
      * {@code /app/liqTok/acceptOffer?orderId=...&token=...&utm_*} — same shape as offer email links.
      */
     public static String buildAcceptOfferUrl() {
+        return buildTokenUrl("/app/liqTok/acceptOffer");
+    }
+
+    /** Client decline-offer link ({@code /app/liqTok/declineOffer}) — same token as sendOffer. */
+    public static String buildDeclineOfferUrl() {
+        return buildTokenUrl("/app/liqTok/declineOffer");
+    }
+
+    private static String buildTokenUrl(String path) {
         String oid = getOrderIdOrNull();
         String token = getMd5TokenOrNull();
         if (oid == null || token == null) {
@@ -63,7 +72,7 @@ public final class AcceptOfferContext {
                     "sendOffer orderId/md5Token not captured — run send quote first or set "
                             + ORDER_ID_PROPERTY_KEY + " / " + MD5_TOKEN_PROPERTY_KEY);
         }
-        return QA_BASE + "/app/liqTok/acceptOffer?orderId=" + oid + "&token=" + token + "&" + UTM_QUERY;
+        return QA_BASE + path + "?orderId=" + oid + "&token=" + token + "&" + UTM_QUERY;
     }
 
     public static void clear() {
