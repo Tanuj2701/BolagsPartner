@@ -245,8 +245,9 @@ public class TestUtil {
 
 	public static void enterStringValueInInputField(By ele, String value) {
 		highlight(ele);
-		log.info("Typing '{}' into input {}.", value, ele);
 		WebElement element = getWebElement(ele);
+		boolean isPassword = "password".equalsIgnoreCase(element.getAttribute("type"));
+		log.info("Typing '{}' into input {}.", isPassword ? "[REDACTED]" : value, ele);
 		element.clear();
 		element.sendKeys(value);
 	}
@@ -596,7 +597,9 @@ public class TestUtil {
 			net.sourceforge.tess4j.ITesseract tesseract = new net.sourceforge.tess4j.Tesseract();
 			tesseract.setDatapath(tessDataPath);
 			tesseract.setLanguage("eng");
-			tesseract.setTessVariable("tessedit_char_whitelist", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+			tesseract.setVariable(
+					"tessedit_char_whitelist",
+					"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 			tesseract.setOcrEngineMode(1);
 			tesseract.setPageSegMode(6);
 			waitForSpecifiedTime(2);
