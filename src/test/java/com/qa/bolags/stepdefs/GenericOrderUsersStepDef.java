@@ -51,7 +51,7 @@ public class GenericOrderUsersStepDef extends BaseTest {
 
     @And("user clicks the {string} button on the user list dashboard")
     public void userClicksNamedButtonOnUserListDashboard(String buttonLabel) {
-        genericOrderUsersPage.clickNewUserOnUserListDashboard();
+        genericOrderUsersPage.clickNewUserOnUserListDashboard(buttonLabel);
     }
 
     @When("user clicks Skapa on the empty Shiro user form")
@@ -91,7 +91,7 @@ public class GenericOrderUsersStepDef extends BaseTest {
 
     @And("user clicks the {string} button on the reseller list dashboard")
     public void userClicksNamedButtonOnResellerListDashboard(String buttonLabel) {
-        genericOrderUsersPage.clickNewDealer();
+        genericOrderUsersPage.clickNewDealer(buttonLabel);
     }
 
     @When("user clicks Skapa on the empty reseller form")

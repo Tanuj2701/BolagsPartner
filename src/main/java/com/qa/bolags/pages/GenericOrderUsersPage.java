@@ -78,9 +78,14 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     public void clickNewUserOnUserListDashboard() {
+        clickNewUserOnUserListDashboard("+ Ny användare");
+    }
+
+    public void clickNewUserOnUserListDashboard(String buttonLabel) {
         ensureShiroUserListReady();
         clickFirstDisplayedAction(
                 "new Shiro user",
+                buttonLabel,
                 "New User", "Ny användare", "+ Ny användare",
                 "Nuevo usuario", "Nueva usuaria", "Añadir usuario");
         waitForFormToOpen("Shiro user", "E-mail", "E-post", "Correo electrónico");
@@ -113,27 +118,26 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     public void assertRequiredShiroUserValidationErrors() {
-        String[] expectedErrors = {
-                "Validation failed. Please correct the following errors:",
-                "Email address is required",
-                "First name is required",
-                "Last name is required",
-                "Zipcode must be 5 digits",
-                "Invalid phone number format"
+        String[][] expectedErrorGroups = {
+                {
+                        "Validation failed. Please correct the following errors:",
+                        "Valideringen misslyckades. Rätta till följande fel:"
+                },
+                {"Email address is required", "E-postadress krävs", "E-post krävs"},
+                {"First name is required", "Förnamn krävs"},
+                {"Last name is required", "Efternamn krävs"},
+                {"Zipcode must be 5 digits", "Postnummer måste vara 5 siffror"},
+                {"Invalid phone number format", "Ogiltigt telefonnummerformat", "Ogiltigt telefonnummer"}
         };
         try {
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(d -> {
                 String pageText = d.findElement(By.tagName("body")).getText();
-                return Arrays.stream(expectedErrors).allMatch(pageText::contains);
+                return pageContainsAnyFromEachGroup(pageText, expectedErrorGroups);
             });
         } catch (TimeoutException e) {
             String pageText = driver.findElement(By.tagName("body")).getText();
             List<String> missingErrors = new ArrayList<>();
-            for (String expectedError : expectedErrors) {
-                if (!pageText.contains(expectedError)) {
-                    missingErrors.add(expectedError);
-                }
-            }
+            collectMissingErrorGroups(pageText, expectedErrorGroups, missingErrors);
             Assert.fail("Missing Shiro validation errors: " + missingErrors);
         }
     }
@@ -153,6 +157,8 @@ public class GenericOrderUsersPage extends TestUtil {
         typeRequiredNamedField("car", "0709876543");
         typeRequiredNamedField("firstName", "Shiro");
         typeRequiredNamedField("lastName", "Automation");
+        selectFirstOptionForLabelContaining("Roller");
+        selectFirstOptionForLabelContaining("Reseller");
         submitPrimaryForm();
     }
 
@@ -181,28 +187,35 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     public void clickNewDealer() {
+        clickNewDealer("Ny återförsäljare");
+    }
+
+    public void clickNewDealer(String buttonLabel) {
         ensureResellerListReady();
         clickFirstDisplayedAction(
                 "new reseller",
+                buttonLabel,
                 "New Dealer", "Ny återförsäljare",
                 "Nuevo distribuidor", "Nuevo revendedor", "Nuevo comerciante");
         waitForFormToOpen("reseller", "Organisationsnummer", "Organization number", "Número de organización");
     }
 
     public void submitEmptyResellerForm() {
-        scrollResellerFormToBottom();
-        clickBottomFormSubmitEvenIfDisabled(
-                "empty reseller form submit",
-                "Skapa", "Create", "Save", "Guardar", "Crear");
+        submitResellerForm();
     }
 
     public void assertEmptyResellerFormError() {
-        String expectedError = "Something went wrong. Please check your input.";
+        String[] expectedErrors = {
+                "Something went wrong. Please check your input.",
+                "Något gick fel. Kontrollera dina indata."
+        };
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(20)).until(d ->
-                    d.findElement(By.tagName("body")).getText().contains(expectedError));
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(d -> {
+                String pageText = d.findElement(By.tagName("body")).getText();
+                return Arrays.stream(expectedErrors).anyMatch(pageText::contains);
+            });
         } catch (TimeoutException e) {
-            Assert.fail("Missing reseller empty-form error: " + expectedError
+            Assert.fail("Missing reseller empty-form error. Expected one of: " + Arrays.toString(expectedErrors)
                     + ". Current URL: " + driver.getCurrentUrl());
         }
     }
@@ -242,12 +255,11 @@ public class GenericOrderUsersPage extends TestUtil {
         typeRequiredNamedField("address", "Resellergatan 2");
         clearNamedField("addressCo");
         typeRequiredNamedField("postalCode", "22233");
-        typeRequiredNamedField("city", "Sweden");
-        selectNamedOption("country", "Guatemala");
+        typeRequiredNamedField("city", "Göteborg");
+        selectNamedOption("country", "Sweden");
         typeRequiredNamedField("note", "Automation reseller");
         typeRequiredNamedField("liquidationPrice", "25000");
-        scrollResellerFormToBottom();
-        submitPrimaryForm();
+        submitResellerForm();
     }
 
     private String generateValidSwedishOrganisationNumber() {
@@ -370,6 +382,30 @@ public class GenericOrderUsersPage extends TestUtil {
 
     private void clickFirstDisplayedAction(String actionName, String... labels) {
         clickActionByLabels(actionName, false, labels);
+    }
+
+    private void submitResellerForm() {
+        scrollResellerFormToBottom();
+        clickBottomFormSubmitEvenIfDisabled(
+                "reseller form submit",
+                "Skapa", "Create", "Save", "Guardar", "Crear");
+    }
+
+    private boolean pageContainsAnyFromEachGroup(String pageText, String[][] errorGroups) {
+        for (String[] group : errorGroups) {
+            if (!Arrays.stream(group).anyMatch(pageText::contains)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void collectMissingErrorGroups(String pageText, String[][] errorGroups, List<String> missingErrors) {
+        for (String[] group : errorGroups) {
+            if (!Arrays.stream(group).anyMatch(pageText::contains)) {
+                missingErrors.add(Arrays.toString(group));
+            }
+        }
     }
 
     private void scrollResellerFormToBottom() {
@@ -692,6 +728,39 @@ public class GenericOrderUsersPage extends TestUtil {
             }
         }
         return emptyFields.toString();
+    }
+
+    private void selectFirstOptionForLabelContaining(String labelPart) {
+        String safe = xpathLiteral(labelPart);
+        By selectBy = By.xpath(
+                "//label[contains(.,'" + safe + "')]/following::select[1]"
+                        + " | //select[preceding::label[contains(.,'" + safe + "')][1]]");
+        for (WebElement el : driver.findElements(selectBy)) {
+            try {
+                if (el.isDisplayed() && "select".equalsIgnoreCase(el.getTagName())) {
+                    Select s = new Select(el);
+                    if (s.getOptions().size() > 1) {
+                        s.selectByIndex(1);
+                        return;
+                    }
+                }
+            } catch (Exception ignored) {
+                // Try the next matching select control.
+            }
+        }
+        for (WebElement el : driver.findElements(By.tagName("select"))) {
+            try {
+                if (el.isDisplayed()) {
+                    Select s = new Select(el);
+                    if (s.getOptions().size() > 1) {
+                        s.selectByIndex(1);
+                        return;
+                    }
+                }
+            } catch (Exception ignored) {
+                // Try the next matching select control.
+            }
+        }
     }
 
 }
