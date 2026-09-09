@@ -145,6 +145,28 @@ public class AdminPage extends TestUtil {
         clickLoginButton();
     }
 
+    /**
+     * Idempotent admin login for workflow scenarios that follow lifecycle setup (already authenticated).
+     */
+    public void ensureLoggedInAsAdmin() {
+        String url = driver.getCurrentUrl();
+        if (url != null && url.contains("/genericOrder/")) {
+            LOG.info("Admin already on generic order page — skipping duplicate login.");
+            return;
+        }
+        if (url != null && !url.contains("/auth/login")
+                && (url.contains("/app/") || isDashboardVisible())) {
+            LOG.info("Admin session appears active (url={}) — skipping duplicate login.", url);
+            return;
+        }
+        openAdminPortal();
+        clickLoggaInFromTopNavigation();
+        if (driver.findElements(epost).stream().anyMatch(WebElement::isDisplayed)) {
+            enterAdminCredentials();
+            clickLoginButton();
+        }
+    }
+
     public boolean isDashboardVisible() {
         try {
             new WebDriverWait(driver, Duration.ofSeconds(35))

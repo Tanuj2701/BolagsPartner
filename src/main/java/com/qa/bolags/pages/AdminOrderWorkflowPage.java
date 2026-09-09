@@ -24,7 +24,8 @@ public class AdminOrderWorkflowPage extends TestUtil {
     private static final String GENERIC_ORDER_BASE = "https://qa.bolagspartner.se/app/genericOrder/list/";
 
     private final By manageOrderTab = By.xpath(
-            "//button[contains(., 'Manage order') or contains(., 'Hantera order') or contains(., 'Manage Order')]");
+            "//button[contains(., 'Hantera best\u00E4llning') or contains(., 'Manage order')"
+                    + " or contains(., 'Manage Order')]");
     private final By reviewWizardsTab = By.xpath(
             "//button[contains(., 'Review Wizards') or contains(., 'Granskning')]");
     private final By reviewWizardContent = By.xpath(
@@ -47,7 +48,9 @@ public class AdminOrderWorkflowPage extends TestUtil {
         String url = GENERIC_ORDER_BASE + orderId;
         driver.get(QaServerCredentials.urlWithHttpBasicAuth(url));
         waitForLoad();
-        waitForSpecifiedTime(2);
+        waitForSpecifiedTime(3);
+        new WebDriverWait(driver, Duration.ofSeconds(45))
+                .until(ExpectedConditions.presenceOfElementLocated(manageOrderTab));
     }
 
     public void openManageOrderTab() {
@@ -93,21 +96,53 @@ public class AdminOrderWorkflowPage extends TestUtil {
     public void clickManageOrderButton(String... labelsEnSv) {
         openManageOrderTab();
         By locator = buildButtonLocator(labelsEnSv);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(35));
-        scrollPageToViewElement(locator);
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
-        clickByJS(locator);
-        waitForLoad();
-        waitForSpecifiedTime(3);
-        LOG.info("Clicked manage-order button matching: {}", String.join(" / ", labelsEnSv));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        List<WebElement> matches = driver.findElements(locator);
+        for (WebElement button : matches) {
+            try {
+                if (button.isDisplayed() && button.isEnabled()) {
+                    ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
+                            "arguments[0].scrollIntoView({block:'center'});", button);
+                    waitForSpecifiedTime(1);
+                    ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
+                    waitForLoad();
+                    waitForSpecifiedTime(3);
+                    LOG.info("Clicked manage-order button matching: {}", String.join(" / ", labelsEnSv));
+                    return;
+                }
+            } catch (Exception ignored) {
+                // try next match
+            }
+        }
+        throw new org.openqa.selenium.NoSuchElementException(
+                "No clickable manage-order button for labels: " + String.join(" / ", labelsEnSv));
+    }
+
+    private By buildButtonLocator(String... labels) {
+        StringBuilder xpath = new StringBuilder("//button[not(@disabled)]");
+        if (labels.length > 0) {
+            xpath.append("[");
+            for (int i = 0; i < labels.length; i++) {
+                if (i > 0) {
+                    xpath.append(" or ");
+                }
+                xpath.append("contains(normalize-space(.), '")
+                        .append(labels[i].replace("'", "")).append("')");
+            }
+            xpath.append("]");
+        }
+        return By.xpath(xpath.toString());
     }
 
     public void clickReadyForReview() {
-        clickManageOrderButton("Ready for review", "Klar för granskning", "Ready for Review");
+        clickManageOrderButton("Ready for review", "Klar f\u00F6r granskning", "Ready for Review",
+                "V\u00E4ntar p\u00E5 granskning");
     }
 
     public void clickDocumentsReceivedToday() {
-        clickManageOrderButton("Documents received today", "Dokument mottagna idag", "Documents Received");
+        clickManageOrderButton("Documents received today", "Dokument mottagna idag", "Documents Received",
+                "Mottagna dokument");
     }
 
     public void clickReviewComplete() {
@@ -115,7 +150,7 @@ public class AdminOrderWorkflowPage extends TestUtil {
     }
 
     public void clickReadyForBoardChange() {
-        clickManageOrderButton("Ready for board change", "Klar för styrelseändring");
+        clickManageOrderButton("Ready for board change", "Klar f\u00F6r styrelse\u00E4ndring");
     }
 
     public void clickBoardChangeSentToBolagsverket() {
@@ -130,7 +165,7 @@ public class AdminOrderWorkflowPage extends TestUtil {
     }
 
     public void clickReadyForLiquidation() {
-        clickManageOrderButton("Ready for Liquidation", "Klar för likvidation");
+        clickManageOrderButton("Ready for Liquidation", "Klar f\u00F6r likvidation");
     }
 
     public void clickLiquidationSentToBolagsverket() {
@@ -141,7 +176,7 @@ public class AdminOrderWorkflowPage extends TestUtil {
     }
 
     public void clickReadyForFinalReport() {
-        clickManageOrderButton("Ready for final report", "Klar för slutrapport");
+        clickManageOrderButton("Ready for final report", "Klar f\u00F6r slutrapport");
     }
 
     public void clickFinalReportSentToBolagsverket() {
@@ -168,18 +203,6 @@ public class AdminOrderWorkflowPage extends TestUtil {
         Assert.assertTrue(
                 driver.getPageSource().contains(statusFragment),
                 "Expected order page to reference status fragment: " + statusFragment);
-    }
-
-    private By buildButtonLocator(String... labels) {
-        StringBuilder xpath = new StringBuilder("//button[@type='button' and not(@disabled)][");
-        for (int i = 0; i < labels.length; i++) {
-            if (i > 0) {
-                xpath.append(" or ");
-            }
-            xpath.append("contains(normalize-space(.), '").append(labels[i].replace("'", "")).append("')");
-        }
-        xpath.append("]");
-        return By.xpath(xpath.toString());
     }
 
     private void clickTabIfPresent(By tab) {
