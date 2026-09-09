@@ -19,9 +19,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 
@@ -123,11 +123,14 @@ public class BaseTest {
         log.info("Deleting all cookies...");
         driver.manage().deleteAllCookies();
         log.info("Setting page load timeout...");
-        driver.manage().timeouts().pageLoadTimeout(Constants.PAGE_LOAD_WAIT_TIMEOUT, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(
+                Duration.ofSeconds(Constants.PAGE_LOAD_WAIT_TIMEOUT));
         log.info("Setting implicit wait timeout...");
-        driver.manage().timeouts().implicitlyWait(Constants.IMPLICIT_WAIT_TIMEOUT / 10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(
+                Duration.ofSeconds(Constants.IMPLICIT_WAIT_TIMEOUT / 10));
         log.info("Setting script timeout...");
-        driver.manage().timeouts().setScriptTimeout(Constants.SCRIPT_WAIT_TIMEOUT / 1000, TimeUnit.SECONDS);
+        driver.manage().timeouts().scriptTimeout(
+                Duration.ofSeconds(Constants.SCRIPT_WAIT_TIMEOUT / 1000));
     }
 
 
