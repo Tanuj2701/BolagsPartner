@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Valid offer-sent accounting rows for ChangeQuote (QA Manage order form).
- * A random row is chosen each run; pin with {@code -DofferSent.dataSetIndex=0..4}.
+ * Defaults to Example 1; pin another row with {@code -DofferSent.dataSetIndex=0..5}.
  */
 public final class OfferSentDataProvider {
 
@@ -15,14 +15,15 @@ public final class OfferSentDataProvider {
 
     private static final List<OfferSentAccountingData> VALID_SETS = Collections.unmodifiableList(Arrays.asList(
             new OfferSentAccountingData(
-                    "Set A — standard QA (original)",
+                    "Example 1 — manual price 225400",
                     "246435.09",
                     "7843.26",
                     "4145.86",
                     "0",
                     "0",
                     "14105.91",
-                    "234831.97"),
+                    "234831.97",
+                    "225400.00"),
             new OfferSentAccountingData(
                     "Set B — small active company",
                     "98500.50",
@@ -58,7 +59,17 @@ public final class OfferSentDataProvider {
                     "0",
                     "0",
                     "800.00",
-                    "42350.00")));
+                    "42350.00"),
+            new OfferSentAccountingData(
+                    "Example 4 — negative results",
+                    "63679.99",
+                    "30040.00",
+                    "-105423.52",
+                    "0",
+                    "0",
+                    "54347.19",
+                    "10453.52",
+                    "9450.00")));
 
     private OfferSentDataProvider() {
     }
@@ -68,19 +79,20 @@ public final class OfferSentDataProvider {
     }
 
     /**
-     * Picks a data set for this test run (random unless {@link #DATA_SET_INDEX_PROPERTY} is set).
+     * Picks a data set for this test run. Defaults to Example 1 (index 0).
+     * Set {@link #DATA_SET_INDEX_PROPERTY} to choose another row, or {@code random} for random pick.
      */
     public static OfferSentAccountingData pickForExecution() {
-        String indexProp = System.getProperty(DATA_SET_INDEX_PROPERTY, "").trim();
-        if (!indexProp.isEmpty()) {
-            int index = Integer.parseInt(indexProp);
-            if (index < 0 || index >= VALID_SETS.size()) {
-                throw new IllegalArgumentException(
-                        DATA_SET_INDEX_PROPERTY + "=" + index + " out of range 0.." + (VALID_SETS.size() - 1));
-            }
-            return VALID_SETS.get(index);
+        String indexProp = System.getProperty(DATA_SET_INDEX_PROPERTY, "0").trim();
+        if ("random".equalsIgnoreCase(indexProp)) {
+            int randomIndex = ThreadLocalRandom.current().nextInt(VALID_SETS.size());
+            return VALID_SETS.get(randomIndex);
         }
-        int randomIndex = ThreadLocalRandom.current().nextInt(VALID_SETS.size());
-        return VALID_SETS.get(randomIndex);
+        int index = Integer.parseInt(indexProp);
+        if (index < 0 || index >= VALID_SETS.size()) {
+            throw new IllegalArgumentException(
+                    DATA_SET_INDEX_PROPERTY + "=" + index + " out of range 0.." + (VALID_SETS.size() - 1));
+        }
+        return VALID_SETS.get(index);
     }
 }

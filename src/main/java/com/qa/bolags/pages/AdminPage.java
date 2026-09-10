@@ -6,6 +6,7 @@ import com.qa.bolags.constants.OfferSentAccountingData;
 import com.qa.bolags.constants.OfferSentDataContext;
 import com.qa.bolags.constants.OfferSentDataProvider;
 import com.qa.bolags.constants.QaServerCredentials;
+import com.qa.bolags.utility.SwedishNumberParser;
 import com.qa.bolags.utility.TestUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -277,9 +278,14 @@ public class AdminPage extends TestUtil {
     private static final By OFFER_PRICE_INLINE_ERROR = By.xpath(
             "//input[@name='offerPriceSek']/ancestor::div[contains(@class,'flex-1')][1]"
                     + "/div[contains(@class,'text-red')]");
-    /** Primary offer action on {@code ChangeQuote} (after accounting form). EN/SV + sub-company label. */
+    /** Primary offer action on {@code ChangeQuote} — includes disabled state for presence checks. */
+    private static final By SEND_QUOTE_BUTTON_ANY = By.xpath(
+            "//button[@type='button'][contains(., 'Skicka offert') or contains(., 'Klar f\u00F6r offert')"
+                    + " or contains(translate(normalize-space(.),"
+                    + " 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'send quote')]");
+    /** Enabled send-offer control (disabled when {@code offerPriceSek} is 0 — see ChangeQuote.tsx). */
     private static final By SEND_QUOTE_BUTTON = By.xpath(
-            "//button[@type='button' and not(@disabled)][contains(., 'Skicka offert') or contains(., 'Klar för offert')"
+            "//button[@type='button' and not(@disabled)][contains(., 'Skicka offert') or contains(., 'Klar f\u00F6r offert')"
                     + " or contains(translate(normalize-space(.),"
                     + " 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'send quote')]");
     private static final By ACCEPT_OFFER_SHAREHOLDERS_HEADING = By.xpath(
@@ -312,6 +318,23 @@ public class AdminPage extends TestUtil {
     private static final By AGREEMENT_SENT_MARKER = By.xpath(
             "//button[contains(., 'Remind about E-agreement') or contains(., 'P\u00E5minn om e-avtal')"
                     + " or contains(., 'Add document type') or contains(., 'L\u00E4gg till dokumenttyp')]");
+    /** Order detail banner when {@code company.needToUpdate} is true ({@code page.tsx}). */
+    private static final By BOLAGSVERKET_UPDATE_WARNING = By.xpath(
+            "//*[contains(., 'Bolaget m\u00E5ste uppdateras fr\u00E5n Bolagsverket')"
+                    + " or contains(., 'must be updated from Bolagsverket')]");
+    /** Underlined link that opens the diff modal ({@code label=\"h\u00E4r!\"}). */
+    private static final By BOLAGSVERKET_UPDATE_LINK = By.xpath(
+            "//button[contains(@class,'underline')][contains(., 'h\u00E4r')]"
+                    + " | //span[contains(., 'Bolaget m\u00E5ste uppdateras')]/following::button[contains(., 'h\u00E4r')]");
+    private static final By BOLAGSVERKET_UPDATE_MODAL_TITLE = By.xpath(
+            "//h1[normalize-space()='Update items']");
+    private static final By BOLAGSVERKET_UPDATE_CONFIRM = By.xpath(
+            "//button[normalize-space()='L\u00E4gg Till' and not(@disabled)]");
+    private static final By BOLAGSVERKET_UPDATE_CANCEL = By.xpath(
+            "//button[normalize-space()='Avbryt']");
+    private static final By BOLAGSVERKET_UPDATE_TOAST = By.xpath(
+            "//*[contains(., 'Please check with bolagsverket')"
+                    + " or contains(., 'Company data has changed and needs to be updated')]");
 
     /**
      * Fills the ChangeQuote accounting fields used when sending an offer.
@@ -323,11 +346,24 @@ public class AdminPage extends TestUtil {
      * ({@code DatePicker} default). The requested {@code dd/MM/yyyy} value is logged for traceability.</p>
      */
     public void enterOfferSentAccountingData() {
-        OfferSentAccountingData data = OfferSentDataProvider.pickForExecution();
-        OfferSentDataContext.set(data);
+        enterOfferSentAccountingData(true);
+    }
+
+    /**
+     * Fills ChangeQuote accounting fields. Reuses the data set from {@link OfferSentDataContext} when already set
+     * (e.g. after Bolagsverket sync cleared the form).
+     */
+    public void enterOfferSentAccountingData(boolean navigateToOrderDetail) {
+        OfferSentAccountingData data = OfferSentDataContext.getSelectedOrNull();
+        if (data == null) {
+            data = OfferSentDataProvider.pickForExecution();
+            OfferSentDataContext.set(data);
+        }
         LOG.info("Entering offer-sent accounting data: {}", data.getLabel());
 
-        openGenericOrderDetail(resolveOrderDetailUrl());
+        if (navigateToOrderDetail) {
+            openGenericOrderDetail(resolveOrderDetailUrl());
+        }
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(35));
         LocalDate today = LocalDate.now();
         LOG.info(
@@ -347,10 +383,10 @@ public class AdminPage extends TestUtil {
         replaceNumberInput(By.name("nonTaxableIncome"), data.nonTaxableIncomeAsInput(), wait);
         waitForSpecifiedTime(1);
         replaceNumberInput(By.name("nonDeductibleCosts"), data.nonDeductibleCostsAsInput(), wait);
-        waitForSpecifiedTime(1);
+        waitForAutosaveCalculatedFields(data, wait);
         replaceNumberInput(By.name("equity"), data.equityAsInput(), wait);
-        waitForSpecifiedTime(1);
-      // replaceNumberInput(By.name("offerPriceSek"), "225400", wait);
+        waitForSpecifiedTime(2);
+        fillOfferPriceIfNeeded(data, wait);
         assertOfferSentAccountingDataEnteredSuccessfully(wait, today, data);
     }
 
@@ -360,13 +396,163 @@ public class AdminPage extends TestUtil {
      * Requires a valid offer price so the button is not {@code disabled}.
      */
     public void clickSendQuoteOnManageOrder() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
         ensureManageOrderAccountingVisible(wait);
-        scrollPageToViewElement(SEND_QUOTE_BUTTON);
+        waitForSendQuoteButtonEnabled(wait);
+        WebElement button = driver.findElement(SEND_QUOTE_BUTTON);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", button);
+        waitForSpecifiedTime(1);
         wait.until(ExpectedConditions.elementToBeClickable(SEND_QUOTE_BUTTON));
         clickByJS(SEND_QUOTE_BUTTON);
         waitForLoad();
         waitForSpecifiedTime(2);
+    }
+
+    /**
+     * True when order detail shows the Bolagsverket sync banner or the send-offer 409 toast.
+     */
+    public boolean isBolagsverketCompanyUpdateRequired() {
+        refreshBolagsverketWarningIfNeeded();
+        return anyDisplayedIgnoringHighlight(BOLAGSVERKET_UPDATE_WARNING)
+                || anyDisplayedIgnoringHighlight(BOLAGSVERKET_UPDATE_TOAST)
+                || pageSourceContainsBolagsverketUpdateHint();
+    }
+
+    public boolean isBolagsverketUpdateWarningVisible() {
+        return anyDisplayedIgnoringHighlight(BOLAGSVERKET_UPDATE_WARNING);
+    }
+
+    public boolean isBolagsverketUpdateModalOpen() {
+        return anyDisplayedIgnoringHighlight(BOLAGSVERKET_UPDATE_MODAL_TITLE);
+    }
+
+    /**
+     * Opens the diff modal via the {@code h\u00E4r!} link on the order detail warning banner.
+     */
+    public void openBolagsverketUpdateModalFromWarning() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
+        if (!isBolagsverketUpdateWarningVisible()) {
+            openGenericOrderDetail(resolveOrderDetailUrl());
+            waitForSpecifiedTime(2);
+        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(BOLAGSVERKET_UPDATE_WARNING));
+        scrollPageToViewElement(BOLAGSVERKET_UPDATE_LINK);
+        wait.until(ExpectedConditions.elementToBeClickable(BOLAGSVERKET_UPDATE_LINK));
+        clickByJS(BOLAGSVERKET_UPDATE_LINK);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(BOLAGSVERKET_UPDATE_MODAL_TITLE));
+        LOG.info("Bolagsverket Update items modal opened");
+    }
+
+    /**
+     * Waits for diff data, clicks {@code L\u00E4gg Till}, and expects redirect to company show page.
+     */
+    public void confirmBolagsverketCompanyUpdateInModal() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
+        if (!isBolagsverketUpdateModalOpen()) {
+            openBolagsverketUpdateModalFromWarning();
+        }
+        waitForBolagsverketDiffLoaded(wait);
+        scrollPageToViewElement(BOLAGSVERKET_UPDATE_CONFIRM);
+        wait.until(ExpectedConditions.elementToBeClickable(BOLAGSVERKET_UPDATE_CONFIRM));
+        clickByJS(BOLAGSVERKET_UPDATE_CONFIRM);
+        wait.until(d -> {
+            String url = d.getCurrentUrl();
+            return url != null && url.contains("/app/genericOrder/company/show/");
+        });
+        waitForLoad();
+        waitForSpecifiedTime(2);
+        LOG.info("Company updated from Bolagsverket — redirected to company show page");
+    }
+
+    /**
+     * Full sync: open modal (if needed), apply update, return to order detail.
+     */
+    public void updateCompanyFromBolagsverketOnOrderDetail() {
+        if (!isBolagsverketCompanyUpdateRequired()) {
+            LOG.info("Bolagsverket company update not required on order detail");
+            return;
+        }
+        confirmBolagsverketCompanyUpdateInModal();
+        openGenericOrderDetail(resolveOrderDetailUrl());
+        waitForSpecifiedTime(2);
+        LOG.info("Returned to order detail after Bolagsverket company update");
+    }
+
+    /**
+     * Sends offer; if Bolagsverket sync is required (banner or 409 toast), updates company and retries once.
+     * Re-fills the ChangeQuote form when Bolagsverket sync clears fields (redirect to company/show).
+     */
+    public void sendOfferWithBolagsverketSyncIfRequired() {
+        boolean bolagsverketPending = isBolagsverketCompanyUpdateRequired();
+        if (bolagsverketPending) {
+            updateCompanyFromBolagsverketOnOrderDetail();
+        }
+        ensureOfferFormReadyForSendQuote();
+        clickSendQuoteOnManageOrder();
+        if (isBolagsverketCompanyUpdateRequired()) {
+            LOG.info("Send offer blocked by Bolagsverket sync — updating company and retrying send offer");
+            updateCompanyFromBolagsverketOnOrderDetail();
+            ensureOfferFormReadyForSendQuote();
+            clickSendQuoteOnManageOrder();
+        }
+    }
+
+    /**
+     * After Bolagsverket redirect the accounting form is empty and {@code offerPriceSek} is 0
+     * (send button disabled). Re-enter stored data or fill offer price before send.
+     */
+    public void ensureOfferFormReadyForSendQuote() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        openGenericOrderDetail(resolveOrderDetailUrl());
+        ensureManageOrderAccountingVisible(wait);
+        if (!isOfferFormReadyForSendQuote(wait)) {
+            LOG.info("Offer form not ready for send (offerPriceSek=0 or button disabled) — re-entering accounting data");
+            enterOfferSentAccountingData(false);
+        } else {
+            OfferSentAccountingData data = OfferSentDataContext.getSelectedOrNull();
+            if (data != null) {
+                fillOfferPriceIfNeeded(data, wait);
+            }
+            waitForSendQuoteButtonEnabled(wait);
+        }
+    }
+
+    public void assertBolagsverketCompanyUpdateApplied() {
+        Assert.assertFalse(
+                isBolagsverketCompanyUpdateRequired(),
+                "Bolagsverket update warning should be cleared after L\u00E4gg Till");
+    }
+
+    public void assertBolagsverketUpdateModalDisplayed() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(BOLAGSVERKET_UPDATE_MODAL_TITLE));
+        Assert.assertTrue(isBolagsverketUpdateModalOpen(), "Update items modal should be visible");
+    }
+
+    private void refreshBolagsverketWarningIfNeeded() {
+        if (!isBolagsverketUpdateWarningVisible() && anyDisplayedIgnoringHighlight(BOLAGSVERKET_UPDATE_TOAST)) {
+            openGenericOrderDetail(resolveOrderDetailUrl());
+            waitForSpecifiedTime(2);
+        }
+    }
+
+    private boolean pageSourceContainsBolagsverketUpdateHint() {
+        String src = driver.getPageSource();
+        return src != null
+                && (src.contains("Bolaget m\u00E5ste uppdateras fr\u00E5n Bolagsverket")
+                || src.contains("Please check with bolagsverket"));
+    }
+
+    private void waitForBolagsverketDiffLoaded(WebDriverWait wait) {
+        By modalLoader = By.xpath(
+                "//h1[normalize-space()='Update items']/ancestor::div[contains(@class,'fixed')]"
+                        + "//*[contains(@class,'animate-spin') or contains(@class,'loader')]");
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(modalLoader));
+        } catch (TimeoutException ignored) {
+            waitForSpecifiedTime(3);
+        }
+        wait.until(ExpectedConditions.elementToBeClickable(BOLAGSVERKET_UPDATE_CONFIRM));
     }
 
     /**
@@ -664,7 +850,7 @@ public class AdminPage extends TestUtil {
      * (e.g. review UI and ChangeQuote both use {@code name="equity"} — we want the last displayed, enabled input).
      */
     private void replaceNumberInput(By locator, String decimalDotString, WebDriverWait wait) {
-        BigDecimal expected = new BigDecimal(decimalDotString.trim());
+        BigDecimal expected = SwedishNumberParser.parse(decimalDotString.trim());
         String ascii = decimalDotString.trim();
         for (int attempt = 0; attempt < 2; attempt++) {
             WebElement input = waitForEditableNumberInput(locator, wait);
@@ -697,7 +883,7 @@ public class AdminPage extends TestUtil {
 
     private boolean valueMatchesExpected(By locator, BigDecimal expected) {
         try {
-            return numericCloseEnough(readNumericInputValue(locator), expected);
+            return numericCloseEnough(safeReadNumericInputValue(locator), expected);
         } catch (StaleElementReferenceException | NoSuchElementException e) {
             return false;
         } catch (RuntimeException e) {
@@ -705,9 +891,17 @@ public class AdminPage extends TestUtil {
         }
     }
 
+    private boolean fieldValueMatchesExpected(By locator, BigDecimal expected) {
+        try {
+            return numericCloseEnough(safeReadNumericFieldValue(locator), expected);
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
     private String readRawInputForDiagnostics(By locator) {
         try {
-            return readInputValue(findLastDisplayedEnabledInput(locator));
+            return readInputValue(findLastDisplayedInput(locator));
         } catch (RuntimeException e) {
             return "<unreadable: " + e.getMessage() + ">";
         }
@@ -783,8 +977,92 @@ public class AdminPage extends TestUtil {
         assertNumericInputWithDiagnostics(By.name("untaxedReserves"), expected.getUntaxedReserves(), wait);
         assertNumericInputWithDiagnostics(By.name("nonTaxableIncome"), expected.getNonTaxableIncome(), wait);
         assertNumericInputWithDiagnostics(By.name("nonDeductibleCosts"), expected.getNonDeductibleCosts(), wait);
+        assertNumericFieldWithDiagnostics(By.name("fiscalResultForTheYear"), expected.getFiscalResultForTheYear(), wait);
+        assertNumericFieldWithDiagnostics(
+                By.name("estimatedTaxOnYearsProfit"), expected.getEstimatedTaxOnYearsProfit(), wait);
         assertNumericInputWithDiagnostics(By.name("equity"), expected.getEquity(), wait);
-        // offerPriceSek is not filled in this flow — assertion intentionally omitted
+        assertOfferPriceReadyForSend(wait, expected);
+        waitForSendQuoteButtonEnabled(wait);
+    }
+
+    /** Waits for autosave to populate fiscal result and estimated tax after base accounting inputs. */
+    private void waitForAutosaveCalculatedFields(OfferSentAccountingData data, WebDriverWait wait) {
+        waitForSpecifiedTime(2);
+        assertNumericFieldWithDiagnostics(
+                By.name("fiscalResultForTheYear"), data.getFiscalResultForTheYear(), wait);
+        assertNumericFieldWithDiagnostics(
+                By.name("estimatedTaxOnYearsProfit"), data.getEstimatedTaxOnYearsProfit(), wait);
+        LOG.info(
+                "Autosave OK — fiscal={}, tax={}",
+                data.getFiscalResultForTheYear(),
+                data.getEstimatedTaxOnYearsProfit());
+    }
+
+    /**
+     * Fills offer price when zero; otherwise accepts API auto-calculated value from autosave.
+     */
+    private void fillOfferPriceIfNeeded(OfferSentAccountingData data, WebDriverWait wait) {
+        waitForSpecifiedTime(2);
+        BigDecimal targetOffer = data.getResolvedOfferPriceSek();
+        if (data.hasExplicitOfferPrice()) {
+            replaceNumberInput(By.name("offerPriceSek"), data.offerPriceSekAsInput(), wait);
+            waitForSpecifiedTime(2);
+        } else if (safeReadNumericInputValue(By.name("offerPriceSek")).compareTo(BigDecimal.ZERO) <= 0) {
+            replaceNumberInput(By.name("offerPriceSek"), data.offerPriceSekAsInput(), wait);
+            waitForSpecifiedTime(2);
+        }
+        waitUntilNumericInputPositive(By.name("offerPriceSek"), wait);
+        assertNumericInputWithDiagnostics(By.name("offerPriceSek"), targetOffer, wait);
+        assertNoOfferPriceValidationError(wait);
+    }
+
+    private void assertOfferPriceReadyForSend(WebDriverWait wait, OfferSentAccountingData expected) {
+        waitUntilNumericInputPositive(By.name("offerPriceSek"), wait);
+        assertNumericInputWithDiagnostics(By.name("offerPriceSek"), expected.getResolvedOfferPriceSek(), wait);
+        assertNoOfferPriceValidationError(wait);
+        LOG.info("Assertion OK: offerPriceSek={} fee={}", expected.getResolvedOfferPriceSek(), expected.getFee());
+    }
+
+    private void waitUntilNumericInputPositive(By locator, WebDriverWait wait) {
+        wait.until(d -> safeReadNumericInputValue(locator).compareTo(BigDecimal.ZERO) > 0);
+    }
+
+    private boolean isOfferFormReadyForSendQuote(WebDriverWait wait) {
+        try {
+            BigDecimal offerPrice = safeReadNumericInputValue(By.name("offerPriceSek"));
+            if (offerPrice.compareTo(BigDecimal.ZERO) <= 0) {
+                return false;
+            }
+            return !driver.findElements(SEND_QUOTE_BUTTON).isEmpty();
+        } catch (Exception e) {
+            LOG.debug("Offer form readiness check failed: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    private void waitForSendQuoteButtonEnabled(WebDriverWait wait) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(SEND_QUOTE_BUTTON_ANY));
+        scrollSendQuoteButtonIntoView();
+        wait.until(d -> {
+            List<WebElement> enabled = d.findElements(SEND_QUOTE_BUTTON);
+            return !enabled.isEmpty() && enabled.stream().anyMatch(WebElement::isDisplayed);
+        });
+    }
+
+    private void scrollSendQuoteButtonIntoView() {
+        List<WebElement> buttons = driver.findElements(SEND_QUOTE_BUTTON_ANY);
+        for (WebElement button : buttons) {
+            try {
+                if (button.isDisplayed()) {
+                    ((JavascriptExecutor) driver).executeScript(
+                            "arguments[0].scrollIntoView({block:'center'});", button);
+                    return;
+                }
+            } catch (Exception ignored) {
+                // try next
+            }
+        }
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
     }
 
     private void assertClosingDateButtonShowsIsoDate(WebDriverWait wait, LocalDate expected) {
@@ -806,10 +1084,22 @@ public class AdminPage extends TestUtil {
      * so the failure message shows what the field actually contained.
      */
     private void assertNumericInputWithDiagnostics(By locator, BigDecimal expected, WebDriverWait wait) {
+        assertNumericFieldWithDiagnostics(locator, expected, wait, true);
+    }
+
+    private void assertNumericFieldWithDiagnostics(By locator, BigDecimal expected, WebDriverWait wait) {
+        assertNumericFieldWithDiagnostics(locator, expected, wait, false);
+    }
+
+    private void assertNumericFieldWithDiagnostics(
+            By locator, BigDecimal expected, WebDriverWait wait, boolean enabledOnly) {
         try {
-            // Scroll the field into view before asserting — avoids stale element after scrolling to equity
             scrollToInputIfPresent(locator);
-            wait.until(d -> valueMatchesExpected(locator, expected));
+            if (enabledOnly) {
+                wait.until(d -> valueMatchesExpected(locator, expected));
+            } else {
+                wait.until(d -> fieldValueMatchesExpected(locator, expected));
+            }
             LOG.info("Assertion OK: {} = {}", locator, expected);
         } catch (TimeoutException e) {
             String actual = readRawInputForDiagnostics(locator);
@@ -837,7 +1127,43 @@ public class AdminPage extends TestUtil {
     }
 
     private BigDecimal readNumericInputValue(By locator) {
-        return parseSwedishNumber(readInputValue(findLastDisplayedEnabledInput(locator)));
+        return safeReadNumericInputValue(locator);
+    }
+
+    private BigDecimal safeReadNumericInputValue(By locator) {
+        try {
+            return SwedishNumberParser.parse(readInputValue(findLastDisplayedEnabledInput(locator)));
+        } catch (NumberFormatException | NoSuchElementException | StaleElementReferenceException e) {
+            LOG.warn("Could not parse enabled input {}: {}", locator, e.getMessage());
+            return BigDecimal.ZERO;
+        }
+    }
+
+    private BigDecimal safeReadNumericFieldValue(By locator) {
+        try {
+            return SwedishNumberParser.parse(readInputValue(findLastDisplayedInput(locator)));
+        } catch (NumberFormatException | NoSuchElementException | StaleElementReferenceException e) {
+            LOG.warn("Could not parse field {}: {}", locator, e.getMessage());
+            return BigDecimal.ZERO;
+        }
+    }
+
+    private WebElement findLastDisplayedInput(By locator) {
+        List<WebElement> found = driver.findElements(locator);
+        WebElement lastGood = null;
+        for (WebElement el : found) {
+            try {
+                if (el.isDisplayed()) {
+                    lastGood = el;
+                }
+            } catch (StaleElementReferenceException e) {
+                return null;
+            }
+        }
+        if (lastGood == null) {
+            throw new NoSuchElementException("No displayed input for: " + locator);
+        }
+        return lastGood;
     }
 
     /**
@@ -859,21 +1185,6 @@ public class AdminPage extends TestUtil {
             v = out != null ? String.valueOf(out) : "";
         }
         return v;
-    }
-
-    private static BigDecimal parseSwedishNumber(String display) {
-        if (display == null) {
-            return BigDecimal.ZERO;
-        }
-        String t = display.replace('\u00a0', ' ')
-                .replace('\u202f', ' ')
-                .replace(" ", "")
-                .replace(',', '.')
-                .trim();
-        if (t.isEmpty()) {
-            return BigDecimal.ZERO;
-        }
-        return new BigDecimal(t);
     }
 
     private static boolean numericCloseEnough(BigDecimal actual, BigDecimal expected) {

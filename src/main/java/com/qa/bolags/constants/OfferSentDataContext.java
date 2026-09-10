@@ -22,6 +22,10 @@ public final class OfferSentDataContext {
         }
     }
 
+    public static OfferSentAccountingData getSelectedOrNull() {
+        return selected;
+    }
+
     public static OfferSentAccountingData getSelectedOrThrow() {
         if (selected == null) {
             throw new IllegalStateException(

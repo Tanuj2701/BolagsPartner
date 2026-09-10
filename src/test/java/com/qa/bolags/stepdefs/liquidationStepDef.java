@@ -29,7 +29,7 @@ public class liquidationStepDef extends BaseTest {
             liquidationpage = new liquidationpage(BaseTest.driver);
         }
         if (uri.contains("liquidationflow") || uri.contains("e2eLiquidationToAdminOrder")
-                || uri.contains("declineOfferFlow")) {
+                || uri.contains("declineOfferFlow") || uri.contains("acceptOfferShareholderVariants")) {
             goOnClickCount = 0;
         }
     }

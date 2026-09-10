@@ -35,4 +35,22 @@
             <class name="com.qa.bolags.testrunner.LiquidationLifecycleExtensionRunner"/>
         </classes>
     </test>
+
+    <test name="Admin_Bolagsverket_Company_Update">
+        <classes>
+            <class name="com.qa.bolags.testrunner.AdminBolagsverketCompanyUpdateRunner"/>
+        </classes>
+    </test>
+
+    <test name="Accept_Offer_Shareholder_Variants">
+        <classes>
+            <class name="com.qa.bolags.testrunner.AcceptOfferShareholderVariantsRunner"/>
+        </classes>
+    </test>
+
+    <test name="Send_Agreement_Shareholder_Variants">
+        <classes>
+            <class name="com.qa.bolags.testrunner.SendAgreementShareholderVariantsRunner"/>
+        </classes>
+    </test>
 </suite>

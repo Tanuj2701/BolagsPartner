@@ -3,13 +3,13 @@
 <suite name="Failed suite [Surefire suite]" verbose="0">
   <test thread-count="5" name="Surefire test(failed)" verbose="0">
     <classes>
-      <class name="com.qa.bolags.testrunner.LiquidationLifecycleExtensionRunner">
+      <class name="com.qa.bolags.testrunner.AdminBolagsverketCompanyUpdateRunner">
         <methods>
           <include name="setUpClass"/>
           <include name="runScenario" invocation-numbers="0"/>
           <include name="tearDownClass"/>
         </methods>
-      </class> <!-- com.qa.bolags.testrunner.LiquidationLifecycleExtensionRunner -->
+      </class> <!-- com.qa.bolags.testrunner.AdminBolagsverketCompanyUpdateRunner -->
     </classes>
   </test> <!-- Surefire test(failed) -->
 </suite> <!-- Failed suite [Surefire suite] -->

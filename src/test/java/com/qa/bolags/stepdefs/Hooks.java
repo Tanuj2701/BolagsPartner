@@ -22,6 +22,9 @@ public class Hooks extends BaseTest {
                 || uri.contains("declineOfferFlow") || uri.contains("clientDocumentChecklistFlow")
                 || uri.contains("adminDocumentReviewWizard") || uri.contains("adminPaymentWorkflow")
                 || uri.contains("adminBoardChangeFusionFlow") || uri.contains("adminBolagsverketSubmissionFlow")
+                || uri.contains("adminBolagsverketCompanyUpdateFlow")
+                || uri.contains("acceptOfferShareholderVariants")
+                || uri.contains("sendAgreementShareholderVariants")
                 || uri.contains("adminFinalReportCompletionFlow")) {
             LiquidationOrderIdContext.clear();
             AcceptOfferContext.clear();
