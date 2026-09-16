@@ -8,8 +8,10 @@ Feature: Admin generic order list smoke
     Then User clicks on LOGGA IN link from top navigation
     And User logs in with valid admin credentials
     Then User Click on Login Button
+    And User scrolls page to top
 
   @p0 @order-list-loads
   Scenario: Admin can open generic order list and see orders table
     When User navigates to generic order list page
+    And User scrolls page to top
     Then User should see the generic order list page

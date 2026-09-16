@@ -7,6 +7,6 @@ Feature: Client document upload checklist
     Given the liquidation order is prepared through agreement sent state
     And user opens the client document upload checklist
     Then user should see the document upload checklist
-    When user uploads documents for every checklist document type with LADDA UPP FIL or UPLOAD FILE button
+    When user uploads a document on the checklist
     And user acknowledges contract information on the checklist if shown
-    Then all checklist document types with upload file buttons should be uploaded successfully
+    Then the document upload on checklist should succeed

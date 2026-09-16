@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,6 +58,30 @@ public final class LiquidationOrderIdContext {
             Files.deleteIfExists(PERSIST_PATH);
         } catch (IOException ignored) {
             // best-effort
+        }
+    }
+
+    /**
+     * Restores the last captured order id from {@link #PERSIST_PATH} when running standalone admin features
+     * after a prior liquidation scenario in a separate Maven invocation.
+     */
+    public static void tryRestoreFromPersistedFile() {
+        if (getCapturedOrderIdOrNull() != null) {
+            return;
+        }
+        if (!Files.isRegularFile(PERSIST_PATH)) {
+            return;
+        }
+        Properties p = new Properties();
+        try (InputStream in = Files.newInputStream(PERSIST_PATH)) {
+            p.load(in);
+            String fromFile = p.getProperty(SYSTEM_PROPERTY_KEY, "").trim();
+            if (!fromFile.isEmpty()) {
+                setCapturedOrderId(fromFile);
+                LOG.info("Restored liquidation orderId from {}", PERSIST_PATH);
+            }
+        } catch (IOException e) {
+            LOG.warn("Could not restore order id from {}: {}", PERSIST_PATH, e.getMessage());
         }
     }
 

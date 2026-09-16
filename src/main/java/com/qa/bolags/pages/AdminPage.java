@@ -57,7 +57,9 @@ public class AdminPage extends TestUtil {
                     + " | //input[contains(@name,'email') or contains(@id,'email') or contains(@autocomplete,'username')]");
     private final By passwordInput = By.xpath(
             "//input[@type='password'] | //input[@placeholder='L\u00F6senord' or @placeholder='Losenord' or @placeholder='Password']");
-    private final By loginButton = By.xpath("//button[normalize-space()='Logga in']");
+    private final By loginButton = By.xpath(
+            "//button[normalize-space()='Logga in' or normalize-space()='Log in' or @type='submit']"
+                    + " | //input[@type='submit' and (contains(@value,'Logga') or contains(@value,'Log in'))]");
     private final By loggaInNavLink = By.xpath(
             "//a[contains(., 'LOGGA IN') or contains(., 'Logga in')][not(ancestor::header) or ancestor::*[self::header or self::nav]]");
 
@@ -88,8 +90,17 @@ public class AdminPage extends TestUtil {
         waitForLoad();
     }
 
+    /** Opens the admin auth form directly (most reliable after long liquidation sessions). */
+    public void openAdminLoginForm() {
+        driver.get(QaServerCredentials.urlWithHttpBasicAuth(adminDirectLoginUrl));
+        waitForLoad();
+        scrollPageToTop();
+        waitForSpecifiedTime(1);
+    }
+
     public void clickLoggaInFromTopNavigation() {
-        if (driver.findElements(epost).stream().anyMatch(WebElement::isDisplayed)) {
+        if (isLoginFormVisible()) {
+            scrollPageToTop();
             return;
         }
         List<WebElement> links = driver.findElements(loggaInNavLink);
@@ -97,19 +108,65 @@ public class AdminPage extends TestUtil {
             waitForElementToBeClickable(loggaInNavLink);
             clickByJS(loggaInNavLink);
             waitForLoad();
+            scrollPageToTop();
             return;
         }
-        driver.get(QaServerCredentials.urlWithHttpBasicAuth(adminDirectLoginUrl));
-        waitForLoad();
+        openAdminLoginForm();
+    }
+
+    /** Single entry point for admin portal login — reused across lifecycle, smoke, and workflow tests. */
+    public void loginToAdminPortal() {
+        if (isLoggedInToAdminPortal()) {
+            LOG.info("Admin session already active — skipping login.");
+            return;
+        }
+        openAdminLoginForm();
+        enterAdminCredentials();
+        clickLoginButton();
+    }
+
+    public boolean isLoggedInToAdminPortal() {
+        String url = driver.getCurrentUrl();
+        if (url == null || url.contains("/auth/login")) {
+            return false;
+        }
+        String lower = url.toLowerCase();
+        if (lower.contains("/liquidation") || lower.contains("/liqtok")
+                || lower.contains("/companyliquidationorder")) {
+            return false;
+        }
+        if (lower.contains("/genericorder") || lower.contains("/admin") || lower.contains("/dashboard")) {
+            return true;
+        }
+        return isDashboardVisible();
     }
 
     public void enterAdminCredentials() {
-        waitForLoad();
-        waitForSpecifiedTime(1);
-        waitForElementToBeClickable(epost);
+        ensureLoginFormReady();
         typeIntoFirstDisplayedInput(epost, adminEmail);
         waitForElementToBeClickable(passwordInput);
         typeIntoFirstDisplayedInput(passwordInput, adminPassword);
+    }
+
+    private void ensureLoginFormReady() {
+        if (!isLoginFormVisible()) {
+            openAdminLoginForm();
+        } else {
+            scrollPageToTop();
+        }
+        waitForLoad();
+        waitForSpecifiedTime(1);
+        waitForElementToBeClickable(epost);
+    }
+
+    private boolean isLoginFormVisible() {
+        return driver.findElements(epost).stream().anyMatch(el -> {
+            try {
+                return el.isDisplayed();
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
     }
 
     /** Re-finds inputs to avoid stale references after SPA navigation. */
@@ -119,6 +176,7 @@ public class AdminPage extends TestUtil {
             for (WebElement f : fields) {
                 try {
                     if (f.isDisplayed()) {
+                        scrollElementIntoViewableArea(f);
                         f.clear();
                         f.sendKeys(value);
                         return;
@@ -133,38 +191,32 @@ public class AdminPage extends TestUtil {
     }
 
     public void clickLoginButton() {
-        scrollPageToViewElement(loginButton);
-        waitForElementToBeClickable(loginButton);
-        clickByJS(loginButton);
+        scrollPageToTop();
+        try {
+            scrollPageToViewElement(loginButton);
+            waitForElementToBeClickable(loginButton);
+            clickByJS(loginButton);
+        } catch (Throwable e) {
+            LOG.warn("Login button interaction failed — trying form submit: {}", e.getMessage());
+            submitLoginFormViaEnterKey();
+        }
         waitForLoad();
         waitForSpecifiedTime(2);
     }
 
-    public void loginWithConfiguredCredentials() {
-        enterAdminCredentials();
-        clickLoginButton();
+    private void submitLoginFormViaEnterKey() {
+        List<WebElement> passwords = driver.findElements(passwordInput);
+        for (WebElement field : passwords) {
+            if (field.isDisplayed()) {
+                field.sendKeys(Keys.ENTER);
+                return;
+            }
+        }
+        clickByJS(loginButton);
     }
 
-    /**
-     * Idempotent admin login for workflow scenarios that follow lifecycle setup (already authenticated).
-     */
-    public void ensureLoggedInAsAdmin() {
-        String url = driver.getCurrentUrl();
-        if (url != null && url.contains("/genericOrder/")) {
-            LOG.info("Admin already on generic order page — skipping duplicate login.");
-            return;
-        }
-        if (url != null && !url.contains("/auth/login")
-                && (url.contains("/app/") || isDashboardVisible())) {
-            LOG.info("Admin session appears active (url={}) — skipping duplicate login.", url);
-            return;
-        }
-        openAdminPortal();
-        clickLoggaInFromTopNavigation();
-        if (driver.findElements(epost).stream().anyMatch(WebElement::isDisplayed)) {
-            enterAdminCredentials();
-            clickLoginButton();
-        }
+    public void loginWithConfiguredCredentials() {
+        loginToAdminPortal();
     }
 
     public boolean isDashboardVisible() {
@@ -266,7 +318,9 @@ public class AdminPage extends TestUtil {
     private static final String DEFAULT_ORDER_DETAIL_URL =
             "https://qa.bolagspartner.se/app/genericOrder/list/100738";
     private static final By MANAGE_ORDER_TAB = By.xpath(
-            "//button[contains(., 'Hantera best\u00E4llning') or contains(., 'Manage order') or contains(., 'Manage Order')]");
+            "//button[contains(., 'Hantera best\u00E4llning') or contains(., 'Hantera order')"
+                    + " or contains(., 'Manage order') or contains(., 'Manage Order')]"
+                    + " | //*[@role='tab'][contains(., 'Hantera') or contains(., 'Manage')]");
     private static final By CLOSING_DATE_TRIGGER = By.xpath(
             "//label[contains(., 'Slutdatum') or contains(., 'Closing Date')]/following-sibling::button[@type='button']");
     private static final By CLOSING_DATE_DISPLAY = By.xpath(
@@ -327,8 +381,15 @@ public class AdminPage extends TestUtil {
         OfferSentDataContext.set(data);
         LOG.info("Entering offer-sent accounting data: {}", data.getLabel());
 
-        openGenericOrderDetail(resolveOrderDetailUrl());
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(35));
+        String orderId = LiquidationOrderIdContext.getCapturedOrderIdOrNull();
+        String currentUrl = driver.getCurrentUrl();
+        if (orderId != null && currentUrl != null && currentUrl.contains(orderId)) {
+            waitForOrderDetailShell();
+            scrollToOrderDetailContent();
+        } else {
+            openGenericOrderDetail(resolveOrderDetailUrl());
+        }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(45));
         LocalDate today = LocalDate.now();
         LOG.info(
                 "Closing date of financial statements — test reference (dd/MM/yyyy): {}",
@@ -578,27 +639,76 @@ public class AdminPage extends TestUtil {
         String url = pathOrUrl.contains("://")
                 ? pathOrUrl
                 : "https://qa.bolagspartner.se" + (pathOrUrl.startsWith("/") ? pathOrUrl : "/" + pathOrUrl);
-        driver.get(QaServerCredentials.urlWithHttpBasicAuth(url));
-        waitForLoad();
+        String authedUrl = QaServerCredentials.urlWithHttpBasicAuth(url);
+        for (int attempt = 0; attempt < 5; attempt++) {
+            driver.get(authedUrl);
+            waitForLoad();
+            waitForSpecifiedTime(3);
+            try {
+                waitForOrderDetailShell();
+                scrollToOrderDetailContent();
+                return;
+            } catch (TimeoutException e) {
+                LOG.warn("Order detail shell not ready (attempt {}) — retrying navigation", attempt + 1);
+                waitForSpecifiedTime(5);
+            }
+        }
+        waitForOrderDetailShell();
+    }
+
+    private void waitForOrderDetailShell() {
+        WebDriverWait shellWait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        shellWait.until(d -> {
+            String current = d.getCurrentUrl();
+            if (current == null || !current.contains("/genericOrder/list/")) {
+                return false;
+            }
+            return anyDisplayedIgnoringHighlight(MANAGE_ORDER_TAB)
+                    || anyDisplayedIgnoringHighlight(By.name("totalAssets"))
+                    || anyDisplayedIgnoringHighlight(requestDetailsSection);
+        });
         waitForSpecifiedTime(2);
     }
 
     private void ensureManageOrderAccountingVisible(WebDriverWait wait) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("totalAssets")));
-        List<WebElement> tabs = driver.findElements(MANAGE_ORDER_TAB);
-        for (WebElement tab : tabs) {
-            try {
-                if (tab.isDisplayed()) {
-                    scrollPageToViewElement(MANAGE_ORDER_TAB);
-                    clickByJS(MANAGE_ORDER_TAB);
-                    waitForSpecifiedTime(1);
-                    break;
+        scrollPageToViewElement(MANAGE_ORDER_TAB);
+        wait.until(ExpectedConditions.presenceOfElementLocated(MANAGE_ORDER_TAB));
+        for (int attempt = 0; attempt < 3; attempt++) {
+            for (WebElement tab : driver.findElements(MANAGE_ORDER_TAB)) {
+                try {
+                    if (tab.isDisplayed()) {
+                        scrollPageToViewElement(MANAGE_ORDER_TAB);
+                        clickByJS(MANAGE_ORDER_TAB);
+                        waitForSpecifiedTime(2);
+                        break;
+                    }
+                } catch (StaleElementReferenceException ignored) {
+                    // retry
                 }
-            } catch (StaleElementReferenceException ignored) {
-                // retry outer loop
+            }
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("totalAssets")));
+                scrollPageToViewElement(By.name("totalAssets"));
+                return;
+            } catch (TimeoutException e) {
+                LOG.warn("totalAssets not visible after manage-order tab click (attempt {})", attempt + 1);
+                scrollPageToViewElement(MANAGE_ORDER_TAB);
             }
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("totalAssets")));
+        scrollPageToViewElement(By.name("totalAssets"));
+    }
+
+    private void scrollToOrderDetailContent() {
+        if (anyDisplayedIgnoringHighlight(MANAGE_ORDER_TAB)) {
+            scrollPageToViewElement(MANAGE_ORDER_TAB);
+            return;
+        }
+        if (anyDisplayedIgnoringHighlight(By.name("totalAssets"))) {
+            scrollPageToViewElement(By.name("totalAssets"));
+            return;
+        }
+        scrollPageToViewElement(requestDetailsSection);
     }
 
     private void selectClosingDateOfFinancialStatementsToday(WebDriverWait wait, LocalDate today) {
@@ -670,7 +780,7 @@ public class AdminPage extends TestUtil {
             WebElement input = waitForEditableNumberInput(locator, wait);
             scrollInputIntoViewCenter(input);
             if (attempt == 0) {
-                new Actions(driver).moveToElement(input).click().pause(Duration.ofMillis(120)).perform();
+                new Actions(driver).moveToElement(input).click().pause(Duration.ofMillis(300)).perform();
                 input.sendKeys(selectAllChord());
                 input.sendKeys(Keys.DELETE);
                 input.sendKeys(ascii);
@@ -741,8 +851,7 @@ public class AdminPage extends TestUtil {
     }
 
     private void scrollInputIntoViewCenter(WebElement el) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", el);
+        scrollElementIntoViewableArea(el);
     }
 
     /**
@@ -898,9 +1007,7 @@ public class AdminPage extends TestUtil {
 
     /** Enters admin credentials with explicit email and password (for negative login tests). */
     public void enterAdminCredentials(String email, String password) {
-        waitForLoad();
-        waitForSpecifiedTime(1);
-        waitForElementToBeClickable(epost);
+        ensureLoginFormReady();
         typeIntoFirstDisplayedInput(epost, email != null ? email : "");
         waitForElementToBeClickable(passwordInput);
         typeIntoFirstDisplayedInput(passwordInput, password != null ? password : "");
@@ -911,6 +1018,7 @@ public class AdminPage extends TestUtil {
     }
 
     public void enterConfiguredAdminPasswordOnly() {
+        ensureLoginFormReady();
         waitForElementToBeClickable(passwordInput);
         typeIntoFirstDisplayedInput(passwordInput, adminPassword);
     }

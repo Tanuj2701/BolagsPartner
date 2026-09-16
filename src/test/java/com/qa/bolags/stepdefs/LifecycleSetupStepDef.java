@@ -11,6 +11,7 @@ import com.qa.bolags.pages.liquidationpage;
 import com.qa.bolags.utility.OrderDetailsCapture;
 import com.qa.bolags.utility.SaveInitialOrderCapture;
 import com.qa.bolags.utility.SendOfferResponseCapture;
+import com.qa.bolags.utility.TestUtil;
 import io.cucumber.java.en.Given;
 import org.testng.Assert;
 
@@ -41,19 +42,20 @@ public class LifecycleSetupStepDef extends BaseTest {
         liqPage.enterEpost("tanuj.lifecycle@test.bolagspartner.se");
         liqPage.agreeToTermsAndContinue();
         liqPage.clickonGoOn();
-        SaveInitialOrderCapture.pollAndStoreOrderIdFromChrome(BaseTest.driver, 60);
         liqPage.uploadDocument("src/main/ABC.pdf");
+        SaveInitialOrderCapture.pollAndStoreOrderIdFromChrome(BaseTest.driver, 30);
+        if (LiquidationOrderIdContext.getCapturedOrderIdOrNull() == null) {
+            SaveInitialOrderCapture.pollAndStoreOrderIdFromChrome(BaseTest.driver, 30);
+        }
         liqPage.clickonGoOn();
         liqPage.enterAddressDetails("Testgatan 1", "11122", "Stockholm", "0701234567", "0709876543",
                 "Lifecycle Test AB", "Automation lifecycle setup");
         liqPage.userClickOnSave();
         Assert.assertTrue(liqPage.isRequestReceivedPageDisplayed(), "Request received page not visible");
         Assert.assertNotNull(LiquidationOrderIdContext.getCapturedOrderIdOrNull(), "saveInitial orderId not captured");
+        TestUtil.waitForSpecifiedTime(3);
 
-        adminPage.openAdminPortal();
-        adminPage.clickLoggaInFromTopNavigation();
-        adminPage.enterAdminCredentials();
-        adminPage.clickLoginButton();
+        adminPage.loginToAdminPortal();
         adminPage.openGenericOrderDetail(adminPage.getResolvedGenericOrderDetailUrl());
         Assert.assertTrue(adminPage.isRequestDetailsVisible(), "Admin order detail not visible");
         adminPage.enterOfferSentAccountingData();

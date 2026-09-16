@@ -9,11 +9,13 @@ Feature: Admin portal test
     Then User clicks on LOGGA IN link from top navigation
     And User logs in with valid admin credentials
     Then User Click on Login Button
+    And User scrolls page to top
 
 
   Scenario: Verify the order detail page
     Given the liquidation POST saveInitial order id is available in test context
     When User navigates to generic order detail for the stored order id
+    And User scrolls page to top
     Then User should see the order detail page
     Then user enter the data for offer sent
     When user clicks send quote

@@ -42,10 +42,17 @@ public class liquidationpage extends TestUtil {
     private final By fortsattButton = By.xpath("(//button[contains(translate(normalize-space(.), '" + SWEDISH_LOWER + "', '" + SWEDISH_UPPER + "'), 'FORTS')]|//button[contains(@class,'bg-[#ffd454]')])[last()]");
     private final By save = By.xpath("//button[normalize-space()='SPARA']");
     private final By upload = By.xpath("//input[@type='file']");
-    private final By streetAddress = By.xpath("//input[@placeholder='Gatuadress']");
-    private final By postalCode = By.xpath("//input[@placeholder='Postnummer']");
-    private final By city = By.xpath("//input[@placeholder='Ort']");
-    private final By telephone = By.xpath("//input[@placeholder='Telefon']");
+    private final By streetAddress = By.xpath(
+            "//input[@placeholder='Gatuadress' or @name='street' or @name='streetAddress'"
+                    + " or contains(@placeholder,'Street address')]");
+    private final By postalCode = By.xpath(
+            "//input[@placeholder='Postnummer' or @name='postalCode' or @name='zipCode'"
+                    + " or contains(@placeholder,'Postal')]");
+    private final By city = By.xpath(
+            "//input[@placeholder='Ort' or @name='city' or contains(@placeholder,'City')]");
+    private final By telephone = By.xpath(
+            "//input[@placeholder='Telefon' or @name='phone' or @name='telephone'"
+                    + " or contains(@placeholder,'Phone')]");
     /** name="car" in app markup; placeholder may vary by locale so match on name + type. */
     private final By mobileNumber = By.xpath("(//input[@type='text' and @name='car'])[last()]");
     /** Prefer name; placeholder is optional (QA may omit or localize "Business"). */
@@ -68,15 +75,22 @@ public class liquidationpage extends TestUtil {
     }
 
     public boolean isOfferPageDisplayed() {
-        waitForSpecifiedTime(2);
-        log.info("Waiting for Offer page to displayed.");
-        return super.isElementDisplayed(OFFER_PAGE_HEADER);
+        log.info("Waiting for Offer page to be displayed.");
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(20))
+                    .until(ExpectedConditions.visibilityOfElementLocated(OFFER_PAGE_HEADER));
+            scrollPageToViewElement(OFFER_PAGE_HEADER);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     /**
      * Types a random 3-letter query (no fixed company name), waits for suggestions, and picks one at random.
      */
     public void searchCompany() {
+        scrollPageToViewElement(searchbar);
         waitForElementToBeClickable(searchbar);
         clickByJS(searchbar);
 
@@ -98,6 +112,7 @@ public class liquidationpage extends TestUtil {
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", chosen);
                 waitForSpecifiedTime(1);
                 wait.until(ExpectedConditions.visibilityOfElementLocated(fornamnField));
+                scrollOfferContactSectionIntoView();
                 return;
             } catch (TimeoutException | StaleElementReferenceException e) {
                 log.warn("No company suggestions for query '{}': {}", query, e.getMessage());
@@ -116,10 +131,8 @@ public class liquidationpage extends TestUtil {
     }
 
     private void clearAndTypeCompanySearch(String query) {
-        WebElement input = driver.findElement(searchbar);
-        input.clear();
-        input.sendKeys(query);
-        waitForSpecifiedTime(2);
+        enterStringValueInInputField(searchbar, query);
+        waitForSpecifiedTime(1);
     }
 
     public void enterFornamn(String fornamn) {
@@ -138,53 +151,106 @@ public class liquidationpage extends TestUtil {
     }
 
     public void agreeToTermsAndContinue() {
-        click(agreementCheckbox);
+        scrollPageToViewElement(agreementCheckbox);
+        if (!isCheckboxSelected(agreementCheckbox)) {
+            try {
+                click(agreementCheckbox);
+            } catch (Exception e) {
+                log.warn("Retrying privacy checkbox via JS: {}", e.getMessage());
+                clickByJS(agreementCheckbox);
+            }
+        }
+        waitForSpecifiedTime(1);
     }
 
     public void clickonGoOn() {
+        clickFortsattButton();
+        waitForLoad();
+        waitForWizardStepTransition();
+        scrollToActiveWizardStep();
+        waitForSpecifiedTime(1);
+    }
+
+    private void clickFortsattButton() {
         waitForElementToBeVisible(fortsattButton);
         scrollPageToViewElement(fortsattButton);
         waitForOverlayToDisappear();
         waitForElementToBeClickable(fortsattButton);
+        clickFortsattButtonInView();
+    }
+
+    private void clickFortsattButtonInView() {
+        WebElement button = driver.findElement(fortsattButton);
+        scrollElementIntoViewableArea(button);
         try {
-            click(fortsattButton);
+            new org.openqa.selenium.interactions.Actions(driver).moveToElement(button).click().perform();
         } catch (Exception intercepted) {
             log.warn("Retrying Fortsätt click via JS due to: {}", intercepted.getMessage());
-            clickByJS(fortsattButton);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
+        }
+    }
+
+    /** Best-effort Fortsätt click for negative validation when the CTA may be hidden or disabled. */
+    private boolean tryClickFortsattButton() {
+        if (!isDisplayedSafely(fortsattButton)) {
+            log.info("Fortsätt not shown — wizard already blocks progress without required data.");
+            return false;
+        }
+        try {
+            scrollPageToViewElement(fortsattButton);
+            waitForOverlayToDisappear();
+            new WebDriverWait(driver, Duration.ofSeconds(8))
+                    .until(ExpectedConditions.elementToBeClickable(fortsattButton));
+            clickFortsattButtonInView();
+            return true;
+        } catch (Exception e) {
+            log.info("Fortsätt not actionable without required data: {}", e.getMessage());
+            return false;
         }
     }
 
     public void uploadDocument(String filePath) {
-        waitForSpecifiedTime(3);
+        waitForUploadStepReady();
+        scrollToActiveWizardStep();
         String resolvedPath = resolveUploadPath(filePath);
-        WebElement uploadElement = driver.findElement(upload);
+        WebElement uploadElement = new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(d -> firstEnabledUploadInput(d));
+        scrollElementIntoViewableArea(uploadElement);
         uploadElement.sendKeys(resolvedPath);
         log.info("File uploaded: {}", resolvedPath);
+        waitForSpecifiedTime(2);
+        waitForOverlayToDisappear();
     }
 
     public void enterAddressDetails(String streetAddressValue, String postalCodeValue, String cityName,
                                     String telephoneNumber, String mobile, String agency, String messageToPartner) {
+        waitForAddressStepReady();
+        scrollToActiveWizardStep();
         enterStringValueInInputField(streetAddress, streetAddressValue);
         enterStringValueInInputField(postalCode, postalCodeValue);
         enterStringValueInInputField(city, cityName);
         enterStringValueInInputField(telephone, telephoneNumber);
         log.info("Entering mobile '{}'.", mobile);
-        waitForElementToBeVisible(mobileNumber);
-        scrollPageToViewElement(mobileNumber);
         enterStringValueInInputField(mobileNumber, mobile);
         log.info("Entering agency/business '{}'.", agency);
-        waitForElementToBeVisible(agencyName);
-        scrollPageToViewElement(agencyName);
         enterStringValueInInputField(agencyName, agency);
         log.info("Entering message to partner (length {}).", messageToPartner != null ? messageToPartner.length() : 0);
-        waitForElementToBeVisible(partnerMessage);
-        scrollPageToViewElement(partnerMessage);
         enterStringValueInInputField(partnerMessage, messageToPartner != null ? messageToPartner : "");
+        scrollPageToViewElement(save);
     }
 
     public void userClickOnSave() {
+        scrollPageToViewElement(save);
         waitForElementToBeClickable(save);
-        click(save);
+        WebElement saveButton = driver.findElement(save);
+        scrollElementIntoViewableArea(saveButton);
+        try {
+            new org.openqa.selenium.interactions.Actions(driver).moveToElement(saveButton).click().perform();
+        } catch (Exception e) {
+            log.warn("Retrying Save click via JS: {}", e.getMessage());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
+        }
+        waitForSpecifiedTime(1);
     }
 
     public boolean isRequestReceivedPageDisplayed() {
@@ -194,10 +260,74 @@ public class liquidationpage extends TestUtil {
     }
 
     private void waitForOverlayToDisappear() {
-        List<WebElement> overlays = driver.findElements(modalOverlay);
-        if (!overlays.isEmpty()) {
-            new WebDriverWait(driver, CTA_WAIT)
-                    .until(ExpectedConditions.invisibilityOfAllElements(overlays));
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(d -> d.findElements(modalOverlay).stream().noneMatch(el -> {
+                        try {
+                            return el.isDisplayed();
+                        } catch (StaleElementReferenceException ex) {
+                            return false;
+                        }
+                    }));
+        } catch (TimeoutException e) {
+            log.warn("Modal overlay still visible — continuing best-effort.");
+        }
+    }
+
+    private void waitForWizardStepTransition() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(25)).until(d ->
+                    firstEnabledUploadInput(d) != null
+                            || isDisplayedSafely(streetAddress)
+                            || isDisplayedSafely(REQUEST_RECEIVED_HEADING));
+        } catch (TimeoutException e) {
+            log.warn("Wizard step transition not detected after Fortsätt.");
+        }
+    }
+
+    private void waitForUploadStepReady() {
+        if (firstEnabledUploadInput(driver) != null) {
+            return;
+        }
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(20))
+                    .until(d -> firstEnabledUploadInput(d) != null);
+        } catch (TimeoutException e) {
+            log.warn("Upload step not ready — retrying Fortsätt.");
+            clickFortsattButton();
+            waitForLoad();
+            waitForSpecifiedTime(2);
+            new WebDriverWait(driver, Duration.ofSeconds(30))
+                    .until(d -> firstEnabledUploadInput(d) != null);
+        }
+    }
+
+    private WebElement firstEnabledUploadInput(org.openqa.selenium.SearchContext context) {
+        for (WebElement el : context.findElements(upload)) {
+            try {
+                if (el.isEnabled()) {
+                    return el;
+                }
+            } catch (StaleElementReferenceException ignored) {
+                // retry
+            }
+        }
+        return null;
+    }
+
+    private void waitForAddressStepReady() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(30))
+                    .until(ExpectedConditions.visibilityOfElementLocated(streetAddress));
+        } catch (TimeoutException e) {
+            log.warn("Address step not visible — retrying Fortsätt after upload.");
+            if (isDisplayedSafely(upload) && isDisplayedSafely(fortsattButton)) {
+                clickFortsattButton();
+                waitForLoad();
+                waitForSpecifiedTime(2);
+            }
+            new WebDriverWait(driver, Duration.ofSeconds(25))
+                    .until(ExpectedConditions.visibilityOfElementLocated(streetAddress));
         }
     }
 
@@ -220,25 +350,101 @@ public class liquidationpage extends TestUtil {
 
     /** Clicks Fortsätt/GoOn without selecting a company (negative validation). */
     public void clickContinueWithoutCompanySelection() {
-        clickonGoOn();
-        waitForSpecifiedTime(2);
+        scrollPageToViewElement(searchbar);
+        tryClickFortsattButton();
+        waitForSpecifiedTime(1);
     }
 
     /** Clicks Fortsätt without filling contact fields after company selection. */
     public void clickContinueWithoutContactDetails() {
-        clickonGoOn();
-        waitForSpecifiedTime(2);
+        revealContactFieldsBeforeContinue();
+        clickFortsattButton();
+        waitForSpecifiedTime(1);
+    }
+
+    /**
+     * Scrolls contact fields and the continue CTA into view so values and validation
+     * are visible during headed execution. Ends on Fortsätt so the CTA stays in focus.
+     */
+    private void revealContactFieldsBeforeContinue() {
+        By[] contactStepFields = {
+                fornamnField,
+                efternamnField,
+                epostField,
+                agreementCheckbox,
+                fortsattButton
+        };
+        for (By field : contactStepFields) {
+            if (isDisplayedSafely(field)) {
+                scrollPageToViewElement(field);
+            }
+        }
+    }
+
+    /** Keeps the contact-details block and Fortsätt CTA inside the scrollable wizard viewport. */
+    private void scrollOfferContactSectionIntoView() {
+        revealContactFieldsBeforeContinue();
+    }
+
+    /** Scrolls the current wizard step content into view instead of resetting scroll to top. */
+    private void scrollToActiveWizardStep() {
+        if (firstEnabledUploadInput(driver) != null) {
+            WebElement uploadElement = firstEnabledUploadInput(driver);
+            if (uploadElement != null) {
+                scrollElementIntoViewableArea(uploadElement);
+            }
+            return;
+        }
+        if (isDisplayedSafely(streetAddress)) {
+            revealAddressFieldsBeforeEntry();
+            return;
+        }
+        if (isDisplayedSafely(fornamnField)) {
+            revealContactFieldsBeforeContinue();
+            return;
+        }
+        if (isDisplayedSafely(fortsattButton)) {
+            scrollPageToViewElement(fortsattButton);
+        }
+    }
+
+    private void revealAddressFieldsBeforeEntry() {
+        By[] addressStepFields = {
+                streetAddress,
+                postalCode,
+                city,
+                telephone,
+                mobileNumber,
+                agencyName,
+                partnerMessage,
+                save
+        };
+        for (By field : addressStepFields) {
+            if (isDisplayedSafely(field)) {
+                scrollPageToViewElement(field);
+            }
+        }
     }
 
     /** Asserts user is still on the liquidation offer step (not advanced to upload/address). */
     public void assertStillOnOfferPage() {
         boolean offerHeader = isOfferPageDisplayed();
-        boolean uploadVisible = super.isElementDisplayed(upload);
-        boolean requestReceived = super.isElementDisplayed(REQUEST_RECEIVED_HEADING);
+        boolean uploadVisible = isDisplayedSafely(upload);
+        boolean requestReceived = isDisplayedSafely(REQUEST_RECEIVED_HEADING);
         org.testng.Assert.assertTrue(offerHeader && !requestReceived,
                 "Expected to remain on offer page. offerHeader=" + offerHeader
                         + ", uploadVisible=" + uploadVisible + ", requestReceived=" + requestReceived);
         org.testng.Assert.assertFalse(uploadVisible || requestReceived,
                 "Should not advance to upload or confirmation without required data");
+    }
+
+    private boolean isDisplayedSafely(By locator) {
+        return driver.findElements(locator).stream().anyMatch(el -> {
+            try {
+                return el.isDisplayed();
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
     }
 }

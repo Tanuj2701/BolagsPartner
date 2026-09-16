@@ -7,6 +7,7 @@ Feature: Liquidation form validation
   Scenario: Liquidation wizard blocks progress when company is not selected
     Given User login with a valid credentials
     Then User should land on offer page
+    And User scrolls page to top
     When User clicks continue without selecting a company
     Then User should remain on liquidation offer page
 

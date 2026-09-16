@@ -6,6 +6,7 @@ Feature: Admin login validation
   Background:
     Given User opens admin login page
     Then User clicks on LOGGA IN link from top navigation
+    And User scrolls page to top
 
   @p0 @invalid-password
   Scenario: Admin login fails with invalid password

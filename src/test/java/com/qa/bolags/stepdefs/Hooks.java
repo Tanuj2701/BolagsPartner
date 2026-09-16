@@ -18,11 +18,12 @@ public class Hooks extends BaseTest {
     @Before(order = 0)
     public void startBrowserForScenario(Scenario scenario) {
         String uri = scenario.getUri().toString();
-        if (uri.contains("liquidationflow") || uri.contains("e2eLiquidationToAdminOrder")
-                || uri.contains("declineOfferFlow") || uri.contains("clientDocumentChecklistFlow")
-                || uri.contains("adminDocumentReviewWizard") || uri.contains("adminPaymentWorkflow")
-                || uri.contains("adminBoardChangeFusionFlow") || uri.contains("adminBolagsverketSubmissionFlow")
-                || uri.contains("adminFinalReportCompletionFlow")) {
+        if (uri.contains("liquidationflow") || uri.contains("liquidationFormValidation")
+                || uri.contains("e2eLiquidationToAdminOrder") || uri.contains("declineOfferFlow")
+                || uri.contains("clientDocumentChecklistFlow") || uri.contains("adminDocumentReviewWizard")
+                || uri.contains("adminPaymentWorkflow") || uri.contains("adminBoardChangeFusionFlow")
+                || uri.contains("adminBolagsverketSubmissionFlow") || uri.contains("adminFinalReportCompletionFlow")
+                || uri.contains("adminflow")) {
             LiquidationOrderIdContext.clear();
             AcceptOfferContext.clear();
             OfferSentDataContext.clear();
@@ -31,8 +32,8 @@ public class Hooks extends BaseTest {
             SendOfferResponseCapture.resetForNewBrowserSession();
             com.qa.bolags.utility.OrderDetailsCapture.resetForNewBrowserSession();
             initializeDriverForLiquidationWithSaveInitialCapture();
-        } else if (uri.contains("adminflow") || uri.contains("shiroResellerUsers")
-                || uri.contains("adminLoginValidation") || uri.contains("adminOrderListSmoke")) {
+        } else if (uri.contains("shiroResellerUsers") || uri.contains("adminLoginValidation")
+                || uri.contains("adminOrderListSmoke")) {
             OfferSentDataContext.clear();
             initializeChromeWithoutDefaultNavigation();
         } else {

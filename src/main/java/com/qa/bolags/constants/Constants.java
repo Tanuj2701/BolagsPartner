@@ -10,6 +10,8 @@ import java.time.Duration;
 public class Constants {
 	
 	public static final int ONESEC = 1000;
+	/** Pause after scrolling a field into view so headed runs show typed values clearly. */
+	public static final int VISUAL_SCROLL_PAUSE_MS = 1500;
 	public static final int SHORT_WAIT = 6000;
 	public static final int MEDIUM_WAIT = 8000;
 	public static final int LONG_WAIT = 10000;

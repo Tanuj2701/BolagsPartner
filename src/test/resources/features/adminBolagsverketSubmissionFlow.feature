@@ -7,6 +7,7 @@ Feature: Admin Bolagsverket submission
     Given the liquidation order is prepared through agreement sent state
     And admin is logged in for workflow tests
     When admin opens the stored liquidation order for workflow
+    And User scrolls page to top
     And admin marks documents received today on manage order
     And admin marks order ready for review
     When admin completes review and moves order to waiting for payment

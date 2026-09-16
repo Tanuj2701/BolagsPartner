@@ -33,7 +33,9 @@ public class AdminOrderWorkflowStepDef extends BaseTest {
 
     @Given("admin is logged in for workflow tests")
     public void adminIsLoggedInForWorkflowTests() {
-        adminPage.ensureLoggedInAsAdmin();
+        if (!adminPage.isLoggedInToAdminPortal()) {
+            adminPage.loginToAdminPortal();
+        }
     }
 
     @When("admin opens the stored liquidation order for workflow")

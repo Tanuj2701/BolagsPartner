@@ -109,17 +109,14 @@ public class TestUtil {
 	}
 
 	public static void waitForElementToBeVisible(By ele) {
-
 		try {
-			new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIMEOUT));
-//			wait = new WebDriverWait(driver, EXPLICIT_WAIT_TIMEOUT);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIMEOUT));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(ele));
 			highlight(ele);
 		} catch (Exception e) {
 			log.error(ele + " is not visible, hence test case got failed.", e);
 			Assert.fail(ele + " is not visible , hence  test case got failed.");
 		}
-
 	}
 
 	public static void waitForElementToBeClickable(By ele) {
@@ -137,9 +134,16 @@ public class TestUtil {
 
 
 	public static void click(By ele) {
+		waitForElementToBeVisible(ele);
 		WebElement element = getWebElement(ele);
+		scrollElementIntoViewableArea(element);
+		highlight(ele);
 		waitForLoad();
-		element.click();
+		try {
+			new Actions(driver).moveToElement(element).click().perform();
+		} catch (Exception e) {
+			element.click();
+		}
 	}
 
 	public static void doubleClick(By ele) {
@@ -151,7 +155,10 @@ public class TestUtil {
 
 
 	public static void clickByJS(By ele) {
+		waitForElementToBeVisible(ele);
 		WebElement element = getWebElement(ele);
+		scrollElementIntoViewableArea(element);
+		highlight(ele);
 		waitForLoad();
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		jsExecutor.executeScript("arguments[0].click();", element);
@@ -168,8 +175,99 @@ public class TestUtil {
 	}
 
 	public static void scrollPageToViewElement(By ele) {
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
-		executor.executeScript("arguments[0].scrollIntoView();", getWebElement(ele));
+		scrollElementIntoViewableArea(getWebElement(ele));
+	}
+
+	/**
+	 * Scrolls the element into the visible viewport, including nested overflow containers
+	 * used by the liquidation wizard and admin SPA layouts.
+	 */
+	public static void scrollElementIntoViewableArea(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		for (int attempt = 0; attempt < 3; attempt++) {
+			js.executeScript(
+					"var el = arguments[0];"
+							+ "if (!el) { return; }"
+							+ "function scrollAncestors(node) {"
+							+ "  var current = node ? node.parentElement : null;"
+							+ "  while (current) {"
+							+ "    var style = window.getComputedStyle(current);"
+							+ "    var overflowY = style.overflowY;"
+							+ "    if ((overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay')"
+							+ "        && current.scrollHeight > current.clientHeight + 1) {"
+							+ "      var parentRect = current.getBoundingClientRect();"
+							+ "      var elRect = el.getBoundingClientRect();"
+							+ "      var target = elRect.top - parentRect.top"
+							+ "        - (parentRect.height / 2) + (elRect.height / 2);"
+							+ "      current.scrollTop += target;"
+							+ "    }"
+							+ "    current = current.parentElement;"
+							+ "  }"
+							+ "}"
+							+ "scrollAncestors(el);"
+							+ "el.scrollIntoView({block:'center', inline:'nearest'});"
+							+ "scrollAncestors(el);"
+							+ "var rect = el.getBoundingClientRect();"
+							+ "var viewHeight = window.innerHeight || document.documentElement.clientHeight;"
+							+ "if (rect.top < 96 || rect.bottom > viewHeight - 96) {"
+							+ "  window.scrollBy(0, rect.top - (viewHeight / 2) + (rect.height / 2));"
+							+ "}"
+							+ "try { el.focus(); } catch (ignored) {}",
+					element);
+			if (isElementInViewport(element)) {
+				briefPauseForVisualFeedback();
+				return;
+			}
+		}
+		briefPauseForVisualFeedback();
+	}
+
+	public static boolean isElementInViewport(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Object result = js.executeScript(
+				"var el = arguments[0];"
+						+ "var rect = el.getBoundingClientRect();"
+						+ "var vh = window.innerHeight || document.documentElement.clientHeight;"
+						+ "var vw = window.innerWidth || document.documentElement.clientWidth;"
+						+ "if (rect.width <= 0 || rect.height <= 0) { return false; }"
+						+ "if (rect.bottom < 0 || rect.top > vh || rect.right < 0 || rect.left > vw) { return false; }"
+						+ "var x = Math.min(Math.max(rect.left + rect.width / 2, 0), vw - 1);"
+						+ "var y = Math.min(Math.max(rect.top + rect.height / 2, 0), vh - 1);"
+						+ "var topEl = document.elementFromPoint(x, y);"
+						+ "return topEl === el || el.contains(topEl)"
+						+ "  || (topEl && topEl.closest && el.contains(topEl.closest('label,input,textarea,select,button')));",
+				element);
+		return Boolean.TRUE.equals(result);
+	}
+
+	private static void briefPauseForVisualFeedback() {
+		try {
+			Thread.sleep(VISUAL_SCROLL_PAUSE_MS);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	/**
+	 * Resets window and scrollable containers to the top after a screen transition.
+	 * Use when the app keeps scroll position at the bottom from the previous step.
+	 */
+	public static void scrollPageToTop() {
+		waitForLoad();
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript(
+				"window.scrollTo(0, 0);"
+						+ "if (document.documentElement) { document.documentElement.scrollTop = 0; }"
+						+ "if (document.body) { document.body.scrollTop = 0; }"
+						+ "var nodes = document.querySelectorAll("
+						+ "'main, form, [role=main], .overflow-auto, .overflow-y-auto, .overflow-scroll');"
+						+ "for (var i = 0; i < nodes.length; i++) {"
+						+ "  var n = nodes[i];"
+						+ "  if (n.scrollHeight > n.clientHeight) { n.scrollTop = 0; }"
+						+ "}");
+		if (log != null) {
+			log.info("Scrolled page and scrollable containers to top.");
+		}
 	}
 
 	public static String returnCurrentPageTitle() {
@@ -244,12 +342,21 @@ public class TestUtil {
 	}
 
 	public static void enterStringValueInInputField(By ele, String value) {
-		highlight(ele);
+		waitForElementToBeVisible(ele);
 		WebElement element = getWebElement(ele);
+		scrollElementIntoViewableArea(element);
+		highlight(ele);
 		boolean isPassword = "password".equalsIgnoreCase(element.getAttribute("type"));
 		log.info("Typing '{}' into input {}.", isPassword ? "[REDACTED]" : value, ele);
+		try {
+			new Actions(driver).moveToElement(element).click().perform();
+		} catch (Exception ignored) {
+			// Best-effort focus before typing.
+		}
 		element.clear();
+		scrollElementIntoViewableArea(element);
 		element.sendKeys(value);
+		briefPauseForVisualFeedback();
 	}
 
 	public void enterNumericValueInInputField(By ele, int value) {
@@ -426,13 +533,10 @@ public class TestUtil {
 			}
 		};
 		try {
-			new WebDriverWait(driver, Duration.ofSeconds(SHORT_WAIT));
-//			wait = new WebDriverWait(driver, SHORT_WAIT);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(SHORT_WAIT));
 			wait.until(pageLoadCondition);
 		} catch (Throwable error) {
-			System.out.println(
-					"------------------------------------------------Javascript execution error caught------------------------------------");
-
+			log.debug("Page load wait completed with: {}", error.getMessage());
 		}
 	}
 

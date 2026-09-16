@@ -7,9 +7,11 @@ Feature: Admin payment workflow
     Given the liquidation order is prepared through agreement sent state
     And admin is logged in for workflow tests
     When admin opens the stored liquidation order for workflow
+    And User scrolls page to top
     And admin marks documents received today on manage order
     And admin marks order ready for review
     And admin opens the Review Wizards tab
-    When admin approves the first document in review wizard   # Failing due to Pop up and SIE Activation.
+    And User scrolls page to top
+    When admin approves the first document in review wizard
     And admin completes review and moves order to waiting for payment
     Then admin should see ready for board change action

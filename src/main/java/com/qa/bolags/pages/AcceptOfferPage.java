@@ -169,19 +169,9 @@ public class AcceptOfferPage extends TestUtil {
     }
 
     private void typeInModalInput(String name, String value, WebDriverWait wait) {
-        By locator = By.cssSelector(".display-shareholders-modal input[name='" + name + "']");
-        for (int attempt = 0; attempt < 4; attempt++) {
-            WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-            try {
-                scrollPageToViewElement(locator);
-                input.clear();
-                input.sendKeys(value);
-                return;
-            } catch (StaleElementReferenceException e) {
-                waitForSpecifiedTime(1);
-            }
-        }
-        throw new org.openqa.selenium.NoSuchElementException("Could not type into modal input: " + name);
+        enterStringValueInInputField(
+                By.cssSelector(".display-shareholders-modal input[name='" + name + "']"),
+                value);
     }
 
     private boolean isShareholderListed(String firstName, String lastName, String email) {

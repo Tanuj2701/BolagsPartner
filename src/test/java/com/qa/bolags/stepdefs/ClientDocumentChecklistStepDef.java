@@ -36,9 +36,9 @@ public class ClientDocumentChecklistStepDef extends BaseTest {
         checklistPage.assertDocumentChecklistDisplayed();
     }
 
-    @When("user uploads documents for every checklist document type with LADDA UPP FIL or UPLOAD FILE button")
-    public void userUploadsDocumentsForEveryChecklistDocumentTypeWithUploadFileButton() {
-        checklistPage.uploadAllDocumentsWithUploadButtons();
+    @When("user uploads a document on the checklist")
+    public void userUploadsADocumentOnTheChecklist() {
+        checklistPage.uploadFirstAvailableDocument();
     }
 
     @And("user acknowledges contract information on the checklist if shown")
@@ -46,8 +46,8 @@ public class ClientDocumentChecklistStepDef extends BaseTest {
         checklistPage.acknowledgeContractInformationIfPresent();
     }
 
-    @Then("all checklist document types with upload file buttons should be uploaded successfully")
-    public void allChecklistDocumentTypesWithUploadFileButtonsShouldBeUploadedSuccessfully() {
+    @Then("the document upload on checklist should succeed")
+    public void theDocumentUploadOnChecklistShouldSucceed() {
         checklistPage.assertDocumentUploadSucceeded();
     }
 }

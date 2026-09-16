@@ -40,21 +40,7 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     public void loginAsSuperAdmin() {
-        driver.get(QaServerCredentials.urlWithHttpBasicAuth(QA_LOGIN_URL));
-        waitForLoad();
-        String email = QaServerCredentials.genericOrderSuperAdminEmail();
-        String pwd = QaServerCredentials.genericOrderSuperAdminPassword();
-        By emailField = By.xpath("//input[@type='email'] | //input[contains(@placeholder,'E-post') or contains(@placeholder,'mail')]");
-        By passwordField = By.xpath("//input[@type='password']");
-        By submit = By.xpath("//button[normalize-space()='Logga in' or contains(.,'Log in')]");
-        waitForElementToBeClickable(emailField);
-        enterStringValueInInputField(emailField, email);
-        waitForElementToBeClickable(passwordField);
-        enterStringValueInInputField(passwordField, pwd);
-        waitForElementToBeClickable(submit);
-        clickByJS(submit);
-        waitForLoad();
-        waitForSpecifiedTime(2);
+        new AdminPage(driver).loginToAdminPortal();
     }
 
     public void openShiroUserDashboardFromSidebar() {
@@ -157,9 +143,8 @@ public class GenericOrderUsersPage extends TestUtil {
         typeRequiredNamedField("car", "0709876543");
         typeRequiredNamedField("firstName", "Shiro");
         typeRequiredNamedField("lastName", "Automation");
-        selectFirstOptionForLabelContaining("Roller");
-        selectFirstOptionForLabelContaining("Reseller");
-        submitPrimaryForm();
+        selectShiroRoleAndResellerAssignments();
+        submitShiroUserForm();
     }
 
     public void assertNewShiroUserListedAtTop() {
@@ -256,7 +241,7 @@ public class GenericOrderUsersPage extends TestUtil {
         clearNamedField("addressCo");
         typeRequiredNamedField("postalCode", "22233");
         typeRequiredNamedField("city", "Göteborg");
-        selectNamedOption("country", "Sweden");
+        selectNamedOption("country", "Sweden", "Sverige", "SE");
         typeRequiredNamedField("note", "Automation reseller");
         typeRequiredNamedField("liquidationPrice", "25000");
         submitResellerForm();
@@ -373,11 +358,105 @@ public class GenericOrderUsersPage extends TestUtil {
         waitForLoad();
     }
 
-    private void submitPrimaryForm() {
-        clickFirstDisplayedAction(
-                "save form",
-                "Save", "Spara", "Skapa", "Create", "Guardar", "Crear");
-        waitForSpecifiedTime(2);
+    private void submitShiroUserForm() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "var nodes = document.querySelectorAll('main, form, [role=main]');"
+                        + "for (var i = 0; i < nodes.length; i++) {"
+                        + "  var n = nodes[i];"
+                        + "  if (n.scrollHeight > n.clientHeight) { n.scrollTop = n.scrollHeight; }"
+                        + "}");
+        clickBottomFormSubmitEvenIfDisabled(
+                Duration.ofSeconds(10),
+                "Shiro user form submit",
+                "Skapa", "Create", "Save", "Spara", "Guardar", "Crear");
+    }
+
+    /**
+     * Roller and Reseller on the Shiro form are often React comboboxes, not native selects.
+     * The old fallback scanned every {@code <select>} on the page and submit waited up to 25s
+     * for an enabled Skapa button when these fields were not filled.
+     */
+    private void selectShiroRoleAndResellerAssignments() {
+        if (!selectFirstNativeSelectOptionByNames("roleIds", "roles", "role")) {
+            selectFirstComboboxOptionNearLabel("Roller", "Roles", "Role");
+        }
+        if (!selectFirstNativeSelectOptionByNames("resellerCompanyId", "resellerId", "reseller")) {
+            selectFirstComboboxOptionNearLabel("Reseller", "Återförsäljare", "Dealer");
+        }
+    }
+
+    private boolean selectFirstNativeSelectOptionByNames(String... names) {
+        for (String name : names) {
+            WebElement field = firstDisplayed(driver.findElements(By.name(name)));
+            if (field == null || !"select".equalsIgnoreCase(field.getTagName())) {
+                continue;
+            }
+            Select select = new Select(field);
+            if (select.getOptions().size() > 1) {
+                select.selectByIndex(1);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void selectFirstComboboxOptionNearLabel(String... labelParts) {
+        for (String labelPart : labelParts) {
+            if (trySelectFirstComboboxOptionNearLabel(labelPart)) {
+                return;
+            }
+        }
+    }
+
+    private boolean trySelectFirstComboboxOptionNearLabel(String labelPart) {
+        String safe = xpathLiteral(labelPart);
+        By labeledControl = By.xpath(
+                "//label[contains(normalize-space(.),'" + safe + "')]/following::*[self::select or @role='combobox'][1]"
+                        + " | //label[contains(normalize-space(.),'" + safe + "')]/following::button[1]"
+                        + " | //*[contains(normalize-space(.),'" + safe + "')]"
+                        + "/ancestor::*[self::div or self::fieldset][1]//*[@role='combobox'][1]");
+        WebElement control = firstDisplayed(driver.findElements(labeledControl));
+        if (control == null) {
+            return false;
+        }
+        if ("select".equalsIgnoreCase(control.getTagName())) {
+            Select select = new Select(control);
+            if (select.getOptions().size() > 1) {
+                select.selectByIndex(1);
+                return true;
+            }
+            return false;
+        }
+
+        try {
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block:'center', inline:'nearest'});", control);
+            try {
+                control.click();
+            } catch (Exception clickError) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", control);
+            }
+        } catch (Exception ignored) {
+            return false;
+        }
+
+        By firstOption = By.xpath(
+                "//*[@role='listbox']//*[@role='option'][normalize-space(.)!=''][1]"
+                        + " | //*[@role='listbox']//li[normalize-space(.)!=''][1]"
+                        + " | //div[contains(@class,'option')][normalize-space(.)!=''][1]");
+        try {
+            WebElement option = new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(d -> firstDisplayed(d.findElements(firstOption)));
+            try {
+                option.click();
+            } catch (Exception clickError) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", option);
+            }
+            return true;
+        } catch (TimeoutException ignored) {
+            return false;
+        }
     }
 
     private void clickFirstDisplayedAction(String actionName, String... labels) {
@@ -387,6 +466,7 @@ public class GenericOrderUsersPage extends TestUtil {
     private void submitResellerForm() {
         scrollResellerFormToBottom();
         clickBottomFormSubmitEvenIfDisabled(
+                Duration.ofSeconds(25),
                 "reseller form submit",
                 "Skapa", "Create", "Save", "Guardar", "Crear");
     }
@@ -421,6 +501,10 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     private void clickBottomFormSubmitEvenIfDisabled(String actionName, String... labels) {
+        clickBottomFormSubmitEvenIfDisabled(Duration.ofSeconds(25), actionName, labels);
+    }
+
+    private void clickBottomFormSubmitEvenIfDisabled(Duration timeout, String actionName, String... labels) {
         List<String> predicates = new ArrayList<>();
         for (String label : labels) {
             predicates.add("contains(normalize-space(.),'" + xpathLiteral(label) + "')");
@@ -429,7 +513,7 @@ public class GenericOrderUsersPage extends TestUtil {
                 "//*[self::button or self::a or @role='button']["
                         + String.join(" or ", predicates) + "]");
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(25)).until(d -> {
+            new WebDriverWait(driver, timeout).until(d -> {
                 WebElement submit = lastDisplayedEvenIfDisabled(d.findElements(action));
                 if (submit == null) {
                     return false;
@@ -548,21 +632,27 @@ public class GenericOrderUsersPage extends TestUtil {
         }
     }
 
-    private void selectNamedOption(String name, String desiredOption) {
+    private void selectNamedOption(String name, String... desiredOptions) {
+        if (desiredOptions == null || desiredOptions.length == 0) {
+            Assert.fail("No option labels provided for control '" + name + "'");
+        }
         By controlBy = By.name(name);
         WebElement control = new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(d -> firstDisplayed(d.findElements(controlBy)));
         if ("select".equalsIgnoreCase(control.getTagName())) {
             Select select = new Select(control);
-            for (WebElement option : select.getOptions()) {
-                if (option.getText().toLowerCase().contains(desiredOption.toLowerCase())) {
-                    select.selectByVisibleText(option.getText());
-                    return;
+            for (String desiredOption : desiredOptions) {
+                for (WebElement option : select.getOptions()) {
+                    if (option.getText().toLowerCase().contains(desiredOption.toLowerCase())) {
+                        select.selectByVisibleText(option.getText());
+                        return;
+                    }
                 }
             }
-            Assert.fail("Option '" + desiredOption + "' was not found in select '" + name + "'");
+            Assert.fail("None of " + Arrays.toString(desiredOptions) + " found in select '" + name + "'");
         }
 
+        scrollPageToViewElement(controlBy);
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(d -> {
             WebElement currentControl = firstDisplayed(d.findElements(controlBy));
             if (currentControl == null) {
@@ -576,28 +666,32 @@ public class GenericOrderUsersPage extends TestUtil {
             }
         });
 
-        WebElement searchInput = firstDisplayed(driver.findElements(By.xpath(
-                "//*[@role='listbox']//input | //input[@role='combobox']")));
-        if (searchInput != null) {
-            searchInput.clear();
-            searchInput.sendKeys(desiredOption.substring(0, Math.min(5, desiredOption.length())));
-        }
-
-        By desiredOptionBy = By.xpath(
-                "//*[normalize-space(.)='" + xpathLiteral(desiredOption) + "'"
-                        + " and not(.//*[normalize-space(.)='" + xpathLiteral(desiredOption) + "'])]");
-        try {
-            WebElement option = new WebDriverWait(driver, Duration.ofSeconds(15))
-                    .until(d -> firstDisplayed(d.findElements(desiredOptionBy)));
-            try {
-                option.click();
-            } catch (Exception clickError) {
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", option);
+        for (String desiredOption : desiredOptions) {
+            WebElement searchInput = firstDisplayed(driver.findElements(By.xpath(
+                    "//*[@role='listbox']//input | //input[@role='combobox']")));
+            if (searchInput != null) {
+                searchInput.clear();
+                searchInput.sendKeys(desiredOption.substring(0, Math.min(5, desiredOption.length())));
             }
-        } catch (TimeoutException e) {
-            Assert.fail("Option '" + desiredOption + "' was not visible for control '" + name
-                    + "'. Visible controls: " + describeVisibleControls());
+
+            By desiredOptionBy = By.xpath(
+                    "//*[normalize-space(.)='" + xpathLiteral(desiredOption) + "'"
+                            + " and not(.//*[normalize-space(.)='" + xpathLiteral(desiredOption) + "'])]");
+            try {
+                WebElement option = new WebDriverWait(driver, Duration.ofSeconds(8))
+                        .until(d -> firstDisplayed(d.findElements(desiredOptionBy)));
+                try {
+                    option.click();
+                } catch (Exception clickError) {
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", option);
+                }
+                return;
+            } catch (TimeoutException ignored) {
+                // try next alias
+            }
         }
+        Assert.fail("None of " + Arrays.toString(desiredOptions) + " visible for control '" + name
+                + "'. Visible controls: " + describeVisibleControls());
     }
 
     private WebElement findDisplayedField(String... aliases) {
@@ -728,39 +822,6 @@ public class GenericOrderUsersPage extends TestUtil {
             }
         }
         return emptyFields.toString();
-    }
-
-    private void selectFirstOptionForLabelContaining(String labelPart) {
-        String safe = xpathLiteral(labelPart);
-        By selectBy = By.xpath(
-                "//label[contains(.,'" + safe + "')]/following::select[1]"
-                        + " | //select[preceding::label[contains(.,'" + safe + "')][1]]");
-        for (WebElement el : driver.findElements(selectBy)) {
-            try {
-                if (el.isDisplayed() && "select".equalsIgnoreCase(el.getTagName())) {
-                    Select s = new Select(el);
-                    if (s.getOptions().size() > 1) {
-                        s.selectByIndex(1);
-                        return;
-                    }
-                }
-            } catch (Exception ignored) {
-                // Try the next matching select control.
-            }
-        }
-        for (WebElement el : driver.findElements(By.tagName("select"))) {
-            try {
-                if (el.isDisplayed()) {
-                    Select s = new Select(el);
-                    if (s.getOptions().size() > 1) {
-                        s.selectByIndex(1);
-                        return;
-                    }
-                }
-            } catch (Exception ignored) {
-                // Try the next matching select control.
-            }
-        }
     }
 
 }
