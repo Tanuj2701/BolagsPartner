@@ -1,4 +1,4 @@
-@admin @review @wizard @lifecycle @e2e
+@regression @admin @review @wizard @lifecycle @e2e
 Feature: Admin document review wizard
 
   Admin reviews uploaded documents in the Review Wizards tab.

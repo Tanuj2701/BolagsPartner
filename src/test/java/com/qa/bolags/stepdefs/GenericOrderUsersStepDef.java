@@ -18,7 +18,8 @@ public class GenericOrderUsersStepDef extends BaseTest {
 
     @Before(order = 1)
     public void initGenericOrderPage(Scenario scenario) {
-        if (scenario.getUri().toString().contains("shiroResellerUsers")) {
+        String uri = scenario.getUri().toString();
+        if (uri.contains("shiroResellerUsers") || uri.contains("timeOptimizedUniqueStepsFlow")) {
             genericOrderUsersPage = new GenericOrderUsersPage(BaseTest.driver);
         }
     }

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -101,33 +102,54 @@ public class BaseTest {
         options.addArguments("--unsafely-treat-insecure-origin-as-secure=" + QaServerCredentials.bareHttpsOriginForQa());
         options.setAcceptInsecureCerts(true);
         options.addArguments("disable-popup-blocking");
-        if (enablePerformanceLoggingForNetworkCapture) {
-            LoggingPreferences logPrefs = new LoggingPreferences();
-            logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
-            options.setCapability(ChromeOptions.LOGGING_PREFS, logPrefs);
-            log.info("Chrome performance logging enabled (saveInitial capture).");
-        }
+        options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
+        applyHeadlessChromeOptions(options);
+        LoggingPreferences logPrefs = new LoggingPreferences();
+        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+        options.setCapability(ChromeOptions.LOGGING_PREFS, logPrefs);
+        log.info("Chrome performance logging enabled (API 4xx/5xx + saveInitial capture).");
         log.info("Chrome desired Property is set.");
+        if (Constants.isHeadless()) {
+            log.info("Chrome headless mode is enabled.");
+        }
         driver = new ChromeDriver(options);
         log.info("Chrome driver object is created");
-        if (enablePerformanceLoggingForNetworkCapture && driver instanceof ChromeDriver) {
+        if (driver instanceof ChromeDriver) {
             SaveInitialOrderCapture.enableNetworkDomain(driver);
         }
         driver.manage().deleteAllCookies();
         log.info("Browser cache cleared.");
     }
 
+    private void applyHeadlessChromeOptions(ChromeOptions options) {
+        if (!Constants.isHeadless()) {
+            return;
+        }
+        options.addArguments("--headless=new");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--hide-scrollbars");
+    }
+
     private void applyCommonBrowserSettings() {
-        log.info("Maximizing window...");
-        driver.manage().window().maximize();
+        if (Constants.isHeadless()) {
+            log.info("Setting headless window size 1920x1080...");
+            driver.manage().window().setSize(new org.openqa.selenium.Dimension(1920, 1080));
+        } else {
+            log.info("Maximizing window...");
+            driver.manage().window().maximize();
+        }
         log.info("Deleting all cookies...");
         driver.manage().deleteAllCookies();
         log.info("Setting page load timeout...");
         driver.manage().timeouts().pageLoadTimeout(
                 Duration.ofSeconds(Constants.PAGE_LOAD_WAIT_TIMEOUT));
         log.info("Setting implicit wait timeout...");
+        int implicitSeconds = Constants.isTimeOptimized() ? 2 : Constants.IMPLICIT_WAIT_TIMEOUT / 10;
         driver.manage().timeouts().implicitlyWait(
-                Duration.ofSeconds(Constants.IMPLICIT_WAIT_TIMEOUT / 10));
+                Duration.ofSeconds(implicitSeconds));
         log.info("Setting script timeout...");
         driver.manage().timeouts().scriptTimeout(
                 Duration.ofSeconds(Constants.SCRIPT_WAIT_TIMEOUT / 1000));

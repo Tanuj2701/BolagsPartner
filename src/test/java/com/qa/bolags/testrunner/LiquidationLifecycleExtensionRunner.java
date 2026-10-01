@@ -15,6 +15,7 @@ import io.cucumber.testng.CucumberOptions;
         },
         glue = {"com.qa.bolags.stepdefs"},
         plugin = {"pretty",
+                "com.qa.bolags.reporting.ExecutionReportPlugin",
                 "html:target/HtmlReports/lifecycle-extension-report.html",
                 "json:target/JSONReports/lifecycle-extension-report.json",
                 "junit:target/JUnitReports/lifecycle-extension-report.xml"},

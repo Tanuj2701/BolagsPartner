@@ -1,6 +1,7 @@
 package com.qa.bolags.utility;
 
 import com.qa.bolags.constants.LiquidationOrderIdContext;
+import com.qa.bolags.constants.OrderOrganizationNumberContext;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -82,9 +83,22 @@ public final class SaveInitialOrderCapture {
         while (System.currentTimeMillis() < deadline) {
             List<LogEntry> batch = drainPerformanceLog(chrome);
             mergeRequestWillBeSentIntoCumulative(batch);
+            com.qa.bolags.reporting.HttpErrorCapture.ingest(chrome, batch);
             Optional<String> id = tryExtractFromResponseBatch(chrome, batch);
             if (id.isPresent()) {
                 LiquidationOrderIdContext.setCapturedOrderId(id.get());
+                String organizationNumber = OrderOrganizationNumberContext.getOrganizationNumberOrNull();
+                String companyName = OrderOrganizationNumberContext.getCompanyNameOrNull();
+                if (organizationNumber == null || companyName == null) {
+                    throw new IllegalStateException(
+                            "Cannot generate SI file for order " + id.get()
+                                    + ": selected company name or organisationsnummer was not captured");
+                }
+                try {
+                    OrderSiFileWriter.writeForOrder(id.get(), organizationNumber, companyName);
+                } catch (java.io.IOException e) {
+                    throw new IllegalStateException("Unable to generate SI file for order " + id.get(), e);
+                }
                 return true;
             }
             try {

@@ -29,10 +29,12 @@ public class adminStepDefe extends BaseTest {
                 || uri.contains("declineOfferFlow") || uri.contains("clientDocumentChecklistFlow")
                 || uri.contains("adminDocumentReviewWizard") || uri.contains("adminPaymentWorkflow")
                 || uri.contains("adminBoardChangeFusionFlow") || uri.contains("adminBolagsverketSubmissionFlow")
-                || uri.contains("adminFinalReportCompletionFlow")) {
+                || uri.contains("adminFinalReportCompletionFlow")
+                || uri.contains("timeOptimizedUniqueStepsFlow")) {
             adminPage = new AdminPage(BaseTest.driver);
         }
-        if (uri.contains("e2eLiquidationToAdminOrder") || uri.contains("clientDocumentChecklistFlow")) {
+        if (uri.contains("e2eLiquidationToAdminOrder") || uri.contains("clientDocumentChecklistFlow")
+                || uri.contains("timeOptimizedUniqueStepsFlow")) {
             acceptOfferPage = new AcceptOfferPage(BaseTest.driver);
         }
     }
@@ -80,19 +82,19 @@ public class adminStepDefe extends BaseTest {
     @When("user clicks send quote")
     public void userClicksSendQuote() {
         adminPage.clickSendQuoteOnManageOrder();
-        SendOfferResponseCapture.pollAndStoreFromSendOfferChrome(BaseTest.driver, 60);
+        SendOfferResponseCapture.pollAndStoreFromSendOfferChrome(BaseTest.driver, 45);
     }
 
     @When("user sends the offer quote")
     public void userSendsTheOfferQuote() {
         adminPage.clickSendQuoteOnManageOrder();
-        SendOfferResponseCapture.pollAndStoreFromSendOfferChrome(BaseTest.driver, 60);
+        SendOfferResponseCapture.pollAndStoreFromSendOfferChrome(BaseTest.driver, 45);
     }
 
     @Then("user Accept the offer")
     public void userAcceptTheOffer() {
         if (AcceptOfferContext.getMd5TokenOrNull() == null) {
-            SendOfferResponseCapture.pollAndStoreFromSendOfferChrome(BaseTest.driver, 45);
+            SendOfferResponseCapture.pollAndStoreFromSendOfferChrome(BaseTest.driver, 15);
         }
         Assert.assertNotNull(
                 AcceptOfferContext.getMd5TokenOrNull(),
@@ -119,6 +121,11 @@ public class adminStepDefe extends BaseTest {
     @And("user checks the shareholders updated checkbox on manage order")
     public void userChecksTheShareholdersUpdatedCheckboxOnManageOrder() {
         adminPage.checkShareholdersUpdatedOnManageOrder();
+    }
+
+    @And("admin adds a former representative on the order if the form is shown")
+    public void adminAddsAFormerRepresentativeOnTheOrderIfTheFormIsShown() {
+        adminPage.addFormerRepresentativeIfFormShown();
     }
 
     @When("user opens the send agreement document modal")

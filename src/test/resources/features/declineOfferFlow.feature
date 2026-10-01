@@ -1,4 +1,4 @@
-@decline @e2e @captures-order-id @liquidation @admin
+@regression @decline @e2e @captures-order-id @liquidation @admin
 Feature: Decline offer flow
 
   Client declines the liquidation offer after admin sends quote.

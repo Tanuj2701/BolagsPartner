@@ -91,16 +91,73 @@ public class AcceptOfferPage extends TestUtil {
         typeInModalInput("addressZipcode", zipCode, wait);
         typeInModalInput("addressCity", city, wait);
         typeInModalInput("shares", String.valueOf(sharesToAllocate), wait);
+        try {
+            driver.findElement(By.cssSelector(".display-shareholders-modal input[name='shares']"))
+                    .sendKeys(org.openqa.selenium.Keys.TAB);
+        } catch (Exception ignored) {
+            // React state usually commits from sendKeys alone
+        }
 
-        scrollPageToViewElement(MODAL_ADD_BUTTON);
-        wait.until(ExpectedConditions.elementToBeClickable(MODAL_ADD_BUTTON));
-        clickByJS(MODAL_ADD_BUTTON);
+        WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(MODAL_ADD_BUTTON));
+        try {
+            addButton.click();
+        } catch (Exception e) {
+            clickByJS(MODAL_ADD_BUTTON);
+        }
 
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(SHAREHOLDER_MODAL));
+        if (!waitForShareholderModalToSettle(wait, firstName, lastName, email)) {
+            LOG.warn("Shareholder modal still open after submit — retrying. Modal text: {}", modalInnerText());
+            try {
+                driver.findElement(MODAL_ADD_BUTTON).click();
+            } catch (Exception e) {
+                clickByJS(MODAL_ADD_BUTTON);
+            }
+            wait.until(d -> isShareholderModalClosed(d) || shareholderAppearsOnPage(d, firstName, lastName, email));
+        }
         waitForSpecifiedTime(2);
         Assert.assertTrue(
                 isShareholderListed(firstName, lastName, email),
                 "Shareholder " + firstName + " " + lastName + " was not listed after save");
+    }
+
+    private boolean waitForShareholderModalToSettle(WebDriverWait wait, String firstName, String lastName, String email) {
+        try {
+            wait.until(d -> isShareholderModalClosed(d) || shareholderAppearsOnPage(d, firstName, lastName, email));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isShareholderModalClosed(WebDriver d) {
+        try {
+            java.util.List<WebElement> modals = d.findElements(SHAREHOLDER_MODAL);
+            if (modals.isEmpty()) {
+                return true;
+            }
+            for (WebElement modal : modals) {
+                if (modal.isDisplayed()) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (StaleElementReferenceException e) {
+            return true;
+        }
+    }
+
+    private boolean shareholderAppearsOnPage(WebDriver d, String firstName, String lastName, String email) {
+        String src = d.getPageSource();
+        return src.contains(firstName) && src.contains(lastName) && src.contains(email);
+    }
+
+    private String modalInnerText() {
+        try {
+            WebElement modal = driver.findElement(SHAREHOLDER_MODAL);
+            return modal.getText().replace("\n", " | ");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     /**

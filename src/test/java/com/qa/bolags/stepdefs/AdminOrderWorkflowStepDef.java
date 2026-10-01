@@ -25,7 +25,8 @@ public class AdminOrderWorkflowStepDef extends BaseTest {
                 || uri.contains("adminPaymentWorkflow")
                 || uri.contains("adminBoardChangeFusionFlow")
                 || uri.contains("adminBolagsverketSubmissionFlow")
-                || uri.contains("adminFinalReportCompletionFlow")) {
+                || uri.contains("adminFinalReportCompletionFlow")
+                || uri.contains("timeOptimizedUniqueStepsFlow")) {
             adminPage = new AdminPage(BaseTest.driver);
             workflowPage = new AdminOrderWorkflowPage(BaseTest.driver);
         }
@@ -33,7 +34,14 @@ public class AdminOrderWorkflowStepDef extends BaseTest {
 
     @Given("admin is logged in for workflow tests")
     public void adminIsLoggedInForWorkflowTests() {
+        if (adminPage == null) {
+            adminPage = new AdminPage(BaseTest.driver);
+        }
+        if (workflowPage == null) {
+            workflowPage = new AdminOrderWorkflowPage(BaseTest.driver);
+        }
         if (!adminPage.isLoggedInToAdminPortal()) {
+            adminPage.openAdminLoginForm();
             adminPage.loginToAdminPortal();
         }
     }
@@ -71,6 +79,15 @@ public class AdminOrderWorkflowStepDef extends BaseTest {
     @When("admin completes review and moves order to waiting for payment")
     public void adminCompletesReviewAndMovesToWaitingForPayment() {
         workflowPage.clickReviewComplete();
+    }
+
+    @And("admin closes the review wizard and returns to manage order")
+    public void adminClosesTheReviewWizardAndReturnsToManageOrder() {
+        if (workflowPage.isReviewWizardScreenActive()) {
+            workflowPage.exitReviewWizardToManageOrder();
+        } else {
+            workflowPage.openManageOrderTabOnly();
+        }
     }
 
     @Then("admin should see ready for board change action")

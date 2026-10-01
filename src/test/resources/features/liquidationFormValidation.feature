@@ -1,4 +1,4 @@
-@liquidation @validation @negative @smoke
+@regression @liquidation @validation @negative @smoke
 Feature: Liquidation form validation
 
   Negative validation scenarios on the public liquidation offer wizard.

@@ -22,9 +22,14 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<suiteFile></suiteFile>
+		<suiteFile>src/test/resources/testrunner/testng.xml</suiteFile>
 		<baseUrl></baseUrl>
-
+		<!-- Cucumber tag expression. Default @regression runs all feature files. -->
+		<!-- Examples: @smoke | @e2e | @admin | @lifecycle | @regression and not @negative -->
+		<cucumber.filter.tags>@regression</cucumber.filter.tags>
+		<headless>false</headless>
+		<timeopt>false</timeopt>
+		<cucumber.execution.dry-run>false</cucumber.execution.dry-run>
 	</properties>
 
 	<dependencies>
@@ -250,11 +255,90 @@
 				<version>3.1.2</version>
 				<configuration>
 					<suiteXmlFiles>
-						<!-- TestNG suite XML files -->
-						<suiteXmlFile>src/test/resources/testrunner/testng.xml</suiteXmlFile>
+						<!-- Override with -Dsurefire.suiteXmlFiles=... or profile -Pallfeatures -->
+						<suiteXmlFile>${suiteFile}</suiteXmlFile>
 					</suiteXmlFiles>
+					<systemPropertyVariables>
+						<!-- Passed to Cucumber; override: -Dcucumber.filter.tags="@smoke" -->
+						<cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
+						<headless>${headless}</headless>
+						<chrome.headless>${headless}</chrome.headless>
+						<timeopt>${timeopt}</timeopt>
+						<cucumber.execution.dry-run>${cucumber.execution.dry-run}</cucumber.execution.dry-run>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<!-- Single command for every feature: mvn test -Pallfeatures -->
+		<profile>
+			<id>allfeatures</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-all.xml</suiteFile>
+				<cucumber.filter.tags>@regression</cucumber.filter.tags>
+			</properties>
+		</profile>
+		<!-- Smoke-only: mvn test -Psmoke -->
+		<profile>
+			<id>smoke</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-all.xml</suiteFile>
+				<cucumber.filter.tags>@smoke</cucumber.filter.tags>
+			</properties>
+		</profile>
+		<!-- Admin-only: mvn test -Padmin -->
+		<profile>
+			<id>admin</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-all.xml</suiteFile>
+				<cucumber.filter.tags>@admin</cucumber.filter.tags>
+			</properties>
+		</profile>
+		<!-- Lifecycle extension flows: mvn test -Plifecycle -->
+		<profile>
+			<id>lifecycle</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-all.xml</suiteFile>
+				<cucumber.filter.tags>@lifecycle</cucumber.filter.tags>
+			</properties>
+		</profile>
+		<!-- All features, Chrome headless (faster flow/API validation): mvn test -Pheadless -->
+		<profile>
+			<id>headless</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-all-headless.xml</suiteFile>
+				<cucumber.filter.tags>@regression</cucumber.filter.tags>
+				<headless>true</headless>
+			</properties>
+		</profile>
+		<!-- E2E flows: mvn test -Pe2e -->
+		<profile>
+			<id>e2e</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-all.xml</suiteFile>
+				<cucumber.filter.tags>@e2e</cucumber.filter.tags>
+			</properties>
+		</profile>
+		<!-- Unique happy-path steps in one Chrome session: mvn test -Ptimeopt -->
+		<profile>
+			<id>timeopt</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-timeopt.xml</suiteFile>
+				<cucumber.filter.tags>@time-optimized</cucumber.filter.tags>
+				<timeopt>true</timeopt>
+			</properties>
+		</profile>
+		<!-- Headless unique-steps: mvn test -Ptimeopt-headless -->
+		<profile>
+			<id>timeopt-headless</id>
+			<properties>
+				<suiteFile>src/test/resources/testrunner/testng-timeopt-headless.xml</suiteFile>
+				<cucumber.filter.tags>@time-optimized</cucumber.filter.tags>
+				<timeopt>true</timeopt>
+				<headless>true</headless>
+			</properties>
+		</profile>
+	</profiles>
 </project>

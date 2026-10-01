@@ -1,4 +1,4 @@
-@client @documents @checklist @e2e @lifecycle
+@regression @client @documents @checklist @e2e @lifecycle
 Feature: Client document upload checklist
 
   Client uploads a required document on the post-acceptance checklist.

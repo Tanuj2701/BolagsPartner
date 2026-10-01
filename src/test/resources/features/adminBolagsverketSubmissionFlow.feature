@@ -1,4 +1,4 @@
-@admin @bolagsverket @lifecycle @e2e
+@regression @admin @bolagsverket @lifecycle @e2e
 Feature: Admin Bolagsverket submission
 
   Admin submits liquidation to Bolagsverket.

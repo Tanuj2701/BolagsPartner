@@ -19,13 +19,17 @@ public class ClientDocumentChecklistStepDef extends BaseTest {
 
     @Before(order = 1)
     public void initChecklistPages(Scenario scenario) {
-        if (scenario.getUri().toString().contains("clientDocumentChecklistFlow")) {
+        String uri = scenario.getUri().toString();
+        if (uri.contains("clientDocumentChecklistFlow") || uri.contains("timeOptimizedUniqueStepsFlow")) {
             checklistPage = new ClientDocumentChecklistPage(BaseTest.driver);
         }
     }
 
     @And("user opens the client document upload checklist")
     public void userOpensTheClientDocumentUploadChecklist() {
+        if (ClientDocumentTokenContext.getUploadDocumentTokenOrNull() == null) {
+            com.qa.bolags.utility.OrderDetailsCapture.pollAndStoreUploadDocumentToken(BaseTest.driver, 20);
+        }
         Assert.assertNotNull(ClientDocumentTokenContext.getUploadDocumentTokenOrNull(),
                 "uploadDocumentToken not captured — cannot open checklist");
         checklistPage.openClientDocumentChecklist();
@@ -39,6 +43,11 @@ public class ClientDocumentChecklistStepDef extends BaseTest {
     @When("user uploads a document on the checklist")
     public void userUploadsADocumentOnTheChecklist() {
         checklistPage.uploadFirstAvailableDocument();
+    }
+
+    @When("user uploads one document for each checklist category")
+    public void userUploadsOneDocumentForEachChecklistCategory() {
+        checklistPage.uploadOneDocumentPerChecklistCategory();
     }
 
     @And("user acknowledges contract information on the checklist if shown")

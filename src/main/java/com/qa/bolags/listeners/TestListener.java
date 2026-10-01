@@ -47,8 +47,9 @@ public class TestListener extends BaseTest implements ITestListener{
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
     	log.info("I am in onTestSuccess method " + getTestMethodName(iTestResult) + " succeed");
-        //ExtentReports log operation for passed tests.
-        ExtentTestManager.getTest().log(LogStatus.PASS, "Test passed");
+        if (ExtentTestManager.getTest() != null) {
+            ExtentTestManager.getTest().log(LogStatus.PASS, "Test passed");
+        }
     }
  
     @Override
@@ -56,15 +57,20 @@ public class TestListener extends BaseTest implements ITestListener{
     	log.info("I am in onTestFailure method " + getTestMethodName(iTestResult) + " Failed");
         //Take base64Screenshot screenshot.
         String base64Screenshot = getScreenshot();
- 
-        //ExtentReports log and screenshot operations for failed tests.
-        ExtentTestManager.getTest().log(LogStatus.FAIL, iTestResult.getThrowable().getMessage(), ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
+        if (ExtentTestManager.getTest() != null) {
+            ExtentTestManager.getTest().log(LogStatus.FAIL,
+                    iTestResult.getThrowable() == null ? "Failed" : iTestResult.getThrowable().getMessage(),
+                    ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
+        }
     }
  
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
         //ExtentReports log operation for skipped tests.
-        ExtentTestManager.getTest().log(LogStatus.SKIP,iTestResult.getName() + " got Skipped" , iTestResult.getThrowable().getMessage());
+        if (ExtentTestManager.getTest() != null) {
+            ExtentTestManager.getTest().log(LogStatus.SKIP, iTestResult.getName() + " got Skipped",
+                    iTestResult.getThrowable() == null ? "" : iTestResult.getThrowable().getMessage());
+        }
     }
  
     @Override
