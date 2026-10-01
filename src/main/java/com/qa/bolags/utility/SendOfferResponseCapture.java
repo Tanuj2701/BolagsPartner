@@ -63,12 +63,15 @@ public final class SendOfferResponseCapture {
             List<LogEntry> batch = drainPerformanceLog(chrome);
             mergeRequestWillBeSentIntoCumulative(batch);
             Optional<OfferAcceptanceData> data = tryExtractFromResponseBatch(chrome, batch);
+            if (!data.isPresent()) {
+                data = retryBodiesForKnownSendOfferRequests(chrome);
+            }
             if (data.isPresent()) {
                 AcceptOfferContext.setOfferAcceptanceData(data.get().orderId, data.get().md5Token);
                 return true;
             }
             try {
-                Thread.sleep(350);
+                Thread.sleep(250);
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
                 return false;
@@ -156,6 +159,33 @@ public final class SendOfferResponseCapture {
         return Optional.empty();
     }
 
+    /**
+     * Chrome clears the performance buffer on each read. If {@code responseReceived} was seen but
+     * {@code Network.getResponseBody} was not ready yet, retry from the cumulative sendOffer request map.
+     */
+    private static Optional<OfferAcceptanceData> retryBodiesForKnownSendOfferRequests(ChromeDriver chrome) {
+        for (Map.Entry<String, String> entry : cumulativeRequestIdToUrl.entrySet()) {
+            String requestId = entry.getKey();
+            if (consumedRequestIds.contains(requestId) || !entry.getValue().contains(SEND_OFFER_PATH_FRAGMENT)) {
+                continue;
+            }
+            String method = cumulativeRequestIdToMethod.getOrDefault(requestId, "PUT").toUpperCase();
+            if (!method.isEmpty() && !"PUT".equals(method)) {
+                continue;
+            }
+            Optional<String> body = fetchResponseBodyOnce(chrome, requestId);
+            if (!body.isPresent()) {
+                continue;
+            }
+            Optional<OfferAcceptanceData> parsed = parseOfferAcceptanceFromJsonBody(body.get());
+            if (parsed.isPresent()) {
+                consumedRequestIds.add(requestId);
+                return parsed;
+            }
+        }
+        return Optional.empty();
+    }
+
     private static JSONObject parseDevToolsMessage(LogEntry entry) {
         try {
             JSONObject root = new JSONObject(entry.getMessage());
@@ -217,15 +247,44 @@ public final class SendOfferResponseCapture {
         }
         try {
             JSONObject root = new JSONObject(json);
-            String token = root.optString("md5Token", "").trim();
-            long orderIdLong = root.optLong("orderId", 0L);
-            if (token.isEmpty() || orderIdLong <= 0L) {
-                return Optional.empty();
+            OfferAcceptanceData fromRoot = readOrderIdAndToken(root);
+            if (fromRoot != null) {
+                return Optional.of(fromRoot);
             }
-            return Optional.of(new OfferAcceptanceData(String.valueOf(orderIdLong), token));
-        } catch (Exception e) {
-            return Optional.empty();
+            JSONObject nested = root.optJSONObject("data");
+            if (nested != null) {
+                OfferAcceptanceData fromData = readOrderIdAndToken(nested);
+                if (fromData != null) {
+                    return Optional.of(fromData);
+                }
+            }
+        } catch (Exception ignored) {
+            // fall through to regex
         }
+        return parseOfferAcceptanceWithRegex(json);
+    }
+
+    private static OfferAcceptanceData readOrderIdAndToken(JSONObject obj) {
+        String token = obj.optString("md5Token", "").trim();
+        if (token.isEmpty()) {
+            token = obj.optString("token", "").trim();
+        }
+        long orderIdLong = obj.optLong("orderId", 0L);
+        if (token.isEmpty() || orderIdLong <= 0L) {
+            return null;
+        }
+        return new OfferAcceptanceData(String.valueOf(orderIdLong), token);
+    }
+
+    private static Optional<OfferAcceptanceData> parseOfferAcceptanceWithRegex(String json) {
+        java.util.regex.Matcher tokenMatcher = java.util.regex.Pattern.compile("\"md5Token\"\\s*:\\s*\"([^\"]+)\"")
+                .matcher(json);
+        java.util.regex.Matcher orderMatcher = java.util.regex.Pattern.compile("\"orderId\"\\s*:\\s*(\\d+)")
+                .matcher(json);
+        if (tokenMatcher.find() && orderMatcher.find()) {
+            return Optional.of(new OfferAcceptanceData(orderMatcher.group(1), tokenMatcher.group(1)));
+        }
+        return Optional.empty();
     }
 
     static final class OfferAcceptanceData {

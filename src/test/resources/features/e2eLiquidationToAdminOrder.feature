@@ -1,4 +1,4 @@
-@e2e @combined-liquidation-admin @captures-order-id @uses-liquidation-order-id
+@regression @e2e @combined-liquidation-admin @captures-order-id @uses-liquidation-order-id
 Feature: E2E — liquidation creates order (saveInitial), admin opens that order and sends quote
 
   One browser session: POST saveInitial orderId is captured after the first “GoOn”, stored in LiquidationOrderIdContext,

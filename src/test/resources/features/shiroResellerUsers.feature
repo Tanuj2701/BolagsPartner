@@ -1,4 +1,4 @@
-@genericOrder @shiro @reseller @admin @e2e
+@regression @genericOrder @shiro @reseller @admin @e2e
 Feature: Shiro and Reseller user flows
 
   Super-admin creates a Shiro user and a Reseller company via the Generic Order admin UI.

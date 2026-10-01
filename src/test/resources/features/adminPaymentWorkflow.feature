@@ -1,4 +1,4 @@
-@admin @payment @lifecycle @e2e
+@regression @admin @payment @lifecycle @e2e
 Feature: Admin payment workflow
 
   Admin completes review and advances order to waiting for payment / board change.

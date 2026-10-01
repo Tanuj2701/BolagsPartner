@@ -12,12 +12,26 @@ public class Constants {
 	public static final int ONESEC = 1000;
 	/** Pause after scrolling a field into view so headed runs show typed values clearly. */
 	public static final int VISUAL_SCROLL_PAUSE_MS = 1500;
+
+	/**
+	 * True when Chrome should run headless ({@code -Dheadless=true} or {@code -Dchrome.headless=true}).
+	 * Used by the all-features headless runner for faster flow/API validation.
+	 */
+	public static boolean isHeadless() {
+		return Boolean.parseBoolean(System.getProperty("headless", "false"))
+				|| Boolean.parseBoolean(System.getProperty("chrome.headless", "false"));
+	}
+
+	/** True for {@code mvn test -Ptimeopt} — caps sleeps and implicit wait. */
+	public static boolean isTimeOptimized() {
+		return Boolean.parseBoolean(System.getProperty("timeopt", "false"));
+	}
 	public static final int SHORT_WAIT = 6000;
 	public static final int MEDIUM_WAIT = 8000;
 	public static final int LONG_WAIT = 10000;
-	public static final int EXPLICIT_WAIT_TIMEOUT = 100;
-	public static final int IMPLICIT_WAIT_TIMEOUT = 100;
-	public static final int PAGE_LOAD_WAIT_TIMEOUT = 120;
+	public static final int EXPLICIT_WAIT_TIMEOUT = 150;
+	public static final int IMPLICIT_WAIT_TIMEOUT = 150;
+	public static final int PAGE_LOAD_WAIT_TIMEOUT = 200;
 	public static final int FLUENT_WAIT_TIMEOUT = 20;
 	public static final int POLLING_WAIT_TIMEOUT = 5;
 	public final static String CONFIGPROP = "./src/main/resources/config/config.properties";
@@ -31,7 +45,7 @@ public class Constants {
 	public final static String CONFIG = "./src/main/resources/"+System.getenv("env")+"/config.xlsx";
 	public final static String WINDOWS_DOWNLOADED_FILE_PATH = System.getProperty("user.dir") +File.separator+ "src" + File.separator +"downloadedFiles";
 	public final static String LINUX_DOWNLOADED_FILE_PATH = System.getProperty("user.dir") +File.separator+ "src" + File.separator +"downloadedFiles";
-	public final static int SCRIPT_WAIT_TIMEOUT = 90000;
+	public final static int SCRIPT_WAIT_TIMEOUT = 120000;
 	public final static String TESTDATA = "./src/main/resources/"+System.getenv("env")+"/testInputData.xlsx";
 
     static {

@@ -7,6 +7,7 @@ import com.qa.bolags.constants.LiquidationOrderIdContext;
 import com.qa.bolags.constants.OfferSentDataContext;
 import com.qa.bolags.pages.AcceptOfferPage;
 import com.qa.bolags.pages.AdminPage;
+import com.qa.bolags.pages.ClientDocumentChecklistPage;
 import com.qa.bolags.pages.liquidationpage;
 import com.qa.bolags.utility.OrderDetailsCapture;
 import com.qa.bolags.utility.SaveInitialOrderCapture;
@@ -80,5 +81,21 @@ public class LifecycleSetupStepDef extends BaseTest {
 
         OfferSentDataContext.clear();
         log.info("Lifecycle setup complete — orderId={}", LiquidationOrderIdContext.getCapturedOrderIdOrNull());
+    }
+
+    /**
+     * Uploads required client documents so admin Review Wizards has items to approve.
+     */
+    @Given("client documents are uploaded on the checklist")
+    public void clientDocumentsAreUploadedOnTheChecklist() {
+        Assert.assertNotNull(ClientDocumentTokenContext.getUploadDocumentTokenOrNull(),
+                "uploadDocumentToken not captured — run lifecycle setup first");
+        ClientDocumentChecklistPage checklistPage = new ClientDocumentChecklistPage(BaseTest.driver);
+        checklistPage.openClientDocumentChecklist();
+        checklistPage.uploadFirstAvailableDocument();
+        checklistPage.acknowledgeContractInformationIfPresent();
+        checklistPage.assertDocumentUploadSucceeded();
+        log.info("Client checklist upload complete for orderId={}",
+                LiquidationOrderIdContext.getCapturedOrderIdOrNull());
     }
 }

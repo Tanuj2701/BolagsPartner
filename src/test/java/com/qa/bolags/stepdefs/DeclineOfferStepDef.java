@@ -25,7 +25,8 @@ public class DeclineOfferStepDef extends BaseTest {
 
     @Before(order = 1)
     public void initDeclineOfferPages(Scenario scenario) {
-        if (scenario.getUri().toString().contains("declineOfferFlow")) {
+        String uri = scenario.getUri().toString();
+        if (uri.contains("declineOfferFlow") || uri.contains("timeOptimizedUniqueStepsFlow")) {
             liquidationpage = new liquidationpage(BaseTest.driver);
             adminPage = new AdminPage(BaseTest.driver);
             declineOfferPage = new DeclineOfferPage(BaseTest.driver);

@@ -1,4 +1,4 @@
-@admin @board-change @fusion @lifecycle @e2e
+@regression @admin @board-change @fusion @lifecycle @e2e
 Feature: Admin board change and fusion path
 
   Admin progresses order through board change and registration to ready for liquidation.

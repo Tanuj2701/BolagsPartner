@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- Time-optimized unique-steps flow: one scenario, one Chrome session. -->
+<suite name="Suite_Time_Optimized_Unique_Steps" verbose="1">
+    <test name="Time_Optimized_Unique_Steps">
+        <classes>
+            <class name="com.qa.bolags.testrunner.TimeOptimizedUniqueFlowRunner"/>
+        </classes>
+    </test>
+</suite>

@@ -8,7 +8,9 @@ public class ExtentManager {
 	 
     public synchronized static ExtentReports getReporter() {
         if (extent == null) {
-             extent = new ExtentReports(".//test-output//Automation_Execution_Report.html", true);
+             extent = new ExtentReports(
+                     "target/reports/" + com.qa.bolags.reporting.ReportPaths.browserMode()
+                             + "/extent/Automation_Execution_Report.html", true);
         }
         return extent;
     }

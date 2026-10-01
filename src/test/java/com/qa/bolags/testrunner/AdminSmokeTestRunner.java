@@ -10,6 +10,7 @@ import io.cucumber.testng.CucumberOptions;
         },
         glue = {"com.qa.bolags.stepdefs"},
         plugin = {"pretty",
+                "com.qa.bolags.reporting.ExecutionReportPlugin",
                 "html:target/HtmlReports/admin-smoke-report.html",
                 "json:target/JSONReports/admin-smoke-report.json",
                 "junit:target/JUnitReports/admin-smoke-report.xml"},

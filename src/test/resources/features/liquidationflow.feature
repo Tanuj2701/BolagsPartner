@@ -1,4 +1,4 @@
-@liquidation @e2e @captures-order-id
+@regression @liquidation @e2e @captures-order-id
 Feature: liquidation test
 
   Standalone liquidation (not part of default `mvn test` suite). For full chain with admin, see

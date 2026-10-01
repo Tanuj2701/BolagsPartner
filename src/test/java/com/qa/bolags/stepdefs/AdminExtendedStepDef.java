@@ -19,7 +19,8 @@ public class AdminExtendedStepDef extends BaseTest {
     @Before(order = 1)
     public void initAdminExtendedPage(Scenario scenario) {
         String uri = scenario.getUri().toString();
-        if (uri.contains("adminLoginValidation") || uri.contains("adminOrderListSmoke")) {
+        if (uri.contains("adminLoginValidation") || uri.contains("adminOrderListSmoke")
+                || uri.contains("timeOptimizedUniqueStepsFlow")) {
             adminPage = new AdminPage(BaseTest.driver);
         }
     }
@@ -31,14 +32,12 @@ public class AdminExtendedStepDef extends BaseTest {
 
     @And("User enters admin password as {string}")
     public void userEntersAdminPasswordAs(String password) {
-        adminPage.enterAdminCredentials(
-                System.getProperty("adminEmail", com.qa.bolags.constants.QaServerCredentials.genericOrderSuperAdminEmail()),
-                password);
+        adminPage.enterAdminPasswordOnly(password);
     }
 
     @When("User enters admin email as {string}")
     public void userEntersAdminEmailAs(String email) {
-        adminPage.enterAdminCredentials(email, "");
+        adminPage.enterAdminEmailOnly(email);
     }
 
     @And("User enters admin password with configured valid password")
@@ -49,6 +48,11 @@ public class AdminExtendedStepDef extends BaseTest {
     @Then("User should remain on admin login page or see login error")
     public void userShouldRemainOnAdminLoginPageOrSeeLoginError() {
         adminPage.assertLoginFailedOrStillOnLoginPage();
+    }
+
+    @Then("the admin login button should remain inactive")
+    public void theAdminLoginButtonShouldRemainInactive() {
+        adminPage.assertLoginButtonInactive();
     }
 
     @When("User navigates to generic order list page")

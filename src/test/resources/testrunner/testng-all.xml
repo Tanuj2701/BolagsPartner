@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- Full suite: all feature files via AllFeaturesRunner (@regression / cucumber.filter.tags). -->
+<suite name="Suite_All_Features" verbose="1">
+    <test name="All_Features">
+        <classes>
+            <class name="com.qa.bolags.testrunner.AllFeaturesRunner"/>
+        </classes>
+    </test>
+</suite>

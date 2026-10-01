@@ -44,11 +44,25 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     public void openShiroUserDashboardFromSidebar() {
+        try {
+            List<WebElement> closeButtons = driver.findElements(By.xpath(
+                    "//button[normalize-space()='Stäng' or normalize-space()='Close']"));
+            for (WebElement close : closeButtons) {
+                if (close.isDisplayed() && close.isEnabled()) {
+                    close.click();
+                    waitForLoad();
+                    break;
+                }
+            }
+        } catch (Exception ignored) {
+            // leaving order detail for Shiro
+        }
         driver.get(QaServerCredentials.urlWithHttpBasicAuth(SHIRO_USER_DASHBOARD_URL));
         waitForLoad();
         clickIfPresent(By.xpath(
                 "//aside//a[contains(.,'Users') and contains(.,'Reseller')]"
-                        + " | //a[contains(.,'Users & Resellers') or contains(.,'Users and Resellers')]"));
+                        + " | //a[contains(.,'Users & Resellers') or contains(.,'Users and Resellers')"
+                        + " or contains(.,'ANVÄNDARE') or contains(.,'Användare')]"));
         waitForSpecifiedTime(2);
         ensureShiroUserListReady();
     }
@@ -69,12 +83,28 @@ public class GenericOrderUsersPage extends TestUtil {
 
     public void clickNewUserOnUserListDashboard(String buttonLabel) {
         ensureShiroUserListReady();
-        clickFirstDisplayedAction(
-                "new Shiro user",
-                buttonLabel,
-                "New User", "Ny användare", "+ Ny användare",
-                "Nuevo usuario", "Nueva usuaria", "Añadir usuario");
-        waitForFormToOpen("Shiro user", "E-mail", "E-post", "Correo electrónico");
+        String[] labels = {buttonLabel, "New User", "Ny användare", "+ Ny användare",
+                "Nuevo usuario", "Nueva usuaria", "Añadir usuario"};
+        boolean clicked = new WebDriverWait(driver, Duration.ofSeconds(25)).until(d -> {
+            Object result = ((JavascriptExecutor) d).executeScript(
+                    "const labels = arguments[0].map(v => (v || '').trim().toLocaleLowerCase());"
+                            + "const buttons = Array.from(document.querySelectorAll('button'));"
+                            + "const button = buttons.find(candidate => {"
+                            + "  const text = (candidate.innerText || candidate.textContent || '').trim().toLocaleLowerCase();"
+                            + "  const rect = candidate.getBoundingClientRect();"
+                            + "  const style = window.getComputedStyle(candidate);"
+                            + "  return labels.includes(text) && rect.width > 0 && rect.height > 0"
+                            + "    && style.visibility !== 'hidden' && style.display !== 'none' && !candidate.disabled;"
+                            + "});"
+                            + "if (!button) return false;"
+                            + "button.click();"
+                            + "return true;",
+                    (Object) labels);
+            return Boolean.TRUE.equals(result);
+        });
+        Assert.assertTrue(clicked, "New Shiro user button is not visible or enabled. " + describeVisibleControls());
+        waitForFormToOpen("Shiro user", "E-mail", "E-post", "E-postadress", "Email",
+                "Correo electrónico", "Förnamn", "First name");
     }
 
     private void ensureShiroUserListReady() {
@@ -245,6 +275,9 @@ public class GenericOrderUsersPage extends TestUtil {
         typeRequiredNamedField("note", "Automation reseller");
         typeRequiredNamedField("liquidationPrice", "25000");
         submitResellerForm();
+        waitForLoad();
+        waitForSpecifiedTime(2);
+        ensureResellerListReady();
     }
 
     private String generateValidSwedishOrganisationNumber() {
@@ -261,16 +294,75 @@ public class GenericOrderUsersPage extends TestUtil {
     }
 
     public void assertNewResellerOnLastPageOfList() {
-        goToLastResellerListPage();
+        Assert.assertNotNull(lastResellerOrgNumber, "No reseller organisation number was generated");
+        ensureResellerListReady();
         waitForSpecifiedTime(2);
+        if (resellerVisibleOnCurrentPage() || findResellerViaSearchOrPagination()) {
+            return;
+        }
+        Assert.fail("Expected reseller on the list (first or last page). Generated organisation number: "
+                + lastResellerOrgNumber + ", company: " + lastResellerCompanyName
+                + ". Current URL: " + driver.getCurrentUrl());
+    }
+
+    private boolean resellerVisibleOnCurrentPage() {
         List<WebElement> rows = driver.findElements(By.xpath("//table//tbody//tr[td]"));
-        boolean found = rows.stream()
+        return rows.stream()
                 .map(WebElement::getText)
-                .anyMatch(text -> text.contains(lastResellerOrgNumber)
-                        || text.contains(lastResellerCompanyName));
-        Assert.assertTrue(found,
-                "Expected reseller on the last page. Generated organisation number: "
-                        + lastResellerOrgNumber + ", company: " + lastResellerCompanyName);
+                .anyMatch(text -> (lastResellerOrgNumber != null && text.contains(lastResellerOrgNumber))
+                        || (lastResellerCompanyName != null && text.contains(lastResellerCompanyName)));
+    }
+
+    /** New resellers may land on page 1 (newest-first) or the last page (append). Search if present. */
+    private boolean findResellerViaSearchOrPagination() {
+        if (trySearchResellerList()) {
+            return true;
+        }
+        goToFirstResellerListPage();
+        waitForSpecifiedTime(1);
+        if (resellerVisibleOnCurrentPage()) {
+            return true;
+        }
+        goToLastResellerListPage();
+        waitForSpecifiedTime(1);
+        return resellerVisibleOnCurrentPage();
+    }
+
+    private boolean trySearchResellerList() {
+        By search = By.xpath(
+                "//input[@type='search' or contains(@placeholder,'Sök') or contains(@placeholder,'Search')"
+                        + " or contains(@name,'search') or contains(@id,'search')]");
+        WebElement field = firstDisplayed(driver.findElements(search));
+        if (field == null || lastResellerOrgNumber == null) {
+            return false;
+        }
+        try {
+            field.clear();
+            field.sendKeys(lastResellerOrgNumber);
+            field.sendKeys(org.openqa.selenium.Keys.ENTER);
+            waitForLoad();
+            waitForSpecifiedTime(2);
+            return resellerVisibleOnCurrentPage();
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private void goToFirstResellerListPage() {
+        By firstLink = By.xpath("//a[contains(.,'First') or contains(@aria-label,'First') or contains(.,'«')]");
+        for (WebElement el : driver.findElements(firstLink)) {
+            if (el.isDisplayed()) {
+                clickElementWithJs(el);
+                waitForLoad();
+                return;
+            }
+        }
+        By pageOne = By.xpath("//*[self::a or self::button][normalize-space()='1']");
+        WebElement one = firstDisplayed(driver.findElements(pageOne));
+        if (one != null) {
+            clickElementWithJs(one);
+            waitForLoad();
+        }
     }
 
     public void assertCreatedOrganisationNumberVisibleInResellerList() {

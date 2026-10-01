@@ -12,11 +12,14 @@ public class ExtentTestManager {
     static ExtentReports extent = ExtentManager.getReporter();
  
     public static synchronized ExtentTest getTest() {
-        return (ExtentTest) extentTestMap.get((int) (long) (Thread.currentThread().getId()));
+        return extentTestMap.get((int) (long) (Thread.currentThread().getId()));
     }
  
     public static synchronized void endTest() {
-        extent.endTest((ExtentTest) extentTestMap.get((int) (long) (Thread.currentThread().getId())));
+        ExtentTest test = extentTestMap.get((int) (long) (Thread.currentThread().getId()));
+        if (test != null) {
+            extent.endTest(test);
+        }
     }
  
     public static synchronized ExtentTest startTest(String testName, String desc) {

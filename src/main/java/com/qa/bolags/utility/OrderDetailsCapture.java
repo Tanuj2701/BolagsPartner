@@ -49,10 +49,7 @@ public final class OrderDetailsCapture {
         long deadline = System.currentTimeMillis() + maxWaitSeconds * 1000L;
         while (System.currentTimeMillis() < deadline) {
             List<LogEntry> batch = drainPerformanceLog(chrome);
-            mergeRequestWillBeSentIntoCumulative(batch);
-            Optional<String> token = tryExtractUploadTokenFromResponseBatch(chrome, batch);
-            if (token.isPresent()) {
-                ClientDocumentTokenContext.setUploadDocumentToken(token.get());
+            if (captureFromPerformanceLog(chrome, batch)) {
                 return true;
             }
             try {
@@ -64,6 +61,19 @@ public final class OrderDetailsCapture {
         }
         LOG.warn("Timed out after {}s waiting for orderDetails uploadDocumentToken", maxWaitSeconds);
         return false;
+    }
+
+    public static boolean captureFromPerformanceLog(ChromeDriver chrome, List<LogEntry> batch) {
+        if (chrome == null || batch == null || batch.isEmpty()) {
+            return false;
+        }
+        mergeRequestWillBeSentIntoCumulative(batch);
+        Optional<String> token = tryExtractUploadTokenFromResponseBatch(chrome, batch);
+        if (!token.isPresent()) {
+            return false;
+        }
+        ClientDocumentTokenContext.setUploadDocumentToken(token.get());
+        return true;
     }
 
     private static List<LogEntry> drainPerformanceLog(ChromeDriver chrome) {

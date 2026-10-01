@@ -1,6 +1,7 @@
 package com.qa.bolags.pages;
 
 import com.qa.bolags.constants.QaServerCredentials;
+import com.qa.bolags.constants.OrderOrganizationNumberContext;
 import com.qa.bolags.utility.TestUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -108,7 +109,14 @@ public class liquidationpage extends TestUtil {
                 int index = random.nextInt(companies.size());
                 WebElement chosen = companies.get(index);
                 String selectedLabel = chosen.getText().trim();
+                String organizationNumber = OrderOrganizationNumberContext.captureFromCompanyLabel(selectedLabel);
+                if (organizationNumber == null) {
+                    throw new IllegalStateException(
+                        "Selected company suggestion did not include a Swedish organisationsnummer: "
+                            + selectedLabel);
+                }
                 log.info("Selecting random company ({}/{}): {}", index + 1, companies.size(), selectedLabel);
+                log.info("Captured selected company organisationsnummer: {}", organizationNumber);
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", chosen);
                 waitForSpecifiedTime(1);
                 wait.until(ExpectedConditions.visibilityOfElementLocated(fornamnField));

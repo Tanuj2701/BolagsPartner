@@ -21,8 +21,10 @@ import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
@@ -241,6 +243,9 @@ public class TestUtil {
 	}
 
 	private static void briefPauseForVisualFeedback() {
+		if (isHeadless() || isTimeOptimized()) {
+			return;
+		}
 		try {
 			Thread.sleep(VISUAL_SCROLL_PAUSE_MS);
 		} catch (InterruptedException e) {
@@ -253,20 +258,49 @@ public class TestUtil {
 	 * Use when the app keeps scroll position at the bottom from the previous step.
 	 */
 	public static void scrollPageToTop() {
+		acceptNativeAlertIfPresent();
 		waitForLoad();
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript(
-				"window.scrollTo(0, 0);"
-						+ "if (document.documentElement) { document.documentElement.scrollTop = 0; }"
-						+ "if (document.body) { document.body.scrollTop = 0; }"
-						+ "var nodes = document.querySelectorAll("
-						+ "'main, form, [role=main], .overflow-auto, .overflow-y-auto, .overflow-scroll');"
-						+ "for (var i = 0; i < nodes.length; i++) {"
-						+ "  var n = nodes[i];"
-						+ "  if (n.scrollHeight > n.clientHeight) { n.scrollTop = 0; }"
-						+ "}");
-		if (log != null) {
-			log.info("Scrolled page and scrollable containers to top.");
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			Object moved = js.executeScript(
+					"var moved = false;"
+							+ "if (window.scrollX !== 0 || window.scrollY !== 0) { window.scrollTo(0, 0); moved = true; }"
+							+ "var root = document.documentElement;"
+							+ "if (root && root.scrollTop > 0) { root.scrollTop = 0; moved = true; }"
+							+ "var body = document.body;"
+							+ "if (body && body.scrollTop > 0) { body.scrollTop = 0; moved = true; }"
+							+ "var nodes = document.querySelectorAll("
+							+ "'main, form, [role=main], .overflow-auto, .overflow-y-auto, .overflow-scroll');"
+							+ "for (var i = 0; i < nodes.length; i++) {"
+							+ "  var n = nodes[i];"
+							+ "  if (n.scrollHeight > n.clientHeight && n.scrollTop > 0) { n.scrollTop = 0; moved = true; }"
+							+ "}"
+							+ "return moved;");
+			if (Boolean.TRUE.equals(moved) && log != null) {
+				log.info("Scrolled page and scrollable containers to top.");
+			}
+		} catch (UnhandledAlertException e) {
+			acceptNativeAlertIfPresent();
+		}
+	}
+
+	public static void acceptNativeAlertIfPresent() {
+		try {
+			String text = driver.switchTo().alert().getText();
+			driver.switchTo().alert().accept();
+			if (log != null) {
+				log.info("Accepted native alert: {}", text);
+			}
+		} catch (NoAlertPresentException ignored) {
+			// none
+		} catch (UnhandledAlertException e) {
+			try {
+				driver.switchTo().alert().accept();
+			} catch (Exception ignored) {
+				// already dismissed
+			}
+		} catch (Exception ignored) {
+			// no alert
 		}
 	}
 
@@ -405,7 +439,13 @@ public class TestUtil {
 
 	public static void waitForSpecifiedTime(int i) {
 		try {
-			Thread.sleep(i * ONESEC);
+			int millis = i * ONESEC;
+			if (isTimeOptimized()) {
+				millis = Math.min(millis, 400);
+			} else if (isHeadless() && millis > 500) {
+				millis = Math.max(500, millis / 2);
+			}
+			Thread.sleep(millis);
 		} catch (InterruptedException e) {
 			log.error("Exception occured while waiting: " + e.getMessage());
 		}

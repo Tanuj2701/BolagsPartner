@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- Time-optimized unique-steps flow in one headless Chrome session. -->
+<suite name="Suite_Time_Optimized_Unique_Steps_Headless" verbose="1">
+    <test name="Time_Optimized_Unique_Steps_Headless">
+        <classes>
+            <class name="com.qa.bolags.testrunner.TimeOptimizedUniqueHeadlessRunner"/>
+        </classes>
+    </test>
+</suite>

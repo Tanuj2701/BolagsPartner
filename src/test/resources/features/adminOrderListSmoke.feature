@@ -1,4 +1,4 @@
-@admin @smoke @order-list
+@regression @admin @smoke @order-list
 Feature: Admin generic order list smoke
 
   Verifies that an authenticated admin can open the generic order list dashboard.
@@ -15,3 +15,4 @@ Feature: Admin generic order list smoke
     When User navigates to generic order list page
     And User scrolls page to top
     Then User should see the generic order list page
+    And User scrolls page to top
